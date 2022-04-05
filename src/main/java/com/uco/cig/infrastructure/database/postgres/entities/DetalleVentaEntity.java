@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "DetalleVenta")
+@Table(name = "detalle_venta")
 public class DetalleVentaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +30,19 @@ public class DetalleVentaEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idProducto", nullable = false)
     private ProductoEntity idProductoEntity;
+
+    public DetalleVentaEntity() {
+    }
+
+    public DetalleVentaEntity(Integer id, Integer cantidad, BigDecimal valorTotal, BigDecimal descuentoAdicional, String justificacion, VentaEntity idVentaEntity, ProductoEntity idProductoEntity) {
+        this.id = id;
+        this.cantidad = cantidad;
+        this.valorTotal = valorTotal;
+        this.descuentoAdicional = descuentoAdicional;
+        this.justificacion = justificacion;
+        this.idVentaEntity = idVentaEntity;
+        this.idProductoEntity = idProductoEntity;
+    }
 
     public ProductoEntity getIdProducto() {
         return idProductoEntity;

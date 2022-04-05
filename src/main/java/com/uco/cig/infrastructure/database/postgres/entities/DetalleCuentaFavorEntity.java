@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "DetalleCuentaFavor")
+@Table(name = "detalle_cuenta_favor")
 public class DetalleCuentaFavorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,6 +13,14 @@ public class DetalleCuentaFavorEntity {
 
     @Column(name = "valor", nullable = false)
     private BigDecimal valor;
+
+    public DetalleCuentaFavorEntity() {
+    }
+
+    public DetalleCuentaFavorEntity(Integer id, BigDecimal valor) {
+        this.id = id;
+        this.valor = valor;
+    }
 
     public BigDecimal getValor() {
         return valor;

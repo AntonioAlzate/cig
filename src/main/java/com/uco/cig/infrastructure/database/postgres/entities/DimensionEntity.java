@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "Dimension")
+@Table(name = "dimension")
 public class DimensionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +16,15 @@ public class DimensionEntity {
 
     @Column(name = "ancho", nullable = false, precision = 5, scale = 2)
     private BigDecimal ancho;
+
+    public DimensionEntity() {
+    }
+
+    public DimensionEntity(Integer id, BigDecimal largo, BigDecimal ancho) {
+        this.id = id;
+        this.largo = largo;
+        this.ancho = ancho;
+    }
 
     public BigDecimal getAncho() {
         return ancho;

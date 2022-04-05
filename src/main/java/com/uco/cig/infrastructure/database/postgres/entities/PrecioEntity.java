@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "Precio")
+@Table(name = "precio")
 public class PrecioEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +28,18 @@ public class PrecioEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idProducto", nullable = false)
     private ProductoEntity idProductoEntity;
+
+    public PrecioEntity() {
+    }
+
+    public PrecioEntity(Integer id, LocalDate fechaInicio, LocalDate fechaFin, BigDecimal valor, ModalidadEntity idModalidadEntity, ProductoEntity idProductoEntity) {
+        this.id = id;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.valor = valor;
+        this.idModalidadEntity = idModalidadEntity;
+        this.idProductoEntity = idProductoEntity;
+    }
 
     public ProductoEntity getIdProducto() {
         return idProductoEntity;

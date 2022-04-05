@@ -3,7 +3,7 @@ package com.uco.cig.infrastructure.database.postgres.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Barrio")
+@Table(name = "barrio")
 public class BarrioEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,9 +13,18 @@ public class BarrioEntity {
     @Column(name = "nombre", nullable = false, length = 25)
     private String nombre;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "idZona", nullable = false)
     private ZonaEntity idZonaEntity;
+
+    public BarrioEntity() {
+    }
+
+    public BarrioEntity(Integer id, String nombre, ZonaEntity idZonaEntity) {
+        this.id = id;
+        this.nombre = nombre;
+        this.idZonaEntity = idZonaEntity;
+    }
 
     public ZonaEntity getIdZona() {
         return idZonaEntity;

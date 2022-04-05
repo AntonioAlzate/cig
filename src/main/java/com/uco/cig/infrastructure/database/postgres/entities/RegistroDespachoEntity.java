@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.time.OffsetDateTime;
 
 @Entity
-@Table(name = "RegistroDespacho")
+@Table(name = "registro_despacho")
 public class RegistroDespachoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +21,16 @@ public class RegistroDespachoEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idTrabajadorRecibe", nullable = false)
     private TrabajadorEntity idTrabajadorRecibe;
+
+    public RegistroDespachoEntity() {
+    }
+
+    public RegistroDespachoEntity(Integer id, OffsetDateTime fecha, TrabajadorEntity idTrabajadorRealiza, TrabajadorEntity idTrabajadorRecibe) {
+        this.id = id;
+        this.fecha = fecha;
+        this.idTrabajadorRealiza = idTrabajadorRealiza;
+        this.idTrabajadorRecibe = idTrabajadorRecibe;
+    }
 
     public TrabajadorEntity getIdTrabajadorRecibe() {
         return idTrabajadorRecibe;

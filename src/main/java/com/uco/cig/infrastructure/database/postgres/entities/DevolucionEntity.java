@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 @Entity
-@Table(name = "Devolucion")
+@Table(name = "devolucion")
 public class DevolucionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +31,19 @@ public class DevolucionEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idDetalleVenta", nullable = false)
     private DetalleVentaEntity idDetalleVentaEntity;
+
+    public DevolucionEntity() {
+    }
+
+    public DevolucionEntity(Integer id, OffsetDateTime fecha, BigDecimal valor, Integer cantidad, String justificacion, TrabajadorEntity idTrabajadorEntity, DetalleVentaEntity idDetalleVentaEntity) {
+        this.id = id;
+        this.fecha = fecha;
+        this.valor = valor;
+        this.cantidad = cantidad;
+        this.justificacion = justificacion;
+        this.idTrabajadorEntity = idTrabajadorEntity;
+        this.idDetalleVentaEntity = idDetalleVentaEntity;
+    }
 
     public DetalleVentaEntity getIdDetalleVenta() {
         return idDetalleVentaEntity;

@@ -7,7 +7,7 @@ import javax.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "Registro_Trabajador_Zona")
+@Table(name = "registro_trabajador_zona")
 public class RegistroTrabajadorZonaEntity {
     @EmbeddedId
     private RegistroTrabajadorZonaId id;

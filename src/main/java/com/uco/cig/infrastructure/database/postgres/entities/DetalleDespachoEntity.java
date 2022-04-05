@@ -3,7 +3,7 @@ package com.uco.cig.infrastructure.database.postgres.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "DetalleDespacho")
+@Table(name = "detalle_despacho")
 public class DetalleDespachoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +27,18 @@ public class DetalleDespachoEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idProducto", nullable = false)
     private ProductoEntity idProductoEntity;
+
+    public DetalleDespachoEntity() {
+    }
+
+    public DetalleDespachoEntity(Integer id, Integer cantidadInicial, Integer cantidadEntregar, RegistroDespachoEntity idRegistroDespachoEntity, EstadoDespachoEntity idEstadoDespachoEntity, ProductoEntity idProductoEntity) {
+        this.id = id;
+        this.cantidadInicial = cantidadInicial;
+        this.cantidadEntregar = cantidadEntregar;
+        this.idRegistroDespachoEntity = idRegistroDespachoEntity;
+        this.idEstadoDespachoEntity = idEstadoDespachoEntity;
+        this.idProductoEntity = idProductoEntity;
+    }
 
     public ProductoEntity getIdProducto() {
         return idProductoEntity;

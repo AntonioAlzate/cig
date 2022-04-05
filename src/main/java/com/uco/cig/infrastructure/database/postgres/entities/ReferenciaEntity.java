@@ -3,7 +3,7 @@ package com.uco.cig.infrastructure.database.postgres.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Referencia")
+@Table(name = "referencia")
 public class ReferenciaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +23,17 @@ public class ReferenciaEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idParentesco", nullable = false)
     private ParentescoEntity idParentescoEntity;
+
+    public ReferenciaEntity() {
+    }
+
+    public ReferenciaEntity(Integer id, String nombre, String telefono, ClienteEntity idClienteEntity, ParentescoEntity idParentescoEntity) {
+        this.id = id;
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.idClienteEntity = idClienteEntity;
+        this.idParentescoEntity = idParentescoEntity;
+    }
 
     public ParentescoEntity getIdParentesco() {
         return idParentescoEntity;

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "CuentaCliente")
+@Table(name = "cuenta_cliente")
 public class CuentaClienteEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +24,17 @@ public class CuentaClienteEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idDetalleCuentaFavor", nullable = false)
     private DetalleCuentaFavorEntity idDetalleCuentaFavor;
+
+    public CuentaClienteEntity() {
+    }
+
+    public CuentaClienteEntity(Integer id, BigDecimal cupo, BigDecimal saldoDeuda, EstadoCuentaClienteEntity idEstadoCuentaClienteEntity, DetalleCuentaFavorEntity idDetalleCuentaFavor) {
+        this.id = id;
+        this.cupo = cupo;
+        this.saldoDeuda = saldoDeuda;
+        this.idEstadoCuentaClienteEntity = idEstadoCuentaClienteEntity;
+        this.idDetalleCuentaFavor = idDetalleCuentaFavor;
+    }
 
     public DetalleCuentaFavorEntity getIdDetalleCuentaFavor() {
         return idDetalleCuentaFavor;

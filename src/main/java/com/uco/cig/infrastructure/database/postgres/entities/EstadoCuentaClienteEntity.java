@@ -3,7 +3,7 @@ package com.uco.cig.infrastructure.database.postgres.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "EstadoCuentaCliente")
+@Table(name = "estado_cuenta_cliente")
 public class EstadoCuentaClienteEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,6 +12,14 @@ public class EstadoCuentaClienteEntity {
 
     @Column(name = "estado", nullable = false, length = 25)
     private String estado;
+
+    public EstadoCuentaClienteEntity() {
+    }
+
+    public EstadoCuentaClienteEntity(Integer id, String estado) {
+        this.id = id;
+        this.estado = estado;
+    }
 
     public String getEstado() {
         return estado;

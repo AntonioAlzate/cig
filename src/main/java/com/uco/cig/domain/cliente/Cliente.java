@@ -4,6 +4,8 @@ import com.uco.cig.domain.cuentacliente.CuentaCliente;
 import com.uco.cig.domain.estado.Estado;
 import com.uco.cig.domain.persona.Persona;
 
+import java.util.Objects;
+
 public class Cliente {
 
     private Integer id;
@@ -11,11 +13,13 @@ public class Cliente {
     private CuentaCliente cuentaCliente;
     private Estado estado;
 
+    private static final String CAMPO_REQUERIDO = "El campo es requerido para poder crear un cliente";
+
     public Cliente(Integer id, Persona persona, CuentaCliente cuentaCliente, Estado estado) {
         this.id = id;
-        this.persona = persona;
-        this.cuentaCliente = cuentaCliente;
-        this.estado = estado;
+        this.persona = Objects.requireNonNull(persona, CAMPO_REQUERIDO);
+        this.cuentaCliente = Objects.requireNonNull(cuentaCliente, CAMPO_REQUERIDO);
+        this.estado = Objects.requireNonNull(estado, CAMPO_REQUERIDO);
     }
 
     public Integer getId() {

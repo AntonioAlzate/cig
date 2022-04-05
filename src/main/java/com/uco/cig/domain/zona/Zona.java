@@ -1,12 +1,6 @@
 package com.uco.cig.domain.zona;
 
 import com.uco.cig.domain.ciudad.Ciudad;
-import com.uco.cig.infrastructure.database.postgres.entities.CiudadEntity;
-
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 public class Zona {
 

@@ -1,12 +1,6 @@
 package com.uco.cig.domain.barrio;
 
 import com.uco.cig.domain.zona.Zona;
-import com.uco.cig.infrastructure.database.postgres.entities.ZonaEntity;
-
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 public class Barrio {
 

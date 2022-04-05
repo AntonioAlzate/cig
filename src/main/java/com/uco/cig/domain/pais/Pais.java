@@ -1,7 +1,5 @@
 package com.uco.cig.domain.pais;
 
-import javax.persistence.Column;
-
 public class Pais {
 
     private Integer id;

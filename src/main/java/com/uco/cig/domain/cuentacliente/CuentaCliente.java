@@ -2,13 +2,7 @@ package com.uco.cig.domain.cuentacliente;
 
 import com.uco.cig.domain.detalle.cuentafavor.DetalleCuentaFavor;
 import com.uco.cig.domain.estado.cuentacliente.EstadoCuentaCliente;
-import com.uco.cig.infrastructure.database.postgres.entities.DetalleCuentaFavorEntity;
-import com.uco.cig.infrastructure.database.postgres.entities.EstadoCuentaClienteEntity;
 
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 
 public class CuentaCliente {

@@ -1,7 +1,5 @@
 package com.uco.cig.domain.estado.cuentacliente;
 
-import javax.persistence.Column;
-
 public class EstadoCuentaCliente {
 
     private Integer id;

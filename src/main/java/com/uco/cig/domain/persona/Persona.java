@@ -2,9 +2,10 @@ package com.uco.cig.domain.persona;
 
 import com.uco.cig.domain.barrio.Barrio;
 
-public abstract class Persona {
+public class Persona {
 
     private Integer id;
+    private String identificacion;
     private String primerNombre;
     private String segundoNombre;
     private String primerApellido;
@@ -13,8 +14,12 @@ public abstract class Persona {
     private String telefono;
     private Barrio barrio;
 
-    public Persona(Integer id, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String direccion, String telefono, Barrio barrio) {
+    public Persona() {
+    }
+
+    public Persona(Integer id, String identificacion,String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String direccion, String telefono, Barrio barrio) {
         this.id = id;
+        this.identificacion = identificacion;
         this.primerNombre = primerNombre;
         this.segundoNombre = segundoNombre;
         this.primerApellido = primerApellido;
@@ -30,6 +35,14 @@ public abstract class Persona {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getIdentificacion() {
+        return identificacion;
+    }
+
+    public void setIdentificacion(String identificacion) {
+        this.identificacion = identificacion;
     }
 
     public String getPrimerNombre() {

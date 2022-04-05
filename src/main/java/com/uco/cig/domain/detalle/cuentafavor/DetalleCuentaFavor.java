@@ -1,6 +1,5 @@
 package com.uco.cig.domain.detalle.cuentafavor;
 
-import javax.persistence.Column;
 import java.math.BigDecimal;
 
 public class DetalleCuentaFavor {

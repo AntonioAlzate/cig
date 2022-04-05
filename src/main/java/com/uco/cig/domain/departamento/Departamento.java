@@ -1,12 +1,6 @@
 package com.uco.cig.domain.departamento;
 
 import com.uco.cig.domain.pais.Pais;
-import com.uco.cig.infrastructure.database.postgres.entities.PaisEntity;
-
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 public class Departamento {
 

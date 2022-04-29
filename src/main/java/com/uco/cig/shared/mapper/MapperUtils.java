@@ -1,6 +1,7 @@
 package com.uco.cig.shared.mapper;
 
 import com.uco.cig.domain.barrio.Barrio;
+import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.ciudad.Ciudad;
 import com.uco.cig.domain.cliente.Cliente;
 import com.uco.cig.domain.cuentacliente.CuentaCliente;
@@ -23,50 +24,86 @@ public class MapperUtils {
 
     //region Entity to Domain
     public Function<BarrioEntity, Barrio> mapperToBarrio() {
-        return entity -> new Barrio(
-                entity.getId(),
-                entity.getNombre(),
-                mapperToZona().apply(entity.getIdZona())
-        );
+        return entity -> {
+            try {
+                return Barrio.construir(
+                        entity.getId(),
+                        entity.getNombre(),
+                        mapperToZona().apply(entity.getIdZona())
+                );
+            } catch (BusinessException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        };
     }
 
     public Function<ZonaEntity, Zona> mapperToZona() {
-        return entity -> new Zona(
-                entity.getId(),
-                entity.getNombre(),
-                mapperToCiudad().apply(entity.getIdCiudad())
-        );
+        return entity -> {
+            try {
+                return Zona.construir(
+                        entity.getId(),
+                        entity.getNombre(),
+                        mapperToCiudad().apply(entity.getIdCiudad())
+                );
+            } catch (BusinessException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        };
     }
 
     public Function<CiudadEntity, Ciudad> mapperToCiudad() {
-        return entity -> new Ciudad(
-                entity.getId(),
-                entity.getNombre(),
-                mapperToRegion().apply(entity.getIdRegion())
-        );
+        return entity -> {
+            try {
+                return Ciudad.construir(
+                        entity.getId(),
+                        entity.getNombre(),
+                        mapperToRegion().apply(entity.getIdRegion())
+                );
+            } catch (BusinessException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        };
     }
 
     public Function<RegionEntity, Region> mapperToRegion() {
-        return entity -> new Region(
-                entity.getId(),
-                entity.getNombre(),
-                mapperToDepartamento().apply(entity.getIdDepartamento())
-        );
+        return entity -> {
+            try {
+                return Region.construir(
+                        entity.getId(),
+                        entity.getNombre(),
+                        mapperToDepartamento().apply(entity.getIdDepartamento())
+                );
+            } catch (BusinessException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        };
     }
 
     public Function<DepartamentoEntity, Departamento> mapperToDepartamento() {
-        return entity -> new Departamento(
-                entity.getId(),
-                entity.getNombre(),
-                mapperToPais().apply(entity.getIdPais())
-        );
+        return entity -> {
+            try {
+                return Departamento.construir(
+                        entity.getId(),
+                        entity.getNombre(),
+                        mapperToPais().apply(entity.getIdPais())
+                );
+            } catch (BusinessException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        };
     }
 
     public Function<PaisEntity, Pais> mapperToPais() {
-        return entity -> new Pais(
-                entity.getId(),
-                entity.getNombre()
-        );
+        return entity -> {
+            try {
+                return Pais.construir(
+                        entity.getId(),
+                        entity.getNombre()
+                );
+            } catch (BusinessException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        };
     }
 
     public Function<EstadoEntity, Estado> mapperToEstado() {
@@ -84,7 +121,7 @@ public class MapperUtils {
     }
 
     public Function<ClienteEntity, Cliente> mapperToCliente() {
-        return entity -> new Cliente(
+        return entity -> Cliente.construir(
                 entity.getId(),
                 mapperToPersona().apply(entity.getIdPersona()),
                 mapperToCuentaCliente().apply(entity.getIdCuentaCliente()),
@@ -92,35 +129,53 @@ public class MapperUtils {
         );
     }
 
-    public Function<PersonaEntity, Persona> mapperToPersona() {
-        return entity -> new Persona(
-                entity.getId(),
-                entity.getIdentificacion(),
-                entity.getPrimerNombre(),
-                entity.getSegundoNombre(),
-                entity.getPrimerApellido(),
-                entity.getSegundoApellido(),
-                entity.getDireccion(),
-                entity.getTelefono(),
-                mapperToBarrio().apply(entity.getIdBarrio())
-        );
+    public Function<PersonaEntity, Persona> mapperToPersona(){
+        return entity -> {
+            try {
+                return Persona.construir(
+                        entity.getId(),
+                        entity.getIdentificacion(),
+                        entity.getPrimerNombre(),
+                        entity.getSegundoNombre(),
+                        entity.getPrimerApellido(),
+                        entity.getSegundoApellido(),
+                        entity.getDireccion(),
+                        entity.getTelefono(),
+                        mapperToBarrio().apply(entity.getIdBarrio())
+                );
+            } catch (BusinessException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        };
     }
 
     public Function<CuentaClienteEntity, CuentaCliente> mapperToCuentaCliente() {
-        return entity -> new CuentaCliente(
-                entity.getId(),
-                entity.getCupo(),
-                entity.getSaldoDeuda(),
-                mapperToEstadoCuentaCliente().apply(entity.getIdEstadoCuentaCliente()),
-                mapperToDetalleCuentaFavor().apply(entity.getIdDetalleCuentaFavor())
-        );
+        return entity -> {
+            try {
+                return CuentaCliente.construir(
+                        entity.getId(),
+                        entity.getCupo(),
+                        entity.getSaldoDeuda(),
+                        mapperToEstadoCuentaCliente().apply(entity.getIdEstadoCuentaCliente()),
+                        mapperToDetalleCuentaFavor().apply(entity.getIdDetalleCuentaFavor())
+                );
+            } catch (BusinessException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        };
     }
 
     public Function<DetalleCuentaFavorEntity, DetalleCuentaFavor> mapperToDetalleCuentaFavor() {
-        return entity -> new DetalleCuentaFavor(
-                entity.getId(),
-                entity.getValor()
-        );
+        return entity -> {
+            try {
+                return DetalleCuentaFavor.construir(
+                        entity.getId(),
+                        entity.getValor()
+                );
+            } catch (BusinessException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        };
     }
 
 

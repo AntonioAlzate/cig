@@ -7,6 +7,8 @@ import com.uco.cig.infrastructure.database.postgres.repositories.EstadoEntityRep
 import com.uco.cig.shared.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class EstadoRepositoryAdapter implements EstadoRepository {
 
@@ -19,9 +21,9 @@ public class EstadoRepositoryAdapter implements EstadoRepository {
     }
 
     @Override
-    public Estado findByNombre(String nombre) {
+    public Optional<Estado> findByNombre(String nombre) {
         EstadoEntity estadoEntity = estadoEntityRepository.findByNombre(nombre);
 
-        return mapperUtils.mapperToEstado().apply(estadoEntity);
+        return Optional.of(mapperUtils.mapperToEstado().apply(estadoEntity));
     }
 }

@@ -7,6 +7,8 @@ import com.uco.cig.infrastructure.database.postgres.repositories.EstadoCuentaCli
 import com.uco.cig.shared.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class EstadoCuentaClienteRepositoryAdapter implements EstadoCuentaClienteRepository {
 
@@ -19,8 +21,8 @@ public class EstadoCuentaClienteRepositoryAdapter implements EstadoCuentaCliente
     }
 
     @Override
-    public EstadoCuentaCliente findByEstado(String nombre) {
-        EstadoCuentaClienteEntity estadoCuentaCliente = estadoCuentaClienteEntityRepository.findByEstado(nombre);
-        return mapperUtils.mapperToEstadoCuentaCliente().apply(estadoCuentaCliente);
+    public Optional<EstadoCuentaCliente> findByEstado(String nombre) {
+        Optional<EstadoCuentaClienteEntity> estadoCuentaCliente = estadoCuentaClienteEntityRepository.findByEstado(nombre);
+        return Optional.of(mapperUtils.mapperToEstadoCuentaCliente().apply(estadoCuentaCliente.orElse(null)));
     }
 }

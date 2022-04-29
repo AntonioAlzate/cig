@@ -4,7 +4,9 @@ import com.uco.cig.infrastructure.database.postgres.entities.EstadoCuentaCliente
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface EstadoCuentaClienteEntityRepository extends JpaRepository<EstadoCuentaClienteEntity, Integer> {
-    EstadoCuentaClienteEntity findByEstado(String estado);
+    Optional<EstadoCuentaClienteEntity> findByEstado(String estado);
 }

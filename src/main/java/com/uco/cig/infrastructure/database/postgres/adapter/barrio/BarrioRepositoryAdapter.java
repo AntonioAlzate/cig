@@ -2,6 +2,7 @@ package com.uco.cig.infrastructure.database.postgres.adapter.barrio;
 
 import com.uco.cig.domain.barrio.Barrio;
 import com.uco.cig.domain.barrio.ports.BarrioRepository;
+import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.zona.Zona;
 import com.uco.cig.infrastructure.database.postgres.entities.BarrioEntity;
 import com.uco.cig.infrastructure.database.postgres.entities.ZonaEntity;
@@ -26,23 +27,10 @@ public class BarrioRepositoryAdapter implements BarrioRepository {
     public Optional<Barrio> findById(Integer id) {
         Optional<BarrioEntity> barrioEntity = barrioEntityRepository.findById(id);
 
-        if (barrioEntity.isEmpty()) {
+        if(barrioEntity.isEmpty()){
             return Optional.empty();
         }
 
-        Zona zona = obtenerZona(barrioEntity.get().getIdZona());
-
-        Barrio barrio = new Barrio(
-                barrioEntity.get().getId(),
-                barrioEntity.get().getNombre(),
-                zona
-        );
-
-        return Optional.of(barrio);
-    }
-
-    private Zona obtenerZona(ZonaEntity zonaEntity) {
-
-        return new Zona(zonaEntity.getId(), zonaEntity.getNombre(),mapperUtils.mapperToCiudad().apply(zonaEntity.getIdCiudad()));
+        return Optional.of(mapperUtils.mapperToBarrio().apply(barrioEntity.get()));
     }
 }

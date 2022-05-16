@@ -30,10 +30,6 @@ public class Cliente {
         this.estado = Objects.requireNonNull(estado, CAMPO_REQUERIDO);
     }
 
-    public static Cliente nuevo(Persona persona, CuentaCliente cuentaCliente, Estado estado) {
-        return new Cliente(null, persona, cuentaCliente, estado);
-    }
-
     public static Cliente construir(Integer id, Persona persona, CuentaCliente cuentaCliente, Estado estado) {
         return new Cliente(id, persona, cuentaCliente, estado);
     }

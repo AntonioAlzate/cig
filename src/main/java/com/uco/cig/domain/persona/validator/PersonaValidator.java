@@ -14,14 +14,6 @@ public final class PersonaValidator extends ComunValidator {
         }
     }
 
-    public static void validarUnicaPalabra(String valor, String mensaje) throws BusinessException {
-        int longitud = valor.split(" ").length;
-
-        if (longitud > 1) {
-            throw new BusinessException(mensaje);
-        }
-    }
-
     public static void validarUnicaPalabraSegundoNombre(String valor, String mensaje) throws BusinessException {
 
         int longitud = 0;

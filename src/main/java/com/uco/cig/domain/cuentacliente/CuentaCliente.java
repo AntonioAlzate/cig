@@ -24,9 +24,9 @@ public class CuentaCliente {
 
     private CuentaCliente(Integer id, BigDecimal cupo, BigDecimal saldoDeuda, EstadoCuentaCliente estadoCuentaCliente, DetalleCuentaFavor detalleCuentaFavor) throws BusinessException {
         this.id = id;
-        CuentaClienteValidator.validarNumeroMayorCero(cupo, VALOR_NEGATIVO);
+        CuentaClienteValidator.validarNumeroMayorIgualCero(cupo, VALOR_NEGATIVO);
         this.cupo = Objects.requireNonNull(cupo, CUPO_REQUERIDO);
-        CuentaClienteValidator.validarNumeroMayorCero(saldoDeuda, VALOR_NEGATIVO);
+        CuentaClienteValidator.validarNumeroMayorIgualCero(saldoDeuda, VALOR_NEGATIVO);
         this.saldoDeuda = Objects.requireNonNull(saldoDeuda, SALDO_REQUERIDO);
         this.estadoCuentaCliente = Objects.requireNonNull(estadoCuentaCliente, ESTADO_CUENTA_REQUERIDO);;
         this.detalleCuentaFavor = Objects.requireNonNull(detalleCuentaFavor, DETALLE_CUENTA_REQUERIDO);;

@@ -10,12 +10,6 @@ public class TrabajadorEntity {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "username", nullable = false, length = 50)
-    private String username;
-
-    @Column(name = "password", nullable = false, length = 100)
-    private String password;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idPersona", nullable = false)
     private PersonaEntity idPersona;
@@ -27,10 +21,8 @@ public class TrabajadorEntity {
     public TrabajadorEntity() {
     }
 
-    public TrabajadorEntity(Integer id, String username, String password, PersonaEntity idPersona, EstadoEntity idEstadoEntity) {
+    public TrabajadorEntity(Integer id, PersonaEntity idPersona, EstadoEntity idEstadoEntity) {
         this.id = id;
-        this.username = username;
-        this.password = password;
         this.idPersona = idPersona;
         this.idEstadoEntity = idEstadoEntity;
     }
@@ -49,22 +41,6 @@ public class TrabajadorEntity {
 
     public void setIdPersona(PersonaEntity idPersona) {
         this.idPersona = idPersona;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public Integer getId() {

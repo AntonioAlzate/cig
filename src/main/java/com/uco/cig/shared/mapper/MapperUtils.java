@@ -2,16 +2,27 @@ package com.uco.cig.shared.mapper;
 
 import com.uco.cig.domain.barrio.Barrio;
 import com.uco.cig.domain.businessexception.BusinessException;
+import com.uco.cig.domain.categoria.Categoria;
 import com.uco.cig.domain.ciudad.Ciudad;
 import com.uco.cig.domain.cliente.Cliente;
 import com.uco.cig.domain.cuentacliente.CuentaCliente;
+import com.uco.cig.domain.cuota.Cuota;
 import com.uco.cig.domain.departamento.Departamento;
 import com.uco.cig.domain.detalle.cuentafavor.DetalleCuentaFavor;
+import com.uco.cig.domain.dimension.Dimension;
 import com.uco.cig.domain.estado.Estado;
 import com.uco.cig.domain.estado.cuentacliente.EstadoCuentaCliente;
+import com.uco.cig.domain.estado.cuota.EstadoCuota;
+import com.uco.cig.domain.estado.ventas.EstadoVenta;
+import com.uco.cig.domain.formapago.FormaPago;
+import com.uco.cig.domain.modalidad.Modalidad;
 import com.uco.cig.domain.pais.Pais;
 import com.uco.cig.domain.persona.Persona;
+import com.uco.cig.domain.producto.Producto;
 import com.uco.cig.domain.region.Region;
+import com.uco.cig.domain.tipocobro.TipoCobro;
+import com.uco.cig.domain.trabajador.Trabajador;
+import com.uco.cig.domain.venta.Venta;
 import com.uco.cig.domain.zona.Zona;
 import com.uco.cig.infrastructure.database.postgres.entities.*;
 import org.springframework.stereotype.Component;
@@ -113,6 +124,13 @@ public class MapperUtils {
         );
     }
 
+    public Function<EstadoVentaEntity, EstadoVenta> mapperToEstadoVenta() {
+        return entity -> new EstadoVenta(
+                entity.getId(),
+                entity.getNombre()
+        );
+    }
+
     public Function<EstadoCuentaClienteEntity, EstadoCuentaCliente> mapperToEstadoCuentaCliente() {
         return entity -> new EstadoCuentaCliente(
                 entity.getId(),
@@ -129,7 +147,7 @@ public class MapperUtils {
         );
     }
 
-    public Function<PersonaEntity, Persona> mapperToPersona(){
+    public Function<PersonaEntity, Persona> mapperToPersona() {
         return entity -> {
             try {
                 return Persona.construir(
@@ -178,6 +196,149 @@ public class MapperUtils {
         };
     }
 
+    public Function<TrabajadorEntity, Trabajador> mapperToTrabajador() {
+        return entity -> {
+            try {
+                return Trabajador.construir(
+                        entity.getId(),
+                        mapperToPersona().apply(entity.getIdPersona()),
+                        mapperToEstado().apply(entity.getIdEstado())
+                );
+            } catch (BusinessException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        };
+    }
+
+    public Function<DimensionEntity, Dimension> mapperToDimension() {
+        return entity -> {
+            try {
+                return Dimension.construir(
+                        entity.getId(),
+                        entity.getLargo(),
+                        entity.getAncho()
+                );
+            } catch (BusinessException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        };
+    }
+
+    public Function<CategoriaEntity, Categoria> mapperToCategoria() {
+        return entity -> {
+            try {
+                return Categoria.construir(
+                        entity.getId(),
+                        entity.getNombre()
+                );
+            } catch (BusinessException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        };
+    }
+
+    public Function<ProductoEntity, Producto> mapperToProducto() {
+        return entity -> {
+            try {
+                return Producto.construir(
+                        entity.getId(),
+                        entity.getNombre(),
+                        entity.getReferencia(),
+                        entity.getDescripcion(),
+                        mapperToEstado().apply(entity.getIdEstado()),
+                        mapperToDimension().apply(entity.getIdDimension()),
+                        mapperToCategoria().apply(entity.getIdCategoria())
+                );
+            } catch (BusinessException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        };
+    }
+
+    public Function<FormaPagoEntity, FormaPago> mapperToFormaPago() {
+        return entity -> {
+            try {
+                return FormaPago.Construir(
+                        entity.getId(),
+                        entity.getNombre()
+                );
+            } catch (BusinessException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        };
+    }
+
+    public Function<ModalidadEntity, Modalidad> mapperToModalidad() {
+        return entity -> {
+            try {
+                return Modalidad.Construir(
+                        entity.getId(),
+                        entity.getNombre()
+                );
+            } catch (BusinessException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        };
+    }
+
+    public Function<VentaEntity, Venta> mapperToVenta() {
+        return entity -> {
+            try {
+                return Venta.construir(
+                  entity.getId(),
+                  entity.getFecha(),
+                  entity.getValorTotal(),
+                  mapperToTrabajador().apply(entity.getIdTrabajador()),
+                  mapperToFormaPago().apply(entity.getIdFormaPago()),
+                  mapperToModalidad().apply(entity.getIdModalidad()),
+                  mapperToCuentaCliente().apply(entity.getIdCuentaCliente()),
+                  mapperToEstadoVenta().apply(entity.getIdEstadoVenta())
+                );
+            } catch (BusinessException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        };
+    }
+
+    public Function<TipoCobroEntity, TipoCobro> mapperToTipoCobro() {
+        return entity -> {
+            try {
+                return TipoCobro.Construir(
+                        entity.getId(),
+                        entity.getNombre()
+                );
+            } catch (BusinessException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        };
+    }
+
+    public Function<EstadoCuotaEntity, EstadoCuota> mapperToEstadoCuota() {
+        return entity -> new EstadoCuota(
+                entity.getId(),
+                entity.getNombre()
+        );
+    }
+
+    public Function<CuotaEntity, Cuota> mapperToCuota() {
+        return entity -> {
+            try {
+                return Cuota.construir(
+                        entity.getId(),
+                        entity.getValorCobro(),
+                        entity.getResta(),
+                        entity.getFechaPropuesta(),
+                        entity.getFechaRealizacion(),
+                        mapperToVenta().apply(entity.getIdVenta()),
+                        mapperToTrabajador().apply(entity.getIdTrabajador()),
+                        mapperToTipoCobro().apply(entity.getIdTipoCobro()),
+                        mapperToEstadoCuota().apply(entity.getIdEstadoCuota())
+                );
+            } catch (BusinessException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        };
+    }
 
     //endregion
 
@@ -284,5 +445,101 @@ public class MapperUtils {
         );
     }
 
+    public Function<EstadoVenta, EstadoVentaEntity> mappertoEstadoVentaEntity() {
+        return estado -> new EstadoVentaEntity(
+                estado.getId(),
+                estado.getNombre()
+        );
+    }
+
+    public Function<Trabajador, TrabajadorEntity> mappertoTrabajadorEntity() {
+        return trabajador -> new TrabajadorEntity(
+                trabajador.getId(),
+                mappertoPersonaEntity().apply(trabajador.getPersona()),
+                mappertoEstadoEntity().apply(trabajador.getEstado())
+        );
+    }
+
+    public Function<Dimension, DimensionEntity> mappertoDimensionEntity() {
+        return dimension -> new DimensionEntity(
+                dimension.getId(),
+                dimension.getLargo(),
+                dimension.getAncho()
+        );
+    }
+
+    public Function<Categoria, CategoriaEntity> mappertoCategoriaEntity() {
+        return categoria -> new CategoriaEntity(
+                categoria.getId(),
+                categoria.getNombre()
+        );
+    }
+
+    public Function<Producto, ProductoEntity> mappertoProductoEntity() {
+        return producto -> new ProductoEntity(
+                producto.getId(),
+                producto.getNombre(),
+                producto.getReferencia(),
+                producto.getDescripcion(),
+                mappertoEstadoEntity().apply(producto.getEstado()),
+                mappertoDimensionEntity().apply(producto.getDimension()),
+                mappertoCategoriaEntity().apply(producto.getCategoria())
+        );
+    }
+
+    public Function<FormaPago, FormaPagoEntity> mappertoFormaPagoEntity() {
+        return formaPago -> new FormaPagoEntity(
+                formaPago.getId(),
+                formaPago.getNombre()
+        );
+    }
+
+    public Function<Modalidad, ModalidadEntity> mappertoModalidadEntity() {
+        return modalidad -> new ModalidadEntity(
+                modalidad.getId(),
+                modalidad.getNombre()
+        );
+    }
+
+    public Function<Venta, VentaEntity> mappertoVentaEntity() {
+        return venta -> new VentaEntity(
+                venta.getId(),
+                venta.getFecha(),
+                venta.getValorTotal(),
+                mappertoTrabajadorEntity().apply(venta.getTrabajador()),
+                mappertoFormaPagoEntity().apply(venta.getFormaPago()),
+                mappertoModalidadEntity().apply(venta.getModalidad()),
+                mappertoCuentaClienteEntity().apply(venta.getCuentaCliente()),
+                mappertoEstadoVentaEntity().apply(venta.getEstadoVenta())
+        );
+    }
+
+    public Function<TipoCobro, TipoCobroEntity> mappertoTipoCobroEntity() {
+        return tipoCobro -> new TipoCobroEntity(
+                tipoCobro.getId(),
+                tipoCobro.getNombre()
+        );
+    }
+
+    public Function<EstadoCuota, EstadoCuotaEntity> mappertoEstadoCuotaEntity() {
+        return estadoCuota -> new EstadoCuotaEntity(
+                estadoCuota.getId(),
+                estadoCuota.getNombre()
+        );
+    }
+
+    public Function<Cuota, CuotaEntity> mappertoCuotaEntity() {
+        return cuota -> new CuotaEntity(
+                cuota.getId(),
+                cuota.getValorCobro(),
+                cuota.getResta(),
+                cuota.getFechaPropuesta(),
+                cuota.getFechaRealizacion(),
+                mappertoVentaEntity().apply(cuota.getVenta()),
+                mappertoTrabajadorEntity().apply(cuota.getTrabajador()),
+                mappertoTipoCobroEntity().apply(cuota.getTipoCobro()),
+                mappertoEstadoCuotaEntity().apply(cuota.getEstadoCuota())
+        );
+    }
     //endregion
 }

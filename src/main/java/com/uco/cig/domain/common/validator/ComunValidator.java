@@ -25,8 +25,20 @@ public class ComunValidator {
         }
     }
 
+    public static void validarNumeroMayorCero(Integer valor, String mensaje) throws BusinessException {
+        if (valor <= 0) {
+            throw new BusinessException(mensaje);
+        }
+    }
+
     public static void validarNumeroMayorIgualCero(BigDecimal valor, String mensaje) throws BusinessException {
         if (valor.compareTo(BigDecimal.ZERO) < 0) {
+            throw new BusinessException(mensaje);
+        }
+    }
+
+    public static void validarNumeroMayorIgualCero(Integer valor, String mensaje) throws BusinessException {
+        if (valor < 0) {
             throw new BusinessException(mensaje);
         }
     }

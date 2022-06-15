@@ -8,11 +8,14 @@ import com.uco.cig.domain.cliente.Cliente;
 import com.uco.cig.domain.cuentacliente.CuentaCliente;
 import com.uco.cig.domain.cuota.Cuota;
 import com.uco.cig.domain.departamento.Departamento;
+import com.uco.cig.domain.despacho.detalle.DetalleDespacho;
+import com.uco.cig.domain.despacho.registro.RegistroDespacho;
 import com.uco.cig.domain.detalle.cuentafavor.DetalleCuentaFavor;
 import com.uco.cig.domain.dimension.Dimension;
 import com.uco.cig.domain.estado.Estado;
 import com.uco.cig.domain.estado.cuentacliente.EstadoCuentaCliente;
 import com.uco.cig.domain.estado.cuota.EstadoCuota;
+import com.uco.cig.domain.estado.despacho.EstadoDespacho;
 import com.uco.cig.domain.estado.ventas.EstadoVenta;
 import com.uco.cig.domain.formapago.FormaPago;
 import com.uco.cig.domain.modalidad.Modalidad;
@@ -27,6 +30,7 @@ import com.uco.cig.domain.zona.Zona;
 import com.uco.cig.infrastructure.database.postgres.entities.*;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.function.Function;
 
 @Component
@@ -340,6 +344,46 @@ public class MapperUtils {
         };
     }
 
+    public Function<RegistroDespachoEntity, RegistroDespacho> mapperToRegistroDespacho() {
+        return entity -> {
+            try {
+                return RegistroDespacho.construir(
+                        entity.getId(),
+                        mapperToTrabajador().apply(entity.getIdTrabajadorRealiza()),
+                        mapperToTrabajador().apply(entity.getIdTrabajadorRecibe()),
+                        entity.getFecha(),
+                        new ArrayList<>()
+                );
+            } catch (BusinessException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        };
+    }
+
+    public Function<EstadoDespachoEntity, EstadoDespacho> mapperToEstadoDespacho() {
+        return entity -> new EstadoDespacho(
+                entity.getId(),
+                entity.getNombre()
+        );
+    }
+
+    public Function<DetalleDespachoEntity, DetalleDespacho> mapperToDetalleDespacho() {
+        return entity -> {
+            try {
+                return DetalleDespacho.construir(
+                        entity.getId(),
+                        entity.getCantidadInicial(),
+                        entity.getCantidadEntregar(),
+                        mapperToRegistroDespacho().apply(entity.getIdRegistroDespacho()),
+                        mapperToEstadoDespacho().apply(entity.getIdEstadoDespacho()),
+                        mapperToProducto().apply(entity.getIdProducto())
+                );
+            } catch (BusinessException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        };
+    }
+
     //endregion
 
     //region Domain To Entity
@@ -541,5 +585,34 @@ public class MapperUtils {
                 mappertoEstadoCuotaEntity().apply(cuota.getEstadoCuota())
         );
     }
+
+    public Function<RegistroDespacho, RegistroDespachoEntity> mappertoRegistroDespachoEntity() {
+        return registroDespacho -> new RegistroDespachoEntity(
+                registroDespacho.getId(),
+                registroDespacho.getFecha(),
+                mappertoTrabajadorEntity().apply(registroDespacho.getTrabajadorRealiza()),
+                mappertoTrabajadorEntity().apply(registroDespacho.getTrabajadorRecibe())
+        );
+    }
+
+    public Function<EstadoDespacho, EstadoDespachoEntity> mappertoEstadoDespachoEntity() {
+        return estadoDespacho -> new EstadoDespachoEntity(
+                estadoDespacho.getId(),
+                estadoDespacho.getEstado()
+        );
+    }
+
+    public Function<DetalleDespacho, DetalleDespachoEntity> mappertoDetalleDespachoEntity() {
+        return detalleDespacho -> new DetalleDespachoEntity(
+                detalleDespacho.getId(),
+                detalleDespacho.getCantidadInicial(),
+                detalleDespacho.getCantidadEntregar(),
+                mappertoRegistroDespachoEntity().apply(detalleDespacho.getRegistroDespacho()),
+                mappertoEstadoDespachoEntity().apply(detalleDespacho.getEstadoDespacho()),
+                mappertoProductoEntity().apply(detalleDespacho.getProducto())
+        );
+    }
+
+
     //endregion
 }

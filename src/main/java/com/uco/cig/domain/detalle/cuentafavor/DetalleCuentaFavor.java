@@ -16,7 +16,7 @@ public class DetalleCuentaFavor {
 
     private DetalleCuentaFavor(Integer id, BigDecimal valor) throws BusinessException {
         this.id = id;
-        DetalleCuentaFavorValidator.validarNumeroMayorCero(valor, VALOR_NEGATIVO);
+        DetalleCuentaFavorValidator.validarNumeroMayorIgualCero(valor, VALOR_NEGATIVO);
         this.valor = Objects.requireNonNull(valor, VALOR_REQUERIDO);
     }
 

@@ -16,8 +16,10 @@ import com.uco.cig.domain.estado.Estado;
 import com.uco.cig.domain.estado.cuentacliente.EstadoCuentaCliente;
 import com.uco.cig.domain.estado.cuota.EstadoCuota;
 import com.uco.cig.domain.estado.despacho.EstadoDespacho;
+import com.uco.cig.domain.estado.liquidacion.EstadoLiquidacion;
 import com.uco.cig.domain.estado.ventas.EstadoVenta;
 import com.uco.cig.domain.formapago.FormaPago;
+import com.uco.cig.domain.liquidacion.Liquidacion;
 import com.uco.cig.domain.modalidad.Modalidad;
 import com.uco.cig.domain.pais.Pais;
 import com.uco.cig.domain.persona.Persona;
@@ -289,14 +291,14 @@ public class MapperUtils {
         return entity -> {
             try {
                 return Venta.construir(
-                  entity.getId(),
-                  entity.getFecha(),
-                  entity.getValorTotal(),
-                  mapperToTrabajador().apply(entity.getIdTrabajador()),
-                  mapperToFormaPago().apply(entity.getIdFormaPago()),
-                  mapperToModalidad().apply(entity.getIdModalidad()),
-                  mapperToCuentaCliente().apply(entity.getIdCuentaCliente()),
-                  mapperToEstadoVenta().apply(entity.getIdEstadoVenta())
+                        entity.getId(),
+                        entity.getFecha(),
+                        entity.getValorTotal(),
+                        mapperToTrabajador().apply(entity.getIdTrabajador()),
+                        mapperToFormaPago().apply(entity.getIdFormaPago()),
+                        mapperToModalidad().apply(entity.getIdModalidad()),
+                        mapperToCuentaCliente().apply(entity.getIdCuentaCliente()),
+                        mapperToEstadoVenta().apply(entity.getIdEstadoVenta())
                 );
             } catch (BusinessException e) {
                 throw new IllegalArgumentException(e.getMessage());
@@ -380,6 +382,29 @@ public class MapperUtils {
                 );
             } catch (BusinessException e) {
                 throw new IllegalArgumentException(e.getMessage());
+            }
+        };
+    }
+
+    public Function<EstadoLiquidacionEntity, EstadoLiquidacion> mapperToEstadoLiquidacion() {
+        return entity -> new EstadoLiquidacion(
+                entity.getId(),
+                entity.getNombre()
+        );
+    }
+
+    public Function<LiquidacionEntity, Liquidacion> mapperToLiquidacion() {
+        return entity -> {
+            try {
+                return Liquidacion.construir(
+                        entity.getId(),
+                        entity.getFecha(),
+                        entity.getValor(),
+                        mapperToTrabajador().apply(entity.getIdTrabajador()),
+                        mapperToEstadoLiquidacion().apply(entity.getIdEstadoLiquidacion())
+                );
+            } catch (BusinessException e) {
+                throw new RuntimeException(e);
             }
         };
     }
@@ -610,6 +635,23 @@ public class MapperUtils {
                 mappertoRegistroDespachoEntity().apply(detalleDespacho.getRegistroDespacho()),
                 mappertoEstadoDespachoEntity().apply(detalleDespacho.getEstadoDespacho()),
                 mappertoProductoEntity().apply(detalleDespacho.getProducto())
+        );
+    }
+
+    public Function<EstadoLiquidacion, EstadoLiquidacionEntity> mappertoEstadoLiquidacionEntity() {
+        return liquidacion -> new EstadoLiquidacionEntity(
+                liquidacion.getId(),
+                liquidacion.getNombre()
+        );
+    }
+
+    public Function<Liquidacion, LiquidacionEntity> mappertoLiquidacionEntity() {
+        return liquidacion -> new LiquidacionEntity(
+                liquidacion.getId(),
+                liquidacion.getFecha(),
+                liquidacion.getValor(),
+                mappertoTrabajadorEntity().apply(liquidacion.getTrabajador()),
+                mappertoEstadoLiquidacionEntity().apply(liquidacion.getEstadoLiquidacion())
         );
     }
 

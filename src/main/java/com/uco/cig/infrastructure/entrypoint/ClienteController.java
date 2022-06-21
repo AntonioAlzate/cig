@@ -19,13 +19,15 @@ public class ClienteController {
     private final ListarClientesUseCase listarClientesUseCase;
     private final ObtenerClientePorIdentificacionUseCase obtenerClientePorIdentificacionUseCase;
     private final CambiarEstadoClienteUseCase cambiarEstadoClienteUseCase;
+    private final ListarClientesZonaUseCase listarClientesZonaUseCase;
 
-    public ClienteController(CrearClienteUseCase crearClienteUseCase, ActualizarClienteUseCase actualizarClienteUseCase, ListarClientesUseCase listarClientesUseCase, ObtenerClientePorIdentificacionUseCase obtenerClientePorIdentificacionUseCase, CambiarEstadoClienteUseCase cambiarEstadoClienteUseCase) {
+    public ClienteController(CrearClienteUseCase crearClienteUseCase, ActualizarClienteUseCase actualizarClienteUseCase, ListarClientesUseCase listarClientesUseCase, ObtenerClientePorIdentificacionUseCase obtenerClientePorIdentificacionUseCase, CambiarEstadoClienteUseCase cambiarEstadoClienteUseCase, ListarClientesZonaUseCase listarClientesZonaUseCase) {
         this.crearClienteUseCase = crearClienteUseCase;
         this.actualizarClienteUseCase = actualizarClienteUseCase;
         this.listarClientesUseCase = listarClientesUseCase;
         this.obtenerClientePorIdentificacionUseCase = obtenerClientePorIdentificacionUseCase;
         this.cambiarEstadoClienteUseCase = cambiarEstadoClienteUseCase;
+        this.listarClientesZonaUseCase = listarClientesZonaUseCase;
     }
 
     @GetMapping()
@@ -38,6 +40,13 @@ public class ClienteController {
     @GetMapping("/cliente")
     public ResponseEntity<Cliente> obtenerPorIdentificacion(@RequestParam("identificacion") String identificacion){
         Cliente response = obtenerClientePorIdentificacionUseCase.obtener(identificacion);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/zona/{idZona}")
+    public ResponseEntity<List<Cliente>> obtenerClientesPorZona(@PathVariable Integer idZona){
+        List<Cliente> response = listarClientesZonaUseCase.listar(idZona);
 
         return ResponseEntity.ok(response);
     }

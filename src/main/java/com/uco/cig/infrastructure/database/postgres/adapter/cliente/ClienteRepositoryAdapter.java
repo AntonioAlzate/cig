@@ -12,6 +12,7 @@ import com.uco.cig.shared.mapper.MapperUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,16 +30,18 @@ public class ClienteRepositoryAdapter implements ClienteRepository {
     private final ClienteEntityRepository clienteEntityRepository;
     private final EstadoEntityRepository estadoEntityRepository;
     private final EstadoCuentaClienteEntityRepository estadoCuentaClienteEntityRepository;
+    private final ZonaEntityRepository zonaEntityRepository;
     private final MapperUtils mapperUtils;
 
     public ClienteRepositoryAdapter(PersonaEntityRepository personaEntityRepository, CuentaClienteEntityRepository cuentaClienteRepository,
-                                    DetalleCuentaFavorEntityRepository detalleCuentaFavorEntityRepository, ClienteEntityRepository clienteEntityRepository, EstadoEntityRepository estadoEntityRepository, EstadoCuentaClienteEntityRepository estadoCuentaClienteEntityRepository, MapperUtils mapperUtils) {
+                                    DetalleCuentaFavorEntityRepository detalleCuentaFavorEntityRepository, ClienteEntityRepository clienteEntityRepository, EstadoEntityRepository estadoEntityRepository, EstadoCuentaClienteEntityRepository estadoCuentaClienteEntityRepository, ZonaEntityRepository zonaEntityRepository, MapperUtils mapperUtils) {
         this.personaEntityRepository = personaEntityRepository;
         this.cuentaClienteRepository = cuentaClienteRepository;
         this.clienteEntityRepository = clienteEntityRepository;
         this.detalleCuentaFavorEntityRepository = detalleCuentaFavorEntityRepository;
         this.estadoEntityRepository = estadoEntityRepository;
         this.estadoCuentaClienteEntityRepository = estadoCuentaClienteEntityRepository;
+        this.zonaEntityRepository = zonaEntityRepository;
         this.mapperUtils = mapperUtils;
     }
 
@@ -73,6 +76,19 @@ public class ClienteRepositoryAdapter implements ClienteRepository {
         clienteEntity.get().getIdCuentaCliente().setIdEstadoCuentaCliente(estadoCuentaCliente.get());
 
         return mapperUtils.mapperToCliente().apply(clienteEntityRepository.save(clienteEntity.get()));
+    }
+
+    @Override
+    public List<Cliente> findClientesConIdZona(Integer idZona) {
+        Optional<ZonaEntity> zonaEntity = zonaEntityRepository.findById(idZona);
+
+        if (zonaEntity.isEmpty()){
+            return new ArrayList<>();
+        }
+
+        List<ClienteEntity> clienteEntities = clienteEntityRepository.findClienteEntitiesByIdPersonaEntity_IdBarrio_IdZonaEntity(zonaEntity.get());
+
+        return clienteEntities.stream().map(c -> mapperUtils.mapperToCliente().apply(c)).collect(Collectors.toList());
     }
 
     @Override

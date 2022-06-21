@@ -16,4 +16,6 @@ public interface ClienteRepository {
     Cliente findByIdentificacion(String identificacion);
     Cliente cambiarEstado(Integer idCliente, String estado);
     Cliente cambiarEstadoCuenta(Integer idCliente, String estadoNuevo);
+
+    List<Cliente> findClientesConIdZona(Integer idZona);
 }

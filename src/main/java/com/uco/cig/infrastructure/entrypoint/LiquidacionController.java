@@ -1,5 +1,6 @@
 package com.uco.cig.infrastructure.entrypoint;
 
+import com.uco.cig.domain.liquidacion.Liquidacion;
 import com.uco.cig.usecase.liquidacion.ListarLiquidacionesUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

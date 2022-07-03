@@ -1,5 +1,6 @@
 package com.uco.cig.infrastructure.database.postgres.adapter.liquidacion;
 
+import com.uco.cig.domain.liquidacion.Liquidacion;
 import com.uco.cig.domain.liquidacion.ports.LiquidacionRepository;
 import com.uco.cig.infrastructure.database.postgres.entities.LiquidacionEntity;
 import com.uco.cig.infrastructure.database.postgres.repositories.LiquidacionEntityRepository;

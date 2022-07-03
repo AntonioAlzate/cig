@@ -35,7 +35,7 @@ public class Liquidacion {
         return new Liquidacion(null, fecha, valor, trabajador, estadoLiquidacion);
     }
 
-    public static Liquidacion construir(Integer id,  OffsetDateTime fecha, BigDecimal valor, Trabajador trabajador, EstadoLiquidacion estadoLiquidacion) throws BusinessException {
+    public static Liquidacion construir(Integer id, OffsetDateTime fecha, BigDecimal valor, Trabajador trabajador, EstadoLiquidacion estadoLiquidacion) throws BusinessException {
         return new Liquidacion(id, fecha, valor, trabajador, estadoLiquidacion);
 
     }

@@ -5,6 +5,7 @@ import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.categoria.Categoria;
 import com.uco.cig.domain.ciudad.Ciudad;
 import com.uco.cig.domain.cliente.Cliente;
+import com.uco.cig.domain.color.Color;
 import com.uco.cig.domain.cuentacliente.CuentaCliente;
 import com.uco.cig.domain.cuota.Cuota;
 import com.uco.cig.domain.departamento.Departamento;
@@ -259,6 +260,10 @@ public class MapperUtils {
                 throw new IllegalArgumentException(e.getMessage());
             }
         };
+    }
+
+    public Function<ColorEntity, Color> mapperToColor() {
+        return entity -> new Color(entity.getId(), entity.getNombre());
     }
 
     public Function<FormaPagoEntity, FormaPago> mapperToFormaPago() {

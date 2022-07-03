@@ -2,6 +2,7 @@ package com.uco.cig.domain.producto;
 
 import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.categoria.Categoria;
+import com.uco.cig.domain.color.Color;
 import com.uco.cig.domain.dimension.Dimension;
 import com.uco.cig.domain.estado.Estado;
 import com.uco.cig.domain.producto.validator.ProductoValidator;
@@ -26,6 +27,7 @@ public class Producto {
     private Estado estado;
     private Dimension dimension;
     private Categoria categoria;
+    private Color color;
 
     private Producto(Integer id, String nombre, String referencia, String descripcion, Estado estado, Dimension dimension, Categoria categoria) throws BusinessException {
         this.id = id;
@@ -41,9 +43,7 @@ public class Producto {
         this.categoria = Objects.requireNonNull(categoria, CATEGORIA_REQUERIDO);
     }
 
-    public static Producto nuevo(String nombre, String referencia, String descripcion, Estado estado, BigDecimal largo, BigDecimal ancho, String nombreCategoria) throws BusinessException {
-        Dimension dimension = Dimension.nuevo(largo, ancho);
-        Categoria categoria = Categoria.nuevo(nombreCategoria);
+    public static Producto nuevo(String nombre, String referencia, String descripcion, Estado estado, Dimension dimension, Categoria categoria) throws BusinessException {
         return new Producto(null, nombre, referencia, descripcion, estado, dimension, categoria);
     }
 
@@ -105,5 +105,13 @@ public class Producto {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }

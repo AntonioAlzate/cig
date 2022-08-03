@@ -15,7 +15,7 @@ public class PrecioEntity {
     @Column(name = "fechaInicio", nullable = false)
     private LocalDate fechaInicio;
 
-    @Column(name = "fechaFin", nullable = false)
+    @Column(name = "fechaFin")
     private LocalDate fechaFin;
 
     @Column(name = "valor", nullable = false)

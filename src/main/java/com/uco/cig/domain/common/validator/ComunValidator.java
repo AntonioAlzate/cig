@@ -3,6 +3,7 @@ package com.uco.cig.domain.common.validator;
 import com.uco.cig.domain.businessexception.BusinessException;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 public class ComunValidator {
@@ -53,6 +54,12 @@ public class ComunValidator {
 
     public static void validarFechaNoMenorAActual(OffsetDateTime fecha, String mensaje) throws BusinessException {
         if(fecha.getDayOfYear() < OffsetDateTime.now().getDayOfYear()){
+            throw new BusinessException(mensaje);
+        }
+    }
+
+    public static void validarFechaNoMenorAActual(LocalDate fecha, String mensaje) throws BusinessException {
+        if(fecha.getDayOfYear() < LocalDate.now().getDayOfYear()){
             throw new BusinessException(mensaje);
         }
     }

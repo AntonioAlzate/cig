@@ -5,6 +5,7 @@ import com.uco.cig.domain.producto.Producto;
 import com.uco.cig.domain.producto.ports.ProductoRepository;
 import com.uco.cig.infrastructure.database.postgres.entities.ColorEntity;
 import com.uco.cig.infrastructure.database.postgres.entities.ColorProductoEntity;
+import com.uco.cig.infrastructure.database.postgres.entities.ColorProductoId;
 import com.uco.cig.infrastructure.database.postgres.entities.ProductoEntity;
 import com.uco.cig.infrastructure.database.postgres.repositories.ColorEntityRepository;
 import com.uco.cig.infrastructure.database.postgres.repositories.ColorProductoEntityRepository;
@@ -37,26 +38,42 @@ public class ProductoRepositoryAdapter implements ProductoRepository {
     }
 
     @Override
-    public Producto save(Producto producto) {
+    public Producto save(Producto producto, Color color) {
 
         ProductoEntity productoEntity = mapperUtils.mappertoProductoEntity().apply(producto);
         productoEntity = productoEntityRepository.save(productoEntity);
 
-        return mapperUtils.mapperToProducto().apply(productoEntity);
+        // Enlazar producto y color
+        ColorProductoId colorProductoId = new ColorProductoId();
+        colorProductoId.setIdProducto(productoEntity.getId());
+        colorProductoId.setIdColor(color.getId());
+
+        ColorProductoEntity colorProductoEntity = new ColorProductoEntity();
+        colorProductoEntity.setId(colorProductoId);
+
+        colorProductoEntityRepository.save(colorProductoEntity);
+
+        Producto productoCreado = mapperUtils.mapperToProducto().apply(productoEntity);
+        productoCreado.setColor(color);
+
+        return productoCreado;
     }
 
     @Override
     public List<Producto> findAll() {
 
         List<ProductoEntity> productosEntity = productoEntityRepository.findAll();
-        List<Producto> productos = productosEntity.stream().map(p -> {
-            ColorEntity colorEntity = colorProductoEntityRepository.findColorProductoEntityById_IdProducto(p);
+        return getProductosConColores(productosEntity);
+    }
+
+    private List<Producto> getProductosConColores(List<ProductoEntity> productosEntity) {
+        return productosEntity.stream().map(p -> {
+            ColorProductoEntity colorProductoEntity = colorProductoEntityRepository.findColorProductoEntityById_IdProducto(p.getId());
+            Optional<ColorEntity> colorEntity = colorEntityRepository.findById(colorProductoEntity.getId().getIdColor());
             Producto producto = mapperUtils.mapperToProducto().apply(p);
-            producto.setColor(mapperUtils.mapperToColor().apply(colorEntity));
+            producto.setColor(mapperUtils.mapperToColor().apply(colorEntity.get()));
             return producto;
         }).collect(Collectors.toList());
-
-        return productos;
     }
 
     @Override
@@ -68,7 +85,7 @@ public class ProductoRepositoryAdapter implements ProductoRepository {
 
         List<ProductoEntity> productoEntities = productoEntitiesPage.getContent();
 
-        return productoEntities.stream().map(p -> mapperUtils.mapperToProducto().apply(p)).collect(Collectors.toList());
+        return getProductosConColores(productoEntities);
     }
 
     @Override
@@ -80,5 +97,15 @@ public class ProductoRepositoryAdapter implements ProductoRepository {
 
 
         return Optional.of(mapperUtils.mapperToProducto().apply(productoEntity));
+    }
+
+    @Override
+    public Optional<Producto> findById(Integer id) {
+        Optional<ProductoEntity> productoEntity =  productoEntityRepository.findById(id);
+
+        if (productoEntity.isEmpty())
+            return Optional.empty();
+
+        return Optional.of(mapperUtils.mapperToProducto().apply(productoEntity.get()));
     }
 }

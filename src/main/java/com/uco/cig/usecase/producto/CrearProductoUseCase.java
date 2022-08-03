@@ -4,6 +4,8 @@ import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.businessexception.general.NotFoundException;
 import com.uco.cig.domain.categoria.Categoria;
 import com.uco.cig.domain.categoria.ports.CategoriaRepository;
+import com.uco.cig.domain.color.Color;
+import com.uco.cig.domain.color.ports.ColorRepository;
 import com.uco.cig.domain.dimension.Dimension;
 import com.uco.cig.domain.dimension.ports.DimensionRepository;
 import com.uco.cig.domain.estado.Estado;
@@ -31,13 +33,15 @@ public class CrearProductoUseCase {
     private final CategoriaRepository categoriaRepository;
     private final ProductoRepository productoRepository;
     private final EstadoRepository estadoRepository;
+    private final ColorRepository colorRepository;
 
 
-    public CrearProductoUseCase(DimensionRepository dimensionRepository, CategoriaRepository categoriaRepository, ProductoRepository productoRepository, EstadoRepository estadoRepository) {
+    public CrearProductoUseCase(DimensionRepository dimensionRepository, CategoriaRepository categoriaRepository, ProductoRepository productoRepository, EstadoRepository estadoRepository, ColorRepository colorRepository) {
         this.dimensionRepository = dimensionRepository;
         this.categoriaRepository = categoriaRepository;
         this.productoRepository = productoRepository;
         this.estadoRepository = estadoRepository;
+        this.colorRepository = colorRepository;
     }
 
     public Producto crearProducto(ProductoCreacionDto productoCreacionDto) throws BusinessException {
@@ -69,6 +73,14 @@ public class CrearProductoUseCase {
         Producto productoCrear = Producto.nuevo(productoCreacionDto.getNombre(), productoCreacionDto.getReferencia().toUpperCase(Locale.ROOT), productoCreacionDto.getDescripcion(), estado.get(),
                 dimension.get(), categoria.get());
 
-        return productoRepository.save(productoCrear);
+        Optional<Color> color = colorRepository.findById(productoCreacionDto.getIdColor());
+
+        if(color.isEmpty()){
+            Color colorConstruir = new Color(null, productoCreacionDto.getNombreColor());
+
+            color = Optional.of(colorRepository.save(colorConstruir));
+        }
+
+        return productoRepository.save(productoCrear, color.get());
     }
 }

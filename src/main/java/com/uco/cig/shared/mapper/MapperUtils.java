@@ -24,6 +24,7 @@ import com.uco.cig.domain.liquidacion.Liquidacion;
 import com.uco.cig.domain.modalidad.Modalidad;
 import com.uco.cig.domain.pais.Pais;
 import com.uco.cig.domain.persona.Persona;
+import com.uco.cig.domain.precio.Precio;
 import com.uco.cig.domain.producto.Producto;
 import com.uco.cig.domain.region.Region;
 import com.uco.cig.domain.tipocobro.TipoCobro;
@@ -414,6 +415,23 @@ public class MapperUtils {
         };
     }
 
+    public Function<PrecioEntity, Precio> mapperToPrecio() {
+        return entity -> {
+            try {
+                return Precio.construir(
+                        entity.getId(),
+                        entity.getFechaInicio(),
+                        entity.getFechaFin(),
+                        entity.getValor(),
+                        mapperToModalidad().apply(entity.getIdModalidad()),
+                        mapperToProducto().apply(entity.getIdProducto())
+                );
+            } catch (BusinessException e) {
+                throw new RuntimeException(e);
+            }
+        };
+    }
+
     //endregion
 
     //region Domain To Entity
@@ -561,6 +579,13 @@ public class MapperUtils {
         );
     }
 
+    public Function<Color, ColorEntity> mappertoColorEntity() {
+        return color -> new ColorEntity(
+                color.getId(),
+                color.getNombre()
+        );
+    }
+
     public Function<FormaPago, FormaPagoEntity> mappertoFormaPagoEntity() {
         return formaPago -> new FormaPagoEntity(
                 formaPago.getId(),
@@ -660,6 +685,16 @@ public class MapperUtils {
         );
     }
 
+    public Function<Precio, PrecioEntity> mappertoPrecioEntity() {
+        return precio -> new PrecioEntity(
+                precio.getId(),
+                precio.getFechaInicio(),
+                precio.getFechaFin(),
+                precio.getValor(),
+                mappertoModalidadEntity().apply(precio.getModalidad()),
+                mappertoProductoEntity().apply(precio.getProducto())
+        );
+    }
 
     //endregion
 }

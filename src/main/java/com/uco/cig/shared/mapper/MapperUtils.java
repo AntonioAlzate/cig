@@ -12,6 +12,7 @@ import com.uco.cig.domain.departamento.Departamento;
 import com.uco.cig.domain.despacho.detalle.DetalleDespacho;
 import com.uco.cig.domain.despacho.registro.RegistroDespacho;
 import com.uco.cig.domain.detalle.cuentafavor.DetalleCuentaFavor;
+import com.uco.cig.domain.detalle.venta.DetalleVenta;
 import com.uco.cig.domain.dimension.Dimension;
 import com.uco.cig.domain.estado.Estado;
 import com.uco.cig.domain.estado.cuentacliente.EstadoCuentaCliente;
@@ -272,7 +273,9 @@ public class MapperUtils {
             try {
                 return FormaPago.Construir(
                         entity.getId(),
-                        entity.getNombre()
+                        entity.getNombre(),
+                        entity.getNumeroDias(),
+                        entity.getValorMinimo()
                 );
             } catch (BusinessException e) {
                 throw new IllegalArgumentException(e.getMessage());
@@ -342,7 +345,7 @@ public class MapperUtils {
                         entity.getFechaPropuesta(),
                         entity.getFechaRealizacion(),
                         mapperToVenta().apply(entity.getIdVenta()),
-                        mapperToTrabajador().apply(entity.getIdTrabajador()),
+                        entity.getIdTrabajador() != null ? mapperToTrabajador().apply(entity.getIdTrabajador()) : null,
                         mapperToTipoCobro().apply(entity.getIdTipoCobro()),
                         mapperToEstadoCuota().apply(entity.getIdEstadoCuota())
                 );
@@ -424,6 +427,24 @@ public class MapperUtils {
                         entity.getFechaFin(),
                         entity.getValor(),
                         mapperToModalidad().apply(entity.getIdModalidad()),
+                        mapperToProducto().apply(entity.getIdProducto())
+                );
+            } catch (BusinessException e) {
+                throw new RuntimeException(e);
+            }
+        };
+    }
+
+    public Function<DetalleVentaEntity, DetalleVenta> mapperToDetalleVenta() {
+        return entity -> {
+            try {
+                return DetalleVenta.construir(
+                        entity.getId(),
+                        entity.getCantidad(),
+                        entity.getValorTotal(),
+                        entity.getDescuentoAdicional(),
+                        entity.getJustificacion(),
+                        mapperToVenta().apply(entity.getIdVenta()),
                         mapperToProducto().apply(entity.getIdProducto())
                 );
             } catch (BusinessException e) {
@@ -589,7 +610,9 @@ public class MapperUtils {
     public Function<FormaPago, FormaPagoEntity> mappertoFormaPagoEntity() {
         return formaPago -> new FormaPagoEntity(
                 formaPago.getId(),
-                formaPago.getNombre()
+                formaPago.getNombre(),
+                formaPago.getNumeroDias(),
+                formaPago.getValorMinimo()
         );
     }
 
@@ -635,7 +658,7 @@ public class MapperUtils {
                 cuota.getFechaPropuesta(),
                 cuota.getFechaRealizacion(),
                 mappertoVentaEntity().apply(cuota.getVenta()),
-                mappertoTrabajadorEntity().apply(cuota.getTrabajador()),
+                cuota.getTrabajador() != null ? mappertoTrabajadorEntity().apply(cuota.getTrabajador()) : null,
                 mappertoTipoCobroEntity().apply(cuota.getTipoCobro()),
                 mappertoEstadoCuotaEntity().apply(cuota.getEstadoCuota())
         );
@@ -693,6 +716,18 @@ public class MapperUtils {
                 precio.getValor(),
                 mappertoModalidadEntity().apply(precio.getModalidad()),
                 mappertoProductoEntity().apply(precio.getProducto())
+        );
+    }
+
+    public Function<DetalleVenta, DetalleVentaEntity> mappertoDetalleVentaEntity() {
+        return detalleVenta -> new DetalleVentaEntity(
+                detalleVenta.getId(),
+                detalleVenta.getCantidad(),
+                detalleVenta.getValorTotal(),
+                detalleVenta.getDescuentoAdicional(),
+                detalleVenta.getJustificacion(),
+                mappertoVentaEntity().apply(detalleVenta.getVenta()),
+                mappertoProductoEntity().apply(detalleVenta.getProducto())
         );
     }
 

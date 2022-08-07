@@ -7,4 +7,5 @@ import java.util.List;
 public interface VentaRepository {
 
     List<Venta> findAll();
+    Venta save(Venta venta);
 }

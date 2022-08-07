@@ -3,6 +3,7 @@ package com.uco.cig.domain.venta;
 import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.common.validator.ComunValidator;
 import com.uco.cig.domain.cuentacliente.CuentaCliente;
+import com.uco.cig.domain.detalle.venta.DetalleVenta;
 import com.uco.cig.domain.estado.ventas.EstadoVenta;
 import com.uco.cig.domain.formapago.FormaPago;
 import com.uco.cig.domain.modalidad.Modalidad;
@@ -10,6 +11,7 @@ import com.uco.cig.domain.trabajador.Trabajador;
 
 import java.math.BigDecimal;
 import java.time.*;
+import java.util.List;
 import java.util.Objects;
 
 public class Venta {

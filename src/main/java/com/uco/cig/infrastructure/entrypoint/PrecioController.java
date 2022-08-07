@@ -4,7 +4,7 @@ import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.precio.Precio;
 import com.uco.cig.shared.dtos.PrecioCreacionDTO;
 import com.uco.cig.usecase.precio.CrearPrecioUseCase;
-import com.uco.cig.usecase.precio.TraerPrecioActualProductoUseCase;
+import com.uco.cig.usecase.precio.ObtenerPrecioActualDeProductoUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,17 +14,17 @@ import java.net.URI;
 @RequestMapping("/api/v1/precios")
 public class PrecioController {
 
-    private final TraerPrecioActualProductoUseCase traerPrecioActualProductoUseCase;
+    private final ObtenerPrecioActualDeProductoUseCase obtenerPrecioActualDeProductoUseCase;
     private final CrearPrecioUseCase crearPrecioUseCase;
 
-    public PrecioController(TraerPrecioActualProductoUseCase traerPrecioActualProductoUseCase, CrearPrecioUseCase crearPrecioUseCase) {
-        this.traerPrecioActualProductoUseCase = traerPrecioActualProductoUseCase;
+    public PrecioController(ObtenerPrecioActualDeProductoUseCase obtenerPrecioActualDeProductoUseCase, CrearPrecioUseCase crearPrecioUseCase) {
+        this.obtenerPrecioActualDeProductoUseCase = obtenerPrecioActualDeProductoUseCase;
         this.crearPrecioUseCase = crearPrecioUseCase;
     }
 
     @GetMapping("/producto/{idProducto}/modalidad/{idModalidad}")
     public ResponseEntity<Precio> obtenerPrecioProducto(@PathVariable Integer idProducto, @PathVariable Integer idModalidad){
-        Precio precio = traerPrecioActualProductoUseCase.precioActualDeProducto(idProducto, idModalidad);
+        Precio precio = obtenerPrecioActualDeProductoUseCase.obtener(idProducto, idModalidad);
 
         return ResponseEntity.ok(precio);
     }

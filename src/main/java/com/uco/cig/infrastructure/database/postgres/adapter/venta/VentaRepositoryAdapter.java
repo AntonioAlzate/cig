@@ -27,4 +27,10 @@ public class VentaRepositoryAdapter implements VentaRepository {
 
         return ventaEntities.stream().map(v -> mapperUtils.mapperToVenta().apply(v)).collect(Collectors.toList());
     }
+
+    @Override
+    public Venta save(Venta venta) {
+        VentaEntity ventaEntity = ventaEntityRepository.save(mapperUtils.mappertoVentaEntity().apply(venta));
+        return mapperUtils.mapperToVenta().apply(ventaEntity);
+    }
 }

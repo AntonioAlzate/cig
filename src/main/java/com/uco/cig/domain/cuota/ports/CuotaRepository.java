@@ -7,4 +7,6 @@ import java.util.List;
 public interface CuotaRepository {
 
     List<Cuota> findAll();
+    List<Cuota> saveAll(List<Cuota> cuotas);
+    Cuota save(Cuota cuota);
 }

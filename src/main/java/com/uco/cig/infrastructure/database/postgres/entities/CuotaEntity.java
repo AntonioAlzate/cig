@@ -2,6 +2,7 @@ package com.uco.cig.infrastructure.database.postgres.entities;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 @Entity
@@ -19,17 +20,17 @@ public class CuotaEntity {
     private BigDecimal resta;
 
     @Column(name = "fechaPropuesta", nullable = false)
-    private OffsetDateTime fechaPropuesta;
+    private LocalDate fechaPropuesta;
 
-    @Column(name = "fechaRealizacion", nullable = false)
+    @Column(name = "fechaRealizacion")
     private OffsetDateTime fechaRealizacion;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idVenta", nullable = false)
     private VentaEntity idVentaEntity;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "idTrabajador", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idTrabajador")
     private TrabajadorEntity idTrabajadorEntity;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -43,7 +44,7 @@ public class CuotaEntity {
     public CuotaEntity() {
     }
 
-    public CuotaEntity(Integer id, BigDecimal valorCobro, BigDecimal resta, OffsetDateTime fechaPropuesta, OffsetDateTime fechaRealizacion, VentaEntity idVentaEntity, TrabajadorEntity idTrabajadorEntity, TipoCobroEntity idTipoCobroEntity, EstadoCuotaEntity idEstadoCuotaEntity) {
+    public CuotaEntity(Integer id, BigDecimal valorCobro, BigDecimal resta, LocalDate fechaPropuesta, OffsetDateTime fechaRealizacion, VentaEntity idVentaEntity, TrabajadorEntity idTrabajadorEntity, TipoCobroEntity idTipoCobroEntity, EstadoCuotaEntity idEstadoCuotaEntity) {
         this.id = id;
         this.valorCobro = valorCobro;
         this.resta = resta;
@@ -95,11 +96,11 @@ public class CuotaEntity {
         this.fechaRealizacion = fechaRealizacion;
     }
 
-    public OffsetDateTime getFechaPropuesta() {
+    public LocalDate getFechaPropuesta() {
         return fechaPropuesta;
     }
 
-    public void setFechaPropuesta(OffsetDateTime fechaPropuesta) {
+    public void setFechaPropuesta(LocalDate fechaPropuesta) {
         this.fechaPropuesta = fechaPropuesta;
     }
 

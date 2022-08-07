@@ -9,6 +9,7 @@ import com.uco.cig.domain.trabajador.Trabajador;
 import com.uco.cig.domain.venta.Venta;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
@@ -22,14 +23,14 @@ public class Cuota {
     private Integer id;
     private BigDecimal valorCobro;
     private BigDecimal resta;
-    private OffsetDateTime fechaPropuesta;
+    private LocalDate fechaPropuesta;
     private OffsetDateTime fechaRealizacion;
     private Venta venta;
     private Trabajador trabajador;
     private TipoCobro tipoCobro;
     private EstadoCuota estadoCuota;
 
-    private Cuota(Integer id, BigDecimal valorCobro, BigDecimal resta, OffsetDateTime fechaPropuesta, OffsetDateTime fechaRealizacion, Venta venta, Trabajador trabajador, TipoCobro tipoCobro, EstadoCuota estadoCuota) throws BusinessException {
+    private Cuota(Integer id, BigDecimal valorCobro, BigDecimal resta, LocalDate fechaPropuesta, OffsetDateTime fechaRealizacion, Venta venta, Trabajador trabajador, TipoCobro tipoCobro, EstadoCuota estadoCuota) throws BusinessException {
         this.id = id;
         CuotaValidator.validarNumeroMayorIgualCero(valorCobro, VALOR_COBRO_MENOR_CERO);
         this.valorCobro = Objects.requireNonNull(valorCobro, CAMPO_REQUERIDO + "valor cobro");
@@ -39,16 +40,16 @@ public class Cuota {
         CuotaValidator.validarFechaNoFutura(fechaRealizacion, FECHA_FUTURO);
         this.fechaRealizacion = fechaRealizacion;
         this.venta = Objects.requireNonNull(venta, CAMPO_REQUERIDO + "venta");
-        this.trabajador = Objects.requireNonNull(trabajador, CAMPO_REQUERIDO + "trabajador");
+        this.trabajador = trabajador;
         this.tipoCobro = Objects.requireNonNull(tipoCobro, CAMPO_REQUERIDO + "tipo cobro");
         this.estadoCuota = Objects.requireNonNull(estadoCuota, CAMPO_REQUERIDO + "estado cuota");
     }
 
-    public static Cuota nueva(BigDecimal valorCobro, BigDecimal resta, OffsetDateTime fechaPropuesta, OffsetDateTime fechaRealizacion, Venta venta, Trabajador trabajador, TipoCobro tipoCobro, EstadoCuota estadoCuota) throws BusinessException {
+    public static Cuota nueva(BigDecimal valorCobro, BigDecimal resta, LocalDate fechaPropuesta, OffsetDateTime fechaRealizacion, Venta venta, Trabajador trabajador, TipoCobro tipoCobro, EstadoCuota estadoCuota) throws BusinessException {
         return new Cuota(null, valorCobro, resta, fechaPropuesta, fechaRealizacion, venta, trabajador, tipoCobro, estadoCuota);
     }
 
-    public static Cuota construir (Integer id, BigDecimal valorCobro, BigDecimal resta, OffsetDateTime fechaPropuesta, OffsetDateTime fechaRealizacion, Venta venta, Trabajador trabajador, TipoCobro tipoCobro, EstadoCuota estadoCuota) throws BusinessException {
+    public static Cuota construir (Integer id, BigDecimal valorCobro, BigDecimal resta, LocalDate fechaPropuesta, OffsetDateTime fechaRealizacion, Venta venta, Trabajador trabajador, TipoCobro tipoCobro, EstadoCuota estadoCuota) throws BusinessException {
         return new Cuota(id, valorCobro, resta, fechaPropuesta, fechaRealizacion, venta, trabajador, tipoCobro, estadoCuota);
     }
 
@@ -76,11 +77,11 @@ public class Cuota {
         this.resta = resta;
     }
 
-    public OffsetDateTime getFechaPropuesta() {
+    public LocalDate getFechaPropuesta() {
         return fechaPropuesta;
     }
 
-    public void setFechaPropuesta(OffsetDateTime fechaPropuesta) {
+    public void setFechaPropuesta(LocalDate fechaPropuesta) {
         this.fechaPropuesta = fechaPropuesta;
     }
 

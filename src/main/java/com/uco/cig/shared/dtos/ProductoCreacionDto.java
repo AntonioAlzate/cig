@@ -19,4 +19,5 @@ public class ProductoCreacionDto implements Serializable {
     private String nombreColor;
     private BigDecimal valorCredito;
     private BigDecimal valorContado;
+    private Integer cantidad;
 }

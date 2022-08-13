@@ -3,6 +3,7 @@ package com.uco.cig.domain.producto;
 import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.categoria.Categoria;
 import com.uco.cig.domain.color.Color;
+import com.uco.cig.domain.common.validator.ComunValidator;
 import com.uco.cig.domain.dimension.Dimension;
 import com.uco.cig.domain.estado.Estado;
 import com.uco.cig.domain.producto.validator.ProductoValidator;
@@ -19,6 +20,8 @@ public class Producto {
     private static final String ESTADO_REQUERIDO = "El campo Estado es requerido";
     private static final String DIMENSION_REQUERIDO = "El campo Dimesión es requerido";
     private static final String CATEGORIA_REQUERIDO = "El campo Categoría es requerido";
+    private static final String CANTIDAD_REUQERIDO = "La cantidad de productos en existencia es requerido";
+    private static final String CANTIDAD_INVALIDA = "La cantidad de productos en existencia no puede ser menor a cero";
 
     private Integer id;
     private String nombre;
@@ -28,8 +31,9 @@ public class Producto {
     private Dimension dimension;
     private Categoria categoria;
     private Color color;
+    private Integer cantidadExistente;
 
-    private Producto(Integer id, String nombre, String referencia, String descripcion, Estado estado, Dimension dimension, Categoria categoria) throws BusinessException {
+    private Producto(Integer id, String nombre, String referencia, String descripcion, Estado estado, Dimension dimension, Categoria categoria, Integer cantidadExistente) throws BusinessException {
         this.id = id;
         ProductoValidator.validarCadenaNoVacia(nombre, NOMBRE_REQUERIDO);
         this.nombre = Objects.requireNonNull(nombre, NOMBRE_REQUERIDO);
@@ -41,14 +45,16 @@ public class Producto {
         this.estado = Objects.requireNonNull(estado, ESTADO_REQUERIDO);
         this.dimension = Objects.requireNonNull(dimension, DIMENSION_REQUERIDO);
         this.categoria = Objects.requireNonNull(categoria, CATEGORIA_REQUERIDO);
+        ComunValidator.validarNumeroMayorIgualCero(cantidadExistente, CANTIDAD_INVALIDA);
+        this.cantidadExistente = Objects.requireNonNull(cantidadExistente, CANTIDAD_REUQERIDO);
     }
 
-    public static Producto nuevo(String nombre, String referencia, String descripcion, Estado estado, Dimension dimension, Categoria categoria) throws BusinessException {
-        return new Producto(null, nombre, referencia, descripcion, estado, dimension, categoria);
+    public static Producto nuevo(String nombre, String referencia, String descripcion, Estado estado, Dimension dimension, Categoria categoria, Integer cantidadExistente) throws BusinessException {
+        return new Producto(null, nombre, referencia, descripcion, estado, dimension, categoria, cantidadExistente);
     }
 
-    public static Producto construir(Integer id, String nombre, String referencia, String descripcion, Estado estado, Dimension dimension, Categoria categoria) throws BusinessException {
-        return new Producto(id, nombre, referencia, descripcion, estado, dimension, categoria);
+    public static Producto construir(Integer id, String nombre, String referencia, String descripcion, Estado estado, Dimension dimension, Categoria categoria, Integer cantidadExistente) throws BusinessException {
+        return new Producto(id, nombre, referencia, descripcion, estado, dimension, categoria, cantidadExistente);
     }
 
     public Integer getId() {
@@ -113,5 +119,13 @@ public class Producto {
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    public Integer getCantidadExistente() {
+        return cantidadExistente;
+    }
+
+    public void setCantidadExistente(Integer cantidadExistente) {
+        this.cantidadExistente = cantidadExistente;
     }
 }

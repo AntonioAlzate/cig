@@ -63,7 +63,7 @@ public class CrearProductoUseCase {
         validarNoExistenciaProducto(productoCreacionDto.getReferencia().toUpperCase());
 
         Producto productoCrear = Producto.nuevo(productoCreacionDto.getNombre(), productoCreacionDto.getReferencia().toUpperCase(Locale.ROOT), productoCreacionDto.getDescripcion(), estado.get(),
-                dimension.get(), categoria.get());
+                dimension.get(), categoria.get(), productoCreacionDto.getCantidad());
 
         Optional<Color> color = getColorOCrear(productoCreacionDto);
 

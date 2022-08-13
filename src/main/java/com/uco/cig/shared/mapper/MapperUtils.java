@@ -256,7 +256,8 @@ public class MapperUtils {
                         entity.getDescripcion(),
                         mapperToEstado().apply(entity.getIdEstado()),
                         mapperToDimension().apply(entity.getIdDimension()),
-                        mapperToCategoria().apply(entity.getIdCategoria())
+                        mapperToCategoria().apply(entity.getIdCategoria()),
+                        entity.getCantidadExistente()
                 );
             } catch (BusinessException e) {
                 throw new IllegalArgumentException(e.getMessage());
@@ -596,7 +597,8 @@ public class MapperUtils {
                 producto.getDescripcion(),
                 mappertoEstadoEntity().apply(producto.getEstado()),
                 mappertoDimensionEntity().apply(producto.getDimension()),
-                mappertoCategoriaEntity().apply(producto.getCategoria())
+                mappertoCategoriaEntity().apply(producto.getCategoria()),
+                producto.getCantidadExistente()
         );
     }
 

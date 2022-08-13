@@ -19,6 +19,9 @@ public class ProductoEntity {
     @Column(name = "descripcion", nullable = false, length = 350)
     private String descripcion;
 
+    @Column(name = "cantidadExistente", nullable = false)
+    private Integer cantidadExistente;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idEstado", nullable = false)
     private EstadoEntity idEstado;
@@ -34,7 +37,7 @@ public class ProductoEntity {
     public ProductoEntity() {
     }
 
-    public ProductoEntity(Integer id, String nombre, String referencia, String descripcion, EstadoEntity idEstado, DimensionEntity idDimension, CategoriaEntity idCategoria) {
+    public ProductoEntity(Integer id, String nombre, String referencia, String descripcion, EstadoEntity idEstado, DimensionEntity idDimension, CategoriaEntity idCategoria, Integer cantidadExistente) {
         this.id = id;
         this.nombre = nombre;
         this.referencia = referencia;
@@ -42,6 +45,7 @@ public class ProductoEntity {
         this.idEstado = idEstado;
         this.idDimension = idDimension;
         this.idCategoria = idCategoria;
+        this.cantidadExistente = cantidadExistente;
     }
 
     public CategoriaEntity getIdCategoria() {
@@ -98,5 +102,13 @@ public class ProductoEntity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getCantidadExistente() {
+        return cantidadExistente;
+    }
+
+    public void setCantidadExistente(Integer cantidadExistente) {
+        this.cantidadExistente = cantidadExistente;
     }
 }

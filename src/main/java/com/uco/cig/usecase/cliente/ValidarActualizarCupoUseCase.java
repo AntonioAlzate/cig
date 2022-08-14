@@ -20,13 +20,15 @@ public class ValidarActualizarCupoUseCase {
         this.cuentaClienteRepository = cuentaClienteRepository;
     }
 
-    public void validarActualizar(CuentaCliente cuentaCliente, BigDecimal valorTotalCompra) {
-        if(cuentaCliente.getCupo().subtract(valorTotalCompra).compareTo(BigDecimal.ZERO) < 0 ){
+    public void validarActualizar(CuentaCliente cuentaCliente, BigDecimal valorTotalCompra, BigDecimal cuotaInicial) {
+        BigDecimal valorCredito = valorTotalCompra.subtract(cuotaInicial);
+
+        if(cuentaCliente.getCupo().subtract(valorCredito).compareTo(BigDecimal.ZERO) < 0 ){
             throw new BadRequestException(CUPO_INSUFICIENTE);
         }
 
-        BigDecimal nuevoCupo = cuentaCliente.getCupo().subtract(valorTotalCompra);
-        BigDecimal nuevaDeuda = cuentaCliente.getSaldoDeuda().add(valorTotalCompra);
+        BigDecimal nuevoCupo = cuentaCliente.getCupo().subtract(valorCredito);
+        BigDecimal nuevaDeuda = cuentaCliente.getSaldoDeuda().add(valorCredito);
 
         cuentaCliente.setCupo(nuevoCupo);
         cuentaCliente.setSaldoDeuda(nuevaDeuda);

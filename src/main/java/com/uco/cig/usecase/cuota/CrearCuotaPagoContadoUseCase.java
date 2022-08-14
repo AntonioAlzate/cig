@@ -5,6 +5,7 @@ import com.uco.cig.domain.cuota.Cuota;
 import com.uco.cig.domain.cuota.ports.CuotaRepository;
 import com.uco.cig.domain.estado.cuota.EstadoCuota;
 import com.uco.cig.domain.tipocobro.TipoCobro;
+import com.uco.cig.domain.trabajador.Trabajador;
 import com.uco.cig.domain.venta.Venta;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class CrearCuotaPagoContadoUseCase {
     }
 
 
-    public void generar(BigDecimal valorTotalCompra, Venta venta) throws BusinessException {
+    public void generar(BigDecimal valorTotalCompra, Venta venta, Trabajador trabajador) throws BusinessException {
 
         // todo: A REVISAR EL TIPO COBRO y estado cuota
         TipoCobro tipoCobroNormal = TipoCobro.Construir(2, "NORMAL");
@@ -39,7 +40,7 @@ public class CrearCuotaPagoContadoUseCase {
                 fechaActual,
                 OffsetDateTime.now(),
                 venta,
-                null,
+                trabajador,
                 tipoCobroNormal,
                 estadoCuotaCancelada
         );

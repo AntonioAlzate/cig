@@ -46,6 +46,7 @@ public class RegistarVentaUseCase {
     private final ObtenerTrabajadorPorIdUseCase trabajadorPorIdUseCase;
     private final ObtenerModalidadPorIdUseCase modalidadPorIdUseCase;
     private final ObtenerEstadoVentaActivaUseCase estadoVentaActivaUseCase;
+    private final ObtenerEstadoVentaCanceladaUseCase estadoVentaCanceladaUseCase;
     private final ObtenerFormaPagoPorIdUseCase formaPagoPorIdUseCase;
     private final GenerarDetallesVentaSinVentaAsociadaUseCase detallesVentaSinVentaAsociadaUseCase;
     private final ValidarActualizarCupoUseCase validarActualizarCupoUseCase;
@@ -54,13 +55,14 @@ public class RegistarVentaUseCase {
     private final CrearCuotaPagoContadoUseCase cuotaPagoContadoUseCase;
 
 
-    public RegistarVentaUseCase(VentaRepository ventaRepository, ObtenerClientePorIdUseCase clientePorIdUseCase, ObtenerTrabajadorPorIdUseCase trabajadorPorIdUseCase, ObtenerModalidadPorIdUseCase modalidadPorIdUseCase, ObtenerEstadoVentaActivaUseCase estadoVentaActivaUseCase, ObtenerFormaPagoPorIdUseCase formaPagoPorIdUseCase, GenerarDetallesVentaSinVentaAsociadaUseCase detallesVentaSinVentaAsociadaUseCase, ValidarActualizarCupoUseCase validarActualizarCupoUseCase, EnlazarDetallesAVentaYGuardarUseCase enlazarDetallesAVentaYGuardarUseCase, CrearPlanCuotasUseCase planCuotasUseCase, CrearCuotaPagoContadoUseCase cuotaPagoContadoUseCase) {
+    public RegistarVentaUseCase(VentaRepository ventaRepository, ObtenerClientePorIdUseCase clientePorIdUseCase, ObtenerTrabajadorPorIdUseCase trabajadorPorIdUseCase, ObtenerModalidadPorIdUseCase modalidadPorIdUseCase, ObtenerEstadoVentaActivaUseCase estadoVentaActivaUseCase, ObtenerEstadoVentaCanceladaUseCase estadoVentaCanceladaUseCase, ObtenerFormaPagoPorIdUseCase formaPagoPorIdUseCase, GenerarDetallesVentaSinVentaAsociadaUseCase detallesVentaSinVentaAsociadaUseCase, ValidarActualizarCupoUseCase validarActualizarCupoUseCase, EnlazarDetallesAVentaYGuardarUseCase enlazarDetallesAVentaYGuardarUseCase, CrearPlanCuotasUseCase planCuotasUseCase, CrearCuotaPagoContadoUseCase cuotaPagoContadoUseCase) {
         this.ventaRepository = ventaRepository;
 
         this.clientePorIdUseCase = clientePorIdUseCase;
         this.trabajadorPorIdUseCase = trabajadorPorIdUseCase;
         this.modalidadPorIdUseCase = modalidadPorIdUseCase;
         this.estadoVentaActivaUseCase = estadoVentaActivaUseCase;
+        this.estadoVentaCanceladaUseCase = estadoVentaCanceladaUseCase;
         this.formaPagoPorIdUseCase = formaPagoPorIdUseCase;
         this.detallesVentaSinVentaAsociadaUseCase = detallesVentaSinVentaAsociadaUseCase;
         this.validarActualizarCupoUseCase = validarActualizarCupoUseCase;
@@ -71,8 +73,6 @@ public class RegistarVentaUseCase {
 
     public Venta realizarVenta(CreacionVentaDTO creacionVentaDTO) throws BusinessException {
 
-        // todo: modalidad contado
-
         // Existencia de productos en la venta
         if(creacionVentaDTO.getDetallesVenta().isEmpty())
             throw new BadRequestException(VENTA_SIN_PRODUCTOS);
@@ -82,7 +82,8 @@ public class RegistarVentaUseCase {
         Trabajador trabajador = trabajadorPorIdUseCase.obtener(creacionVentaDTO.getIdTrabajador());
         FormaPago formaPago = formaPagoPorIdUseCase.obtener(creacionVentaDTO.getIdFormaPago());
         Modalidad modalidad = modalidadPorIdUseCase.obtener(creacionVentaDTO.getIdModalidad());
-        EstadoVenta estadoVenta = estadoVentaActivaUseCase.obtener();
+        EstadoVenta estadoVentaActiva = estadoVentaActivaUseCase.obtener();
+        EstadoVenta estadoVentaCancelada = estadoVentaCanceladaUseCase.obtener();
 
         // Se valida que la venta tenga coherencia con modalidad y forma de pago
         if(modalidad.getNombre().equals(MODALIDAD_CREDITO) && formaPago.getNombre().equals(PAGO_CONTADO)){
@@ -98,7 +99,9 @@ public class RegistarVentaUseCase {
 
         // calculo de valor total de la venta y actualizacion del cupo
         BigDecimal valorTotalCompra = calcularValorTotal(detallesVenta);
-        validarActualizarCupoUseCase.validarActualizar(cliente.getCuentaCliente(), valorTotalCompra);
+
+        if(modalidad.getNombre().equals(MODALIDAD_CREDITO))
+            validarActualizarCupoUseCase.validarActualizar(cliente.getCuentaCliente(), valorTotalCompra, creacionVentaDTO.getCuotaInicial());
 
         // Se crea la venta y se guarda
         Venta venta = Venta.nuevo(
@@ -108,7 +111,7 @@ public class RegistarVentaUseCase {
                 formaPago,
                 modalidad,
                 cliente.getCuentaCliente(),
-                estadoVenta
+                modalidad.getNombre().equals(MODALIDAD_CREDITO) ? estadoVentaActiva : estadoVentaCancelada
         );
         venta = ventaRepository.save(venta);
 
@@ -122,7 +125,7 @@ public class RegistarVentaUseCase {
 
         if(modalidad.getNombre().equals(MODALIDAD_CONTADO)){
             // Creación cuota del total
-            cuotaPagoContadoUseCase.generar(valorTotalCompra, venta);
+            cuotaPagoContadoUseCase.generar(valorTotalCompra, venta, trabajador);
         }
 
         return venta;

@@ -34,7 +34,7 @@ public class Cuota {
         this.id = id;
         CuotaValidator.validarNumeroMayorIgualCero(valorCobro, VALOR_COBRO_MENOR_CERO);
         this.valorCobro = Objects.requireNonNull(valorCobro, CAMPO_REQUERIDO + "valor cobro");
-        CuotaValidator.validarNumeroMayorCero(resta, VALOR_RESTA_MENOR_CERO);
+        CuotaValidator.validarNumeroMayorIgualCero(resta, VALOR_RESTA_MENOR_CERO);
         this.resta = Objects.requireNonNull(resta, CAMPO_REQUERIDO + "resta");
         this.fechaPropuesta = Objects.requireNonNull(fechaPropuesta, CAMPO_REQUERIDO + "fecha propuesta");
         CuotaValidator.validarFechaNoFutura(fechaRealizacion, FECHA_FUTURO);

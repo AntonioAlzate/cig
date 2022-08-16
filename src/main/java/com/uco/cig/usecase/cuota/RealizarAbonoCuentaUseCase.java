@@ -1,5 +1,6 @@
 package com.uco.cig.usecase.cuota;
 
+import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.businessexception.general.NotFoundException;
 import com.uco.cig.domain.cliente.Cliente;
 import com.uco.cig.domain.cliente.ports.ClienteRepository;
@@ -39,7 +40,7 @@ public class RealizarAbonoCuentaUseCase {
         this.clientePorIdUseCase = clientePorIdUseCase;
     }
 
-    public String abonar(AbonoPagoDTO abonoPagoDTO) {
+    public String abonar(AbonoPagoDTO abonoPagoDTO) throws BusinessException {
         // todo: estado cuota
         EstadoCuota estadoCuotaPendiente = new EstadoCuota(1, "PEDIENTE");
         EstadoCuota estadoCuotaCancelada = new EstadoCuota(2, "CANCELADA");
@@ -65,7 +66,7 @@ public class RealizarAbonoCuentaUseCase {
                 break;
             } else {
                 BigDecimal restaNueva = cuota.getResta().subtract(valorActualAbono);
-                guardarCuota(cuota, restaNueva, null, null, estadoCuotaCancelada);
+                guardarCuota(cuota, restaNueva, null, null, estadoCuotaPendiente);
                 break;
             }
         }

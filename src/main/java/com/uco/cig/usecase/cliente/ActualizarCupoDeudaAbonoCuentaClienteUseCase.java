@@ -1,8 +1,11 @@
 package com.uco.cig.usecase.cliente;
 
+import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.cliente.Cliente;
 import com.uco.cig.domain.cliente.ports.ClienteRepository;
 import com.uco.cig.domain.cuentacliente.CuentaCliente;
+import com.uco.cig.domain.detalle.cuentafavor.entrada.EntradaCuentaFavor;
+import com.uco.cig.domain.detalle.cuentafavor.entrada.EntradaCuentaFavorRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -12,13 +15,17 @@ import java.math.BigDecimal;
 @Transactional
 public class ActualizarCupoDeudaAbonoCuentaClienteUseCase {
 
-    private final ClienteRepository clienteRepository;
+    private static final String ENTRADA_DESCRIPCION = "Entrada automatica ya que abono generado supera a la deuda del cliente";
 
-    public ActualizarCupoDeudaAbonoCuentaClienteUseCase(ClienteRepository clienteRepository) {
+    private final ClienteRepository clienteRepository;
+    private final EntradaCuentaFavorRepository entradaCuentaFavorRepository;
+
+    public ActualizarCupoDeudaAbonoCuentaClienteUseCase(ClienteRepository clienteRepository, EntradaCuentaFavorRepository entradaCuentaFavorRepository) {
         this.clienteRepository = clienteRepository;
+        this.entradaCuentaFavorRepository = entradaCuentaFavorRepository;
     }
 
-    public Cliente actualizar(BigDecimal valorAbono, Cliente cliente){
+    public Cliente actualizar(BigDecimal valorAbono, Cliente cliente) throws BusinessException {
         CuentaCliente cuentaCliente = cliente.getCuentaCliente();
         int comparacion = cuentaCliente.getSaldoDeuda().compareTo(valorAbono);
         BigDecimal saldoDeuda = cuentaCliente.getSaldoDeuda();
@@ -32,7 +39,16 @@ public class ActualizarCupoDeudaAbonoCuentaClienteUseCase {
             cuentaCliente.setCupo(cupo.add(saldoDeuda));
             cuentaCliente.setSaldoDeuda(BigDecimal.ZERO);
 
-            // todo: la diferencia entra a la cuenta a favor
+            // se crea entrada a la cuenta a favor y se actualizar el valor de la cuenta a favor
+            EntradaCuentaFavor entradaCuentaFavor = EntradaCuentaFavor.nuevo(
+                    ENTRADA_DESCRIPCION,
+                    diferencia,
+                    cliente.getCuentaCliente().getDetalleCuentaFavor()
+            );
+            entradaCuentaFavorRepository.save(entradaCuentaFavor);
+
+            BigDecimal valorCuentaFavor = cliente.getCuentaCliente().getDetalleCuentaFavor().getValor();
+            cliente.getCuentaCliente().getDetalleCuentaFavor().setValor(valorCuentaFavor.add(diferencia));
         }
 
         cliente.setCuentaCliente(cuentaCliente);

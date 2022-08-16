@@ -1,5 +1,6 @@
 package com.uco.cig.infrastructure.entrypoint;
 
+import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.cuota.Cuota;
 import com.uco.cig.shared.dtos.AbonoPagoDTO;
 import com.uco.cig.shared.dtos.CuotaPagoDTO;
@@ -36,14 +37,14 @@ public class CuotaController {
     }
 
     @GetMapping("/pago-cuota")
-    public ResponseEntity<Cuota> pagarCuotaProxima(@RequestBody CuotaPagoDTO cuotaPagoDTO) {
+    public ResponseEntity<Cuota> pagarCuotaProxima(@RequestBody CuotaPagoDTO cuotaPagoDTO) throws BusinessException {
         Cuota result = pagarCuotaProximaUseCase.pagar(cuotaPagoDTO);
 
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/abono-cuenta")
-    public ResponseEntity<String> realizarAbonoCuenta(@RequestBody AbonoPagoDTO abonoPagoDTO) {
+    public ResponseEntity<String> realizarAbonoCuenta(@RequestBody AbonoPagoDTO abonoPagoDTO) throws BusinessException {
         String result = realizarAbonoCuentaUseCase.abonar(abonoPagoDTO);
 
         return ResponseEntity.ok(result);

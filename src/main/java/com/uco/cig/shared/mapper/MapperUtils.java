@@ -12,6 +12,8 @@ import com.uco.cig.domain.departamento.Departamento;
 import com.uco.cig.domain.despacho.detalle.DetalleDespacho;
 import com.uco.cig.domain.despacho.registro.RegistroDespacho;
 import com.uco.cig.domain.detalle.cuentafavor.DetalleCuentaFavor;
+import com.uco.cig.domain.detalle.cuentafavor.entrada.EntradaCuentaFavor;
+import com.uco.cig.domain.detalle.cuentafavor.salida.SalidaCuentaFavor;
 import com.uco.cig.domain.detalle.venta.DetalleVenta;
 import com.uco.cig.domain.dimension.Dimension;
 import com.uco.cig.domain.estado.Estado;
@@ -454,6 +456,36 @@ public class MapperUtils {
         };
     }
 
+    public Function<EntradaCuentaFavorEntity, EntradaCuentaFavor> mapperToEntradaCuentaFavor() {
+        return entity -> {
+            try {
+                return EntradaCuentaFavor.construir(
+                        entity.getId(),
+                        entity.getDescripcion(),
+                        entity.getValor(),
+                        mapperToDetalleCuentaFavor().apply(entity.getIdDetalleCuentaFavor())
+                );
+            } catch (BusinessException e) {
+                throw new RuntimeException(e);
+            }
+        };
+    }
+
+    public Function<SalidaCuentaFavorEntity, SalidaCuentaFavor> mapperToSalidaCuentaFavor() {
+        return entity -> {
+            try {
+                return SalidaCuentaFavor.construir(
+                        entity.getId(),
+                        entity.getDescripcion(),
+                        entity.getValor(),
+                        mapperToDetalleCuentaFavor().apply(entity.getIdDetalleCuentaFavor())
+                );
+            } catch (BusinessException e) {
+                throw new RuntimeException(e);
+            }
+        };
+    }
+
     //endregion
 
     //region Domain To Entity
@@ -733,5 +765,22 @@ public class MapperUtils {
         );
     }
 
+    public Function<EntradaCuentaFavor, EntradaCuentaFavorEntity> mappertoEntradaCuentaFavorEntity() {
+        return entradaCuentaFavor -> new EntradaCuentaFavorEntity(
+                entradaCuentaFavor.getId(),
+                entradaCuentaFavor.getDescripcion(),
+                entradaCuentaFavor.getValor(),
+                mappertoDetalleCuentaFavorEntity().apply(entradaCuentaFavor.getDetalleCuentaFavor())
+        );
+    }
+
+    public Function<SalidaCuentaFavor, SalidaCuentaFavorEntity> mappertoSalidaCuentaFavorEntity() {
+        return salidaCuentaFavor -> new SalidaCuentaFavorEntity(
+                salidaCuentaFavor.getId(),
+                salidaCuentaFavor.getDescripcion(),
+                salidaCuentaFavor.getValor(),
+                mappertoDetalleCuentaFavorEntity().apply(salidaCuentaFavor.getDetalleCuentaFavor())
+        );
+    }
     //endregion
 }

@@ -1,5 +1,6 @@
 package com.uco.cig.usecase.cuota;
 
+import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.businessexception.general.NotFoundException;
 import com.uco.cig.domain.cliente.Cliente;
 import com.uco.cig.domain.cliente.ports.ClienteRepository;
@@ -36,7 +37,7 @@ public class PagarCuotaProximaUseCase {
         this.actualizarCupoDeudaCuentaClienteUseCase = actualizarCupoDeudaCuentaClienteUseCase;
     }
 
-    public Cuota pagar(CuotaPagoDTO cuotaPagoDTO) {
+    public Cuota pagar(CuotaPagoDTO cuotaPagoDTO) throws BusinessException {
         // todo: estado cuota
         EstadoCuota estadoCuotaPendiente = new EstadoCuota(1, "PEDIENTE");
         EstadoCuota estadoCuotaCancelada = new EstadoCuota(2, "CANCELADA");

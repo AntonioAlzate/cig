@@ -5,6 +5,7 @@ import com.uco.cig.domain.cuota.Cuota;
 import com.uco.cig.domain.cuota.ports.CuotaRepository;
 import com.uco.cig.domain.estado.cuota.EstadoCuota;
 import com.uco.cig.domain.tipocobro.TipoCobro;
+import com.uco.cig.domain.trabajador.Trabajador;
 import com.uco.cig.domain.venta.Venta;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class CrearPlanCuotasUseCase {
         this.cuotaRepository = cuotaRepository;
     }
 
-    public void generar(BigDecimal valorTotalCompra, BigDecimal valorCuotaInicial, Integer numeroDias, BigDecimal valorMinimo, Venta venta) throws BusinessException {
+    public void generar(BigDecimal valorTotalCompra, BigDecimal valorCuotaInicial, Integer numeroDias, BigDecimal valorMinimo, Venta venta, Trabajador trabajador) throws BusinessException {
         List<Cuota> cuotasGeneradas = new ArrayList<>();
 
         // todo: A REVISAR EL TIPO COBRO y estado cuota
@@ -41,11 +43,11 @@ public class CrearPlanCuotasUseCase {
         // CreacionCuotaInicial
         Cuota cuotaInicial = Cuota.nueva(
                 valorCuotaInicial,
-                valorCuotaInicial,
+                BigDecimal.ZERO,
                 fechaPropuesta,
-                null,
+                OffsetDateTime.now(),
                 venta,
-                null,
+                trabajador,
                 tipoCobroInicial,
                 estadoCuotaCancelada
         );

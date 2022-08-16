@@ -120,7 +120,7 @@ public class RegistarVentaUseCase {
 
         if(modalidad.getNombre().equals(MODALIDAD_CREDITO)){
             // Creación plan de cuotas
-            planCuotasUseCase.generar(valorTotalCompra, creacionVentaDTO.getCuotaInicial(), formaPago.getNumeroDias(), formaPago.getValorMinimo(), venta);
+            planCuotasUseCase.generar(valorTotalCompra, creacionVentaDTO.getCuotaInicial(), formaPago.getNumeroDias(), formaPago.getValorMinimo(), venta, trabajador);
         }
 
         if(modalidad.getNombre().equals(MODALIDAD_CONTADO)){

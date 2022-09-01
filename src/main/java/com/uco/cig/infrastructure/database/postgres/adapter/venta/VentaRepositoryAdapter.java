@@ -1,23 +1,32 @@
 package com.uco.cig.infrastructure.database.postgres.adapter.venta;
 
+import com.uco.cig.domain.businessexception.general.NotFoundException;
 import com.uco.cig.domain.venta.Venta;
 import com.uco.cig.domain.venta.ports.VentaRepository;
+import com.uco.cig.infrastructure.database.postgres.entities.TrabajadorEntity;
 import com.uco.cig.infrastructure.database.postgres.entities.VentaEntity;
+import com.uco.cig.infrastructure.database.postgres.repositories.TrabajadorEntityRepository;
 import com.uco.cig.infrastructure.database.postgres.repositories.VentaEntityRepository;
 import com.uco.cig.shared.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class VentaRepositoryAdapter implements VentaRepository {
 
+    private static final String TRABAJADOR_NO_ENCONTRADO = "Trabajador no encontrado";
+
     private final VentaEntityRepository ventaEntityRepository;
+    private final TrabajadorEntityRepository trabajadorEntityRepository;
     private final MapperUtils mapperUtils;
 
-    public VentaRepositoryAdapter(VentaEntityRepository ventaEntityRepository, MapperUtils mapperUtils) {
+    public VentaRepositoryAdapter(VentaEntityRepository ventaEntityRepository, TrabajadorEntityRepository trabajadorEntityRepository, MapperUtils mapperUtils) {
         this.ventaEntityRepository = ventaEntityRepository;
+        this.trabajadorEntityRepository = trabajadorEntityRepository;
         this.mapperUtils = mapperUtils;
     }
 
@@ -32,5 +41,27 @@ public class VentaRepositoryAdapter implements VentaRepository {
     public Venta save(Venta venta) {
         VentaEntity ventaEntity = ventaEntityRepository.save(mapperUtils.mappertoVentaEntity().apply(venta));
         return mapperUtils.mapperToVenta().apply(ventaEntity);
+    }
+
+    @Override
+    public List<Venta> findAllByIdTrabajadorAndFechaRealizacion(Integer idTrabajador, OffsetDateTime fechaRealizacion) {
+        TrabajadorEntity trabajadorEntity = trabajadorEntityRepository.findById(idTrabajador).orElseThrow(() -> new NotFoundException(TRABAJADOR_NO_ENCONTRADO));
+
+        List<VentaEntity> ventaEntities = ventaEntityRepository.findAllByIdTrabajador(trabajadorEntity);
+
+        int diaCalcular = fechaRealizacion.getDayOfYear();
+        int anioCalcular = fechaRealizacion.getYear();
+
+        if (!ventaEntities.isEmpty()){
+            ventaEntities = ventaEntities.stream().filter(venta -> {
+                int diaCuota = venta.getFecha().getDayOfYear();
+                int anioCuota = venta.getFecha().getYear();
+                return (diaCuota == diaCalcular) && (anioCuota == anioCalcular);
+            }).collect(Collectors.toList());
+
+            return ventaEntities.stream().map(ventaEntity -> mapperUtils.mapperToVenta().apply(ventaEntity)).collect(Collectors.toList());
+        }
+
+        return new ArrayList<>();
     }
 }

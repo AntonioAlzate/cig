@@ -27,4 +27,12 @@ public class LiquidacionRepositoryAdapter implements LiquidacionRepository {
 
         return liquidacionEntities.stream().map(l -> mapperUtils.mapperToLiquidacion().apply(l)).collect(Collectors.toList());
     }
+
+    @Override
+    public Liquidacion save(Liquidacion liquidacion) {
+        LiquidacionEntity liquidacionEntity = mapperUtils.mappertoLiquidacionEntity().apply(liquidacion);
+
+        liquidacionEntity = liquidacionEntityRepository.save(liquidacionEntity);
+        return mapperUtils.mapperToLiquidacion().apply(liquidacionEntity);
+    }
 }

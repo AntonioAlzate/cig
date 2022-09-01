@@ -7,4 +7,6 @@ import java.util.List;
 public interface LiquidacionRepository {
 
     List<Liquidacion> findAll();
+
+    Liquidacion save(Liquidacion liquidacion);
 }

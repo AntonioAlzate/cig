@@ -18,11 +18,11 @@ public class ActualizarCupoDeudaAbonoCuentaClienteUseCase {
     private static final String ENTRADA_DESCRIPCION = "Entrada automatica ya que abono generado supera a la deuda del cliente";
 
     private final ClienteRepository clienteRepository;
-    private final EntradaCuentaFavorRepository entradaCuentaFavorRepository;
+    private final RegistrarEntradaCuentaFavorUseCase entradaCuentaFavorUseCase;
 
-    public ActualizarCupoDeudaAbonoCuentaClienteUseCase(ClienteRepository clienteRepository, EntradaCuentaFavorRepository entradaCuentaFavorRepository) {
+    public ActualizarCupoDeudaAbonoCuentaClienteUseCase(ClienteRepository clienteRepository, RegistrarEntradaCuentaFavorUseCase entradaCuentaFavorUseCase) {
         this.clienteRepository = clienteRepository;
-        this.entradaCuentaFavorRepository = entradaCuentaFavorRepository;
+        this.entradaCuentaFavorUseCase = entradaCuentaFavorUseCase;
     }
 
     public Cliente actualizar(BigDecimal valorAbono, Cliente cliente) throws BusinessException {
@@ -40,12 +40,7 @@ public class ActualizarCupoDeudaAbonoCuentaClienteUseCase {
             cuentaCliente.setSaldoDeuda(BigDecimal.ZERO);
 
             // se crea entrada a la cuenta a favor y se actualizar el valor de la cuenta a favor
-            EntradaCuentaFavor entradaCuentaFavor = EntradaCuentaFavor.nuevo(
-                    ENTRADA_DESCRIPCION,
-                    diferencia,
-                    cliente.getCuentaCliente().getDetalleCuentaFavor()
-            );
-            entradaCuentaFavorRepository.save(entradaCuentaFavor);
+            entradaCuentaFavorUseCase.registrar(ENTRADA_DESCRIPCION, diferencia, cliente.getCuentaCliente().getDetalleCuentaFavor());
 
             BigDecimal valorCuentaFavor = cliente.getCuentaCliente().getDetalleCuentaFavor().getValor();
             cliente.getCuentaCliente().getDetalleCuentaFavor().setValor(valorCuentaFavor.add(diferencia));

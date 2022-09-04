@@ -7,10 +7,7 @@ import com.uco.cig.shared.dtos.DatosLiquidacionObtenerDTO;
 import com.uco.cig.usecase.liquidacion.CalcularLiquidacionTrabajadorUseCase;
 import com.uco.cig.usecase.liquidacion.ListarLiquidacionesUseCase;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
@@ -18,6 +15,7 @@ import java.time.ZoneOffset;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
 @RequestMapping("/api/v1/liquidaciones")
 public class LiquidacionController {
 

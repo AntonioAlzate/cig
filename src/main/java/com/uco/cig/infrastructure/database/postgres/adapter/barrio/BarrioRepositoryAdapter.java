@@ -10,7 +10,9 @@ import com.uco.cig.infrastructure.database.postgres.repositories.BarrioEntityRep
 import com.uco.cig.shared.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BarrioRepositoryAdapter implements BarrioRepository {
@@ -32,5 +34,12 @@ public class BarrioRepositoryAdapter implements BarrioRepository {
         }
 
         return Optional.of(mapperUtils.mapperToBarrio().apply(barrioEntity.get()));
+    }
+
+    @Override
+    public List<Barrio> findAll() {
+        List<BarrioEntity> barrioEntities = barrioEntityRepository.findAll();
+
+        return barrioEntities.stream().map(barrioEntity -> mapperUtils.mapperToBarrio().apply(barrioEntity)).collect(Collectors.toList());
     }
 }

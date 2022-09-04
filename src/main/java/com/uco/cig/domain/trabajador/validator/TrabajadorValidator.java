@@ -6,11 +6,17 @@ import com.uco.cig.domain.common.validator.ComunValidator;
 public final class TrabajadorValidator extends ComunValidator {
 
     public static void validarLongitudUserName(String username, String mensaje) throws BusinessException {
+        if(username == null)
+            return;
+
         if(username.length() < 4 || username.length() > 16)
             throw new BusinessException(mensaje);
     }
 
     public static void validarFormatoPassword(String password, String mensaje) throws BusinessException {
+
+        if(password == null)
+            return;
 
         String pattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
 

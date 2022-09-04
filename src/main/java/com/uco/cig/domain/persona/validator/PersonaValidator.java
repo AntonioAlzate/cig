@@ -9,12 +9,18 @@ import java.util.Optional;
 public final class PersonaValidator extends ComunValidator {
 
     public static void validarLongitudIdentificacion(String identificacion, String mensaje) throws BusinessException {
+        if(identificacion == null)
+            return;
+
         if (identificacion.length() < 4 || identificacion.length() > 10) {
             throw new BusinessException(mensaje);
         }
     }
 
     public static void validarUnicaPalabraSegundoNombre(String valor, String mensaje) throws BusinessException {
+
+        if(valor == null)
+            return;
 
         int longitud = 0;
 
@@ -27,6 +33,9 @@ public final class PersonaValidator extends ComunValidator {
     }
 
     public static void validarLongitudTelefono(String telefono, String mensaje) throws BusinessException {
+        if(telefono == null)
+            return;
+
         if (telefono.length() != 10)
             throw new BusinessException(mensaje);
     }

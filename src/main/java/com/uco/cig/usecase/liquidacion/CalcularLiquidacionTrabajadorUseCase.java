@@ -1,6 +1,7 @@
 package com.uco.cig.usecase.liquidacion;
 
 import com.uco.cig.domain.businessexception.BusinessException;
+import com.uco.cig.domain.businessexception.general.BadRequestException;
 import com.uco.cig.domain.cuota.Cuota;
 import com.uco.cig.domain.estado.liquidacion.EstadoLiquidacion;
 import com.uco.cig.domain.liquidacion.Liquidacion;
@@ -23,6 +24,7 @@ import java.util.List;
 @Transactional
 public class CalcularLiquidacionTrabajadorUseCase {
 
+    private static final String LIQUIDACION_YA_REGISTRADA = "Ya existe una liquidación registrada para la fecha especificada";
     private final LiquidacionRepository liquidacionRepository;
     private final ListarCuotasCobradasTrabajadorUseCase cuotasCobradasTrabajadorUseCase;
     private final ListarVentasTrabajadorUseCase ventasTrabajadorUseCase;
@@ -66,20 +68,43 @@ public class CalcularLiquidacionTrabajadorUseCase {
                 .add(datosLiquidacionDTO.getTotalCobrosNormales())
                 .add(datosLiquidacionDTO.getTotalVentas());
 
-        if(crearLiquidacion && total.compareTo(BigDecimal.ZERO) != 0) {
+        if (Boolean.TRUE.equals(crearLiquidacion) && total.compareTo(BigDecimal.ZERO) != 0) {
 
             Trabajador trabajador = obtenerTrabajadorPorIdUseCase.obtener(idTrabajador);
 
+            List<Liquidacion> liquidacionesTrabajadores = liquidacionRepository.findAllByTrabajador(trabajador);
+
+            Boolean existe = existeLiquidacionParaFecha(liquidacionesTrabajadores, fechaRealizacion);
+
+            if(existe)
+                throw new BadRequestException(LIQUIDACION_YA_REGISTRADA);
+
             Liquidacion liquidacion = Liquidacion.nuevo(
-                    OffsetDateTime.now(),
+                    fechaRealizacion,
                     total,
                     trabajador,
                     estadoLiquidacion
             );
 
-            liquidacionRepository.save(liquidacion);
+            datosLiquidacionDTO.setLiquidacion(liquidacionRepository.save(liquidacion));
         }
 
         return datosLiquidacionDTO;
+    }
+
+    private Boolean existeLiquidacionParaFecha(List<Liquidacion> liquidacionesTrabajadores, OffsetDateTime fechaRealizacion) {
+        if (liquidacionesTrabajadores.isEmpty())
+            return false;
+
+        Integer diaRealizacion = fechaRealizacion.getDayOfYear();
+        Integer anioRealizacion = fechaRealizacion.getYear();
+
+        for (Liquidacion liquidacion : liquidacionesTrabajadores) {
+            if (liquidacion.getFecha().getDayOfYear() == diaRealizacion && liquidacion.getFecha().getYear() == anioRealizacion) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

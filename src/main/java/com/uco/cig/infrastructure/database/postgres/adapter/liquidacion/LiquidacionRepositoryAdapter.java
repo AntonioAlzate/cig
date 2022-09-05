@@ -2,11 +2,14 @@ package com.uco.cig.infrastructure.database.postgres.adapter.liquidacion;
 
 import com.uco.cig.domain.liquidacion.Liquidacion;
 import com.uco.cig.domain.liquidacion.ports.LiquidacionRepository;
+import com.uco.cig.domain.trabajador.Trabajador;
 import com.uco.cig.infrastructure.database.postgres.entities.LiquidacionEntity;
+import com.uco.cig.infrastructure.database.postgres.entities.TrabajadorEntity;
 import com.uco.cig.infrastructure.database.postgres.repositories.LiquidacionEntityRepository;
 import com.uco.cig.shared.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,4 +38,20 @@ public class LiquidacionRepositoryAdapter implements LiquidacionRepository {
         liquidacionEntity = liquidacionEntityRepository.save(liquidacionEntity);
         return mapperUtils.mapperToLiquidacion().apply(liquidacionEntity);
     }
+
+    @Override
+    public List<Liquidacion> findAllByTrabajador(Trabajador trabajador) {
+
+        TrabajadorEntity trabajadorEntity = mapperUtils.mappertoTrabajadorEntity().apply(trabajador);
+
+        List<LiquidacionEntity> liquidacionEntities = liquidacionEntityRepository.findAllByIdTrabajadorEntity(trabajadorEntity);
+
+        if(liquidacionEntities.isEmpty())
+            return new ArrayList<>();
+
+        liquidacionEntities.forEach(liquidacionEntity -> liquidacionEntity.setFecha(liquidacionEntity.getFecha().plusHours(5)));
+
+        return liquidacionEntities.stream().map(liquidacionEntity -> mapperUtils.mapperToLiquidacion().apply(liquidacionEntity)).collect(Collectors.toList());
+    }
+
 }

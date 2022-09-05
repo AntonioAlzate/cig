@@ -49,7 +49,7 @@ public class ClienteRepositoryAdapter implements ClienteRepository {
     public Cliente cambiarEstado(Integer idCliente, String estado) {
         Optional<ClienteEntity> clienteEntity = clienteEntityRepository.findById(idCliente);
 
-        if(clienteEntity.isEmpty()){
+        if (clienteEntity.isEmpty()) {
             throw new NotFoundException(CLIENTE_CON_IDENTIFICACION_NO_EXISTE);
         }
 
@@ -63,13 +63,13 @@ public class ClienteRepositoryAdapter implements ClienteRepository {
     public Cliente cambiarEstadoCuenta(Integer idCliente, String estadoNuevo) {
         Optional<ClienteEntity> clienteEntity = clienteEntityRepository.findById(idCliente);
 
-        if(clienteEntity.isEmpty()){
+        if (clienteEntity.isEmpty()) {
             throw new NotFoundException(CLIENTE_CON_IDENTIFICACION_NO_EXISTE);
         }
 
         Optional<EstadoCuentaClienteEntity> estadoCuentaCliente = estadoCuentaClienteEntityRepository.findByEstado(estadoNuevo);
 
-        if(estadoCuentaCliente.isEmpty()){
+        if (estadoCuentaCliente.isEmpty()) {
             throw new NotFoundException("Estado de cuenta no encontrado");
         }
 
@@ -82,7 +82,7 @@ public class ClienteRepositoryAdapter implements ClienteRepository {
     public List<Cliente> findClientesConIdZona(Integer idZona) {
         Optional<ZonaEntity> zonaEntity = zonaEntityRepository.findById(idZona);
 
-        if (zonaEntity.isEmpty()){
+        if (zonaEntity.isEmpty()) {
             return new ArrayList<>();
         }
 
@@ -93,9 +93,17 @@ public class ClienteRepositoryAdapter implements ClienteRepository {
 
     @Override
     public Cliente save(Cliente cliente) {
+
+        PersonaEntity personaValidar = personaEntityRepository.findByIdentificacion(cliente.getPersona().getIdentificacion());
+
         Persona persona = cliente.getPersona();
         PersonaEntity personaEntity = mapperUtils.mappertoPersonaEntity().apply(persona);
-        personaEntity = personaEntityRepository.save(personaEntity);
+
+        if (personaValidar == null) {
+            personaEntity = personaEntityRepository.save(personaEntity);
+        } else {
+            personaEntity = personaValidar;
+        }
 
         DetalleCuentaFavor detalleCuentaFavor = cliente.getCuentaCliente().getDetalleCuentaFavor();
         DetalleCuentaFavorEntity detalleCuentaFavorEntity = mapperUtils.mappertoDetalleCuentaFavorEntity().apply(detalleCuentaFavor);

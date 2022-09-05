@@ -37,9 +37,17 @@ public class TrabajadorRepositoryAdapter implements TrabajadorRepository {
 
     @Override
     public Trabajador save(Trabajador trabajador) {
+
+        PersonaEntity personaValidar = personaEntityRepository.findByIdentificacion(trabajador.getPersona().getIdentificacion());
+
         Persona persona = trabajador.getPersona();
         PersonaEntity personaEntity = mapperUtils.mappertoPersonaEntity().apply(persona);
-        personaEntity = personaEntityRepository.save(personaEntity);
+
+        if(personaValidar == null){
+            personaEntity = personaEntityRepository.save(personaEntity);
+        } else {
+            personaEntity = personaValidar;
+        }
 
         TrabajadorEntity trabajadorEntity =  mapperUtils.mappertoTrabajadorEntity().apply(trabajador);
         trabajadorEntity.setIdPersona(personaEntity);

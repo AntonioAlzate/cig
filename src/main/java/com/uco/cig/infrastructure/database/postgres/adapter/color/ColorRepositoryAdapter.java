@@ -53,4 +53,14 @@ public class ColorRepositoryAdapter implements ColorRepository {
 
         return colorEntities.stream().map(colorEntity -> mapperUtils.mapperToColor().apply(colorEntity)).collect(Collectors.toList());
     }
+
+    @Override
+    public Color findByNombre(String nombreColor) {
+        ColorEntity colorEntity = colorEntityRepository.findByNombre(nombreColor);
+
+        if(colorEntity == null)
+            return null;
+
+        return mapperUtils.mapperToColor().apply(colorEntity);
+    }
 }

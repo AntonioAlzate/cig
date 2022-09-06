@@ -31,6 +31,9 @@ public class CrearProductoUseCase {
     private static final String CATEGORIA_PRODUCTO_INEXISTENTE = "La categoría enviada no existe en el sistema";
     private static final String PRODUCTO_CON_REFERENCIA_YA_REGISTRADO = "La referencia enviada ya se encuentra asignada un producto";
     private static final String ESTADO_NO_ENCONTRADO = "El Estado especificado no ha sido encontrado, asegurese de que se encuentre registrado";
+    private static final String CATEGORIA_NOMBRE_EXISTENTE = "Ya existe una categoría con el mismo nombre registrada en el sistema";
+    private static final String COLOR_NOMBRE_YA_REGISTRADO = "Ya existe un color con el mismo nombre registrado en el sistema";
+    private static final String DIMENSION_YA_REGISTRADA = "Ya existe una dimensión con el mismo largo y ancho en el sistema";
 
     private static final Integer idModalidadCredito = 1;
     private static final Integer idModalidadContado = 2;
@@ -81,10 +84,16 @@ public class CrearProductoUseCase {
         crearPrecioUseCase.crear(precioCreacionDTO);
     }
 
-    private Optional<Color> getColorOCrear(ProductoCreacionDto productoCreacionDto) {
+    private Optional<Color> getColorOCrear(ProductoCreacionDto productoCreacionDto) throws BusinessException {
         Optional<Color> color = colorRepository.findById(productoCreacionDto.getIdColor());
 
         if (color.isEmpty()) {
+
+            Color colorPorNombre = colorRepository.findByNombre(productoCreacionDto.getNombreColor());
+
+            if(colorPorNombre != null)
+                throw new BusinessException(COLOR_NOMBRE_YA_REGISTRADO);
+
             Color colorConstruir = new Color(null, productoCreacionDto.getNombreColor());
 
             color = Optional.of(colorRepository.save(colorConstruir));
@@ -104,9 +113,15 @@ public class CrearProductoUseCase {
         Optional<Dimension> dimension = dimensionRepository.findById(productoCreacionDto.getIdDimension());
 
         if (dimension.isEmpty()) {
+
+            Dimension dimencionPorAnchoLargo = dimensionRepository.findByAnchoAndLargo(productoCreacionDto.getAncho(), productoCreacionDto.getLargo());
+
+            if(dimencionPorAnchoLargo != null)
+                throw new BusinessException(DIMENSION_YA_REGISTRADA);
+
             Dimension dimesionConstruir =
-                    Dimension.nuevo(BigDecimal.valueOf(productoCreacionDto.getLargo()),
-                            BigDecimal.valueOf(productoCreacionDto.getAncho()));
+                    Dimension.nuevo(productoCreacionDto.getLargo(),
+                            productoCreacionDto.getAncho());
 
             dimension = Optional.of(dimensionRepository.save(dimesionConstruir));
         }
@@ -117,6 +132,12 @@ public class CrearProductoUseCase {
         Optional<Categoria> categoria = categoriaRepository.findById(productoCreacionDto.getIdCategoria());
 
         if (categoria.isEmpty()){
+
+            Categoria categoriaPorNombre = categoriaRepository.findByNombre(productoCreacionDto.getNombreCategoria());
+
+            if(categoriaPorNombre != null)
+                throw new BusinessException(CATEGORIA_NOMBRE_EXISTENTE);
+
             Categoria categoriaConstruir =
                     Categoria.nuevo(productoCreacionDto.getNombreCategoria());
 

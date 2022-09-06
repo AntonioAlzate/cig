@@ -12,8 +12,8 @@ public class ProductoCreacionDto implements Serializable {
     private String referencia;
     private String descripcion;
     private Integer idDimension;
-    private Double largo;
-    private Double ancho;
+    private BigDecimal largo;
+    private BigDecimal ancho;
     private Integer idCategoria;
     private String nombreCategoria;
     private Integer idColor;

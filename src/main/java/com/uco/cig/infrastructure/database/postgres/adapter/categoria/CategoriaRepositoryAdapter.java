@@ -37,7 +37,7 @@ public class CategoriaRepositoryAdapter implements CategoriaRepository {
     @Override
     public Categoria save(Categoria categoria) {
 
-        CategoriaEntity categoriaEntity = mapperUtils.mappertoCategoriaEntity().apply(categoria);
+        CategoriaEntity categoriaEntity = new CategoriaEntity(null, categoria.getNombre());
         categoriaEntity = categoriaEntityRepository.save(categoriaEntity);
         return mapperUtils.mapperToCategoria().apply(categoriaEntity);
     }
@@ -50,5 +50,15 @@ public class CategoriaRepositoryAdapter implements CategoriaRepository {
             return new ArrayList<>();
 
         return categoriaEntities.stream().map(categoriaEntity -> mapperUtils.mapperToCategoria().apply(categoriaEntity)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Categoria findByNombre(String nombreCategoria) {
+        CategoriaEntity categoriaEntity = categoriaEntityRepository.findByNombre(nombreCategoria);
+
+        if(categoriaEntity == null)
+            return null;
+
+        return mapperUtils.mapperToCategoria().apply(categoriaEntity);
     }
 }

@@ -11,4 +11,6 @@ public interface CategoriaRepository {
     Categoria save(Categoria categoria);
 
     List<Categoria> findAll();
+
+    Categoria findByNombre(String nombreCategoria);
 }

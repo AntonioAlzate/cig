@@ -7,6 +7,7 @@ import com.uco.cig.infrastructure.database.postgres.repositories.DimensionEntity
 import com.uco.cig.shared.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -51,5 +52,15 @@ public class DimensionRepositoryAdapter implements DimensionRepository {
             return new ArrayList<>();
 
         return dimensionEntities.stream().map(dimensionEntity -> mapperUtils.mapperToDimension().apply(dimensionEntity)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Dimension findByAnchoAndLargo(BigDecimal ancho, BigDecimal largo) {
+        DimensionEntity dimensionEntity = dimensionEntityRepository.findByAnchoAndLargo(ancho, largo);
+
+        if(dimensionEntity == null)
+            return null;
+
+        return mapperUtils.mapperToDimension().apply(dimensionEntity);
     }
 }

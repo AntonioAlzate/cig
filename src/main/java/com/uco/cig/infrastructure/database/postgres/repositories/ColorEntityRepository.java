@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ColorEntityRepository extends JpaRepository<ColorEntity, Integer> {
 
+    ColorEntity findByNombre(String nombreColor);
 }

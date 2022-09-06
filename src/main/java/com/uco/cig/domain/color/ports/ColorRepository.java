@@ -10,4 +10,6 @@ public interface ColorRepository {
     Color save(Color color);
     Optional<Color> findById(Integer id);
     List<Color> findAll();
+
+    Color findByNombre(String nombreColor);
 }

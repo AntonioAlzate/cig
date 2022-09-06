@@ -113,11 +113,16 @@ public class CrearProductoUseCase {
         return dimension;
     }
 
-    private Optional<Categoria> getCategoria(ProductoCreacionDto productoCreacionDto) {
+    private Optional<Categoria> getCategoria(ProductoCreacionDto productoCreacionDto) throws BusinessException {
         Optional<Categoria> categoria = categoriaRepository.findById(productoCreacionDto.getIdCategoria());
 
-        if (categoria.isEmpty())
-            throw new NotFoundException(CATEGORIA_PRODUCTO_INEXISTENTE);
+        if (categoria.isEmpty()){
+            Categoria categoriaConstruir =
+                    Categoria.nuevo(productoCreacionDto.getNombreCategoria());
+
+            categoria = Optional.of(categoriaRepository.save(categoriaConstruir));
+        }
+
         return categoria;
     }
 

@@ -7,7 +7,10 @@ import com.uco.cig.infrastructure.database.postgres.repositories.DimensionEntity
 import com.uco.cig.shared.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class DimensionRepositoryAdapter implements DimensionRepository {
@@ -38,5 +41,15 @@ public class DimensionRepositoryAdapter implements DimensionRepository {
         dimensionEntity = dimensionEntityRepository.save(dimensionEntity);
 
         return mapperUtils.mapperToDimension().apply(dimensionEntity);
+    }
+
+    @Override
+    public List<Dimension> findAll() {
+        List<DimensionEntity> dimensionEntities = dimensionEntityRepository.findAll();
+
+        if(dimensionEntities.isEmpty())
+            return new ArrayList<>();
+
+        return dimensionEntities.stream().map(dimensionEntity -> mapperUtils.mapperToDimension().apply(dimensionEntity)).collect(Collectors.toList());
     }
 }

@@ -14,8 +14,10 @@ import com.uco.cig.domain.estado.cuentacliente.ports.EstadoCuentaClienteReposito
 import com.uco.cig.domain.estado.ports.EstadoRepository;
 import com.uco.cig.domain.persona.Persona;
 import com.uco.cig.domain.persona.ports.PersonaRepository;
+import com.uco.cig.domain.referencia.Referencia;
 import com.uco.cig.shared.dtos.ClienteCreacionDto;
-import com.uco.cig.shared.mapper.MapperUtils;
+import com.uco.cig.shared.dtos.ReferenciaCreacionDTO;
+import com.uco.cig.usecase.referencia.CrearReferenciaUseCase;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -36,14 +38,16 @@ public class CrearClienteUseCase {
     private final EstadoRepository estadoRepository;
     private final EstadoCuentaClienteRepository estadoCuentaClienteRepository;
     private final PersonaRepository personaRepository;
+    private final CrearReferenciaUseCase crearReferenciaUseCase;
 
-    public CrearClienteUseCase(ClienteRepository clienteRepository,BarrioRepository barrioRepository, EstadoRepository estadoRepository,
-                               EstadoCuentaClienteRepository estadoCuentaClienteRepository, PersonaRepository personaRepository) {
+    public CrearClienteUseCase(ClienteRepository clienteRepository, BarrioRepository barrioRepository, EstadoRepository estadoRepository,
+                               EstadoCuentaClienteRepository estadoCuentaClienteRepository, PersonaRepository personaRepository, CrearReferenciaUseCase crearReferenciaUseCase) {
         this.clienteRepository = clienteRepository;
         this.barrioRepository = barrioRepository;
         this.estadoRepository = estadoRepository;
         this.estadoCuentaClienteRepository = estadoCuentaClienteRepository;
         this.personaRepository = personaRepository;
+        this.crearReferenciaUseCase = crearReferenciaUseCase;
     }
 
     public Cliente crear(ClienteCreacionDto creacionDto) throws BusinessException {
@@ -76,7 +80,24 @@ public class CrearClienteUseCase {
                 estado.orElse(null)
         );
 
-        return clienteRepository.save(cliente);
+        cliente = clienteRepository.save(cliente);
+
+        ReferenciaCreacionDTO referenciaCreacionDTO1 = new ReferenciaCreacionDTO(
+                creacionDto.getReferencia1().getNombre(),
+                creacionDto.getReferencia1().getTelefono(),
+                creacionDto.getReferencia1().getIdParentesco()
+        );
+        Referencia referencia1 = crearReferenciaUseCase.crear(referenciaCreacionDTO1, cliente.getId());
+
+        ReferenciaCreacionDTO referenciaCreacionDTO2 = new ReferenciaCreacionDTO(
+                creacionDto.getReferencia2().getNombre(),
+                creacionDto.getReferencia2().getTelefono(),
+                creacionDto.getReferencia2().getIdParentesco()
+        );
+
+        Referencia referencia2 = crearReferenciaUseCase.crear(referenciaCreacionDTO2, cliente.getId());
+
+        return cliente;
     }
 
     private boolean yaExisteCliente(String identificacion) {

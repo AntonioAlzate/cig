@@ -25,6 +25,7 @@ import java.util.List;
 public class CalcularLiquidacionTrabajadorUseCase {
 
     private static final String LIQUIDACION_YA_REGISTRADA = "Ya existe una liquidación registrada para la fecha especificada";
+
     private final LiquidacionRepository liquidacionRepository;
     private final ListarCuotasCobradasTrabajadorUseCase cuotasCobradasTrabajadorUseCase;
     private final ListarVentasTrabajadorUseCase ventasTrabajadorUseCase;
@@ -76,7 +77,7 @@ public class CalcularLiquidacionTrabajadorUseCase {
 
             Boolean existe = existeLiquidacionParaFecha(liquidacionesTrabajadores, fechaRealizacion);
 
-            if(existe)
+            if(Boolean.TRUE.equals(existe))
                 throw new BadRequestException(LIQUIDACION_YA_REGISTRADA);
 
             Liquidacion liquidacion = Liquidacion.nuevo(
@@ -96,8 +97,8 @@ public class CalcularLiquidacionTrabajadorUseCase {
         if (liquidacionesTrabajadores.isEmpty())
             return false;
 
-        Integer diaRealizacion = fechaRealizacion.getDayOfYear();
-        Integer anioRealizacion = fechaRealizacion.getYear();
+        int diaRealizacion = fechaRealizacion.getDayOfYear();
+        int anioRealizacion = fechaRealizacion.getYear();
 
         for (Liquidacion liquidacion : liquidacionesTrabajadores) {
             if (liquidacion.getFecha().getDayOfYear() == diaRealizacion && liquidacion.getFecha().getYear() == anioRealizacion) {

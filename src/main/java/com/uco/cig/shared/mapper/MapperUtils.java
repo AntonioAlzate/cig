@@ -26,9 +26,11 @@ import com.uco.cig.domain.formapago.FormaPago;
 import com.uco.cig.domain.liquidacion.Liquidacion;
 import com.uco.cig.domain.modalidad.Modalidad;
 import com.uco.cig.domain.pais.Pais;
+import com.uco.cig.domain.parentesco.Parentesco;
 import com.uco.cig.domain.persona.Persona;
 import com.uco.cig.domain.precio.Precio;
 import com.uco.cig.domain.producto.Producto;
+import com.uco.cig.domain.referencia.Referencia;
 import com.uco.cig.domain.region.Region;
 import com.uco.cig.domain.tipocobro.TipoCobro;
 import com.uco.cig.domain.trabajador.Trabajador;
@@ -486,6 +488,26 @@ public class MapperUtils {
         };
     }
 
+    public Function<ParentescoEntity, Parentesco> mapperToParentesco() {
+        return entity -> new Parentesco(entity.getId(), entity.getNombre());
+    }
+
+    public Function<ReferenciaEntity, Referencia> mapperToReferencia() {
+        return entity -> {
+            try {
+                return Referencia.construir(
+                        entity.getId(),
+                        entity.getNombre(),
+                        entity.getTelefono(),
+                        mapperToCliente().apply(entity.getIdCliente()),
+                        mapperToParentesco().apply(entity.getIdParentesco())
+                );
+            } catch (BusinessException e) {
+                throw new RuntimeException(e);
+            }
+        };
+    }
+
     //endregion
 
     //region Domain To Entity
@@ -780,6 +802,23 @@ public class MapperUtils {
                 salidaCuentaFavor.getDescripcion(),
                 salidaCuentaFavor.getValor(),
                 mappertoDetalleCuentaFavorEntity().apply(salidaCuentaFavor.getDetalleCuentaFavor())
+        );
+    }
+
+    public Function<Parentesco, ParentescoEntity> mappertoParentescoEntity() {
+        return parentesco -> new ParentescoEntity(
+                parentesco.getId(),
+                parentesco.getNombre()
+        );
+    }
+
+    public Function<Referencia, ReferenciaEntity> mappertoReferenciaEntity() {
+        return referencia -> new ReferenciaEntity(
+                referencia.getId(),
+                referencia.getNombre(),
+                referencia.getTelefono(),
+                mappertoClienteEntity().apply(referencia.getCliente()),
+                mappertoParentescoEntity().apply(referencia.getParentesco())
         );
     }
     //endregion

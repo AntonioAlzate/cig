@@ -2,8 +2,11 @@ package com.uco.cig.infrastructure.entrypoint;
 
 import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.cliente.Cliente;
+import com.uco.cig.domain.referencia.Referencia;
 import com.uco.cig.shared.dtos.ClienteCreacionDto;
+import com.uco.cig.shared.dtos.ReferenciaCreacionDTO;
 import com.uco.cig.usecase.cliente.*;
+import com.uco.cig.usecase.referencia.CrearReferenciaUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,14 +24,16 @@ public class ClienteController {
     private final ObtenerClientePorIdentificacionUseCase obtenerClientePorIdentificacionUseCase;
     private final CambiarEstadoClienteUseCase cambiarEstadoClienteUseCase;
     private final ListarClientesZonaUseCase listarClientesZonaUseCase;
+    private final CrearReferenciaUseCase crearReferenciaUseCase;
 
-    public ClienteController(CrearClienteUseCase crearClienteUseCase, ActualizarClienteUseCase actualizarClienteUseCase, ListarClientesUseCase listarClientesUseCase, ObtenerClientePorIdentificacionUseCase obtenerClientePorIdentificacionUseCase, CambiarEstadoClienteUseCase cambiarEstadoClienteUseCase, ListarClientesZonaUseCase listarClientesZonaUseCase) {
+    public ClienteController(CrearClienteUseCase crearClienteUseCase, ActualizarClienteUseCase actualizarClienteUseCase, ListarClientesUseCase listarClientesUseCase, ObtenerClientePorIdentificacionUseCase obtenerClientePorIdentificacionUseCase, CambiarEstadoClienteUseCase cambiarEstadoClienteUseCase, ListarClientesZonaUseCase listarClientesZonaUseCase, CrearReferenciaUseCase crearReferenciaUseCase) {
         this.crearClienteUseCase = crearClienteUseCase;
         this.actualizarClienteUseCase = actualizarClienteUseCase;
         this.listarClientesUseCase = listarClientesUseCase;
         this.obtenerClientePorIdentificacionUseCase = obtenerClientePorIdentificacionUseCase;
         this.cambiarEstadoClienteUseCase = cambiarEstadoClienteUseCase;
         this.listarClientesZonaUseCase = listarClientesZonaUseCase;
+        this.crearReferenciaUseCase = crearReferenciaUseCase;
     }
 
     @GetMapping()
@@ -71,5 +76,12 @@ public class ClienteController {
         Cliente response = actualizarClienteUseCase.actualizar(creacionDto, id);
 
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/referencia/{idCliente}")
+    public ResponseEntity<Referencia> creacionCliente(@RequestBody ReferenciaCreacionDTO creacionDto, @PathVariable Integer idCliente) throws BusinessException {
+        Referencia response = crearReferenciaUseCase.crear(creacionDto, idCliente);
+        URI location = URI.create("cliente/" + response.getId());
+        return ResponseEntity.created(location).body(response);
     }
 }

@@ -15,4 +15,6 @@ public class ClienteCreacionDto implements Serializable {
     private final String telefono;
     private final String cupo;
     private final Integer idBarrio;
+    private final ReferenciaCreacionDTO referencia1;
+    private final ReferenciaCreacionDTO referencia2;
 }

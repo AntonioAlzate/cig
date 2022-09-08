@@ -7,7 +7,10 @@ import com.uco.cig.infrastructure.database.postgres.repositories.ParentescoEntit
 import com.uco.cig.shared.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ParentescoRepositoryAdapter implements ParentescoRespository {
@@ -29,5 +32,15 @@ public class ParentescoRepositoryAdapter implements ParentescoRespository {
             return Optional.empty();
 
         return Optional.of(mapperUtils.mapperToParentesco().apply(parentescoEntity.get()));
+    }
+
+    @Override
+    public List<Parentesco> findAll() {
+        List<ParentescoEntity> parentescoEntities = parentescoEntityRepository.findAll();
+
+        if(parentescoEntities.isEmpty())
+            return new ArrayList<>();
+
+        return parentescoEntities.stream().map(parentescoEntity -> mapperUtils.mapperToParentesco().apply(parentescoEntity)).collect(Collectors.toList());
     }
 }

@@ -83,16 +83,16 @@ public class CrearClienteUseCase {
         cliente = clienteRepository.save(cliente);
 
         ReferenciaCreacionDTO referenciaCreacionDTO1 = new ReferenciaCreacionDTO(
-                creacionDto.getReferencia1().getNombre(),
-                creacionDto.getReferencia1().getTelefono(),
-                creacionDto.getReferencia1().getIdParentesco()
+                creacionDto.getNombreReferencia1(),
+                creacionDto.getTelefonoReferencia1(),
+                creacionDto.getIdParentescoReferencia1()
         );
         Referencia referencia1 = crearReferenciaUseCase.crear(referenciaCreacionDTO1, cliente.getId());
 
         ReferenciaCreacionDTO referenciaCreacionDTO2 = new ReferenciaCreacionDTO(
-                creacionDto.getReferencia2().getNombre(),
-                creacionDto.getReferencia2().getTelefono(),
-                creacionDto.getReferencia2().getIdParentesco()
+                creacionDto.getNombreReferencia2(),
+                creacionDto.getTelefonoReferencia2(),
+                creacionDto.getIdParentescoReferencia2()
         );
 
         Referencia referencia2 = crearReferenciaUseCase.crear(referenciaCreacionDTO2, cliente.getId());

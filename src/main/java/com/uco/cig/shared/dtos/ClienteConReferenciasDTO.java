@@ -11,5 +11,5 @@ import java.util.List;
 @AllArgsConstructor
 public class ClienteConReferenciasDTO {
     private Cliente cliente;
-    private List<Referencia> referencias;
+    private List<ReferenciaDTO> referencias;
 }

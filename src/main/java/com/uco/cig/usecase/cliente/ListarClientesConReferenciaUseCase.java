@@ -3,11 +3,13 @@ package com.uco.cig.usecase.cliente;
 import com.uco.cig.domain.cliente.Cliente;
 import com.uco.cig.domain.referencia.Referencia;
 import com.uco.cig.shared.dtos.ClienteConReferenciasDTO;
+import com.uco.cig.shared.dtos.ReferenciaDTO;
 import com.uco.cig.usecase.referencia.ListarReferenciasDeClienteUseCase;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ListarClientesConReferenciaUseCase {
@@ -26,8 +28,9 @@ public class ListarClientesConReferenciaUseCase {
 
         for (Cliente cliente : clientes) {
             List<Referencia> referencias = listarReferenciasDeClienteUseCase.listar(cliente.getId());
-
-            clienteConReferencias.add(new ClienteConReferenciasDTO(cliente, referencias));
+            List<ReferenciaDTO> referenciaDTOS = referencias.stream().map(referencia ->
+                    new ReferenciaDTO(referencia.getNombre(), referencia.getTelefono(), referencia.getParentesco().getNombre())).collect(Collectors.toList());
+            clienteConReferencias.add(new ClienteConReferenciasDTO(cliente, referenciaDTOS));
         }
 
         return clienteConReferencias;

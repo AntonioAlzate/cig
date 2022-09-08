@@ -3,6 +3,7 @@ package com.uco.cig.infrastructure.entrypoint;
 import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.cliente.Cliente;
 import com.uco.cig.domain.referencia.Referencia;
+import com.uco.cig.shared.dtos.ClienteConReferenciasDTO;
 import com.uco.cig.shared.dtos.ClienteCreacionDto;
 import com.uco.cig.shared.dtos.ReferenciaCreacionDTO;
 import com.uco.cig.usecase.cliente.*;
@@ -25,8 +26,9 @@ public class ClienteController {
     private final CambiarEstadoClienteUseCase cambiarEstadoClienteUseCase;
     private final ListarClientesZonaUseCase listarClientesZonaUseCase;
     private final CrearReferenciaUseCase crearReferenciaUseCase;
+    private final ListarClientesConReferenciaUseCase listarClientesConReferenciaUseCase;
 
-    public ClienteController(CrearClienteUseCase crearClienteUseCase, ActualizarClienteUseCase actualizarClienteUseCase, ListarClientesUseCase listarClientesUseCase, ObtenerClientePorIdentificacionUseCase obtenerClientePorIdentificacionUseCase, CambiarEstadoClienteUseCase cambiarEstadoClienteUseCase, ListarClientesZonaUseCase listarClientesZonaUseCase, CrearReferenciaUseCase crearReferenciaUseCase) {
+    public ClienteController(CrearClienteUseCase crearClienteUseCase, ActualizarClienteUseCase actualizarClienteUseCase, ListarClientesUseCase listarClientesUseCase, ObtenerClientePorIdentificacionUseCase obtenerClientePorIdentificacionUseCase, CambiarEstadoClienteUseCase cambiarEstadoClienteUseCase, ListarClientesZonaUseCase listarClientesZonaUseCase, CrearReferenciaUseCase crearReferenciaUseCase, ListarClientesConReferenciaUseCase listarClientesConReferenciaUseCase) {
         this.crearClienteUseCase = crearClienteUseCase;
         this.actualizarClienteUseCase = actualizarClienteUseCase;
         this.listarClientesUseCase = listarClientesUseCase;
@@ -34,11 +36,19 @@ public class ClienteController {
         this.cambiarEstadoClienteUseCase = cambiarEstadoClienteUseCase;
         this.listarClientesZonaUseCase = listarClientesZonaUseCase;
         this.crearReferenciaUseCase = crearReferenciaUseCase;
+        this.listarClientesConReferenciaUseCase = listarClientesConReferenciaUseCase;
     }
 
     @GetMapping()
     public ResponseEntity<List<Cliente>> listar(){
         List<Cliente> response = listarClientesUseCase.listar();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/con-referencias")
+    public ResponseEntity<List<ClienteConReferenciasDTO>> listarConReferencia(){
+        List<ClienteConReferenciasDTO> response = listarClientesConReferenciaUseCase.listar();
 
         return ResponseEntity.ok(response);
     }

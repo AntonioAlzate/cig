@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class ActualizarClienteUseCase {
 
     private static final String CLIENTE_NO_ENCONTRADO = "El cliente que intenta actualizar no se ha encontrado";

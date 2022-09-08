@@ -20,7 +20,6 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 @Service
-@Transactional
 public class RealizarAbonoCuentaUseCase {
 
     private static final String ABONO_EXITOSO = "El abono fue exitoso";

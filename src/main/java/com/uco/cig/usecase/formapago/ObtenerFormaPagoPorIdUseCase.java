@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class ObtenerFormaPagoPorIdUseCase {
 
     private static final String FORMA_PAGO_NO_ENCONTRADA = "La Forma de pago especificada no ha sido encontrada";

@@ -10,7 +10,6 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 @Service
-@Transactional
 public class RegistrarEntradaCuentaFavorUseCase {
 
     private final EntradaCuentaFavorRepository entradaCuentaFavorRepository;

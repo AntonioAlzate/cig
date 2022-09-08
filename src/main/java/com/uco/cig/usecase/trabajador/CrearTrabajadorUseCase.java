@@ -19,7 +19,6 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class CrearTrabajadorUseCase {
 
     private static final String TRABAJADOR_YA_REGISTRADO = "El trabajador que desea ingresar ya se encuentra registrado";

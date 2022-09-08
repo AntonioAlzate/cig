@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class ObtenerParentescoPorIdUseCase {
 
     private static final String PARENTESCO_CON_ID_NO_ENCONTRADO = "El parentesco con id especificado no ha sido encontrado";

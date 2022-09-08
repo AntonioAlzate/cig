@@ -21,7 +21,6 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 @Service
-@Transactional
 public class CalcularLiquidacionTrabajadorUseCase {
 
     private static final String LIQUIDACION_YA_REGISTRADA = "Ya existe una liquidación registrada para la fecha especificada";

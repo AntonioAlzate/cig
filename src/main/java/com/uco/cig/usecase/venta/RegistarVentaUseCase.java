@@ -28,7 +28,6 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 @Service
-@Transactional
 public class RegistarVentaUseCase {
 
     private static final String VENTA_SIN_PRODUCTOS = "No se puede generar una venta sin ningun producto asociado";

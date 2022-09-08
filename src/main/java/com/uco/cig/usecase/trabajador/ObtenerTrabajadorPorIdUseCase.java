@@ -10,7 +10,6 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 @Service
-@Transactional
 public class ObtenerTrabajadorPorIdUseCase {
 
     private static final String TRABAJADOR_NO_ENCONTRADO = "El trabajador no ha sido encontrado";

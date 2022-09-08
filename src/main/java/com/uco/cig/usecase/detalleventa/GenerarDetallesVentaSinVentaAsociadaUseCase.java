@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 public class GenerarDetallesVentaSinVentaAsociadaUseCase {
 
     private static final String PRODUCTO_NO_ENCONTRADO = "Valide la existencia de los productos agregados en la venta en el sistema";

@@ -15,7 +15,6 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 @Service
-@Transactional
 public class CrearCuotaPagoContadoUseCase {
 
     private final CuotaRepository cuotaRepository;

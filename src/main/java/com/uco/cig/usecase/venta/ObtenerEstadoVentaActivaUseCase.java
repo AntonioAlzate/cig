@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class ObtenerEstadoVentaActivaUseCase {
 
     private static final String ESTADO_VENTA_NO_ENCONTRADO = "El estado de venta no ha sido encontrado";

@@ -10,7 +10,6 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class CambiarEstadoTrabajadorUseCase {
 
     private static final String ACTIVO = EstadoEnum.ACTIVO.name();

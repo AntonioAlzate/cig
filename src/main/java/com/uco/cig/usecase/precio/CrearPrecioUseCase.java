@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class CrearPrecioUseCase {
 
     private static final String FECHA_INICIO_ILEGAL = "Ya existe un precio configurado para la fecha especificada";

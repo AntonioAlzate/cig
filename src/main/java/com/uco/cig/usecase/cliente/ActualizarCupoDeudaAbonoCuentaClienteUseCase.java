@@ -12,7 +12,6 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 @Service
-@Transactional
 public class ActualizarCupoDeudaAbonoCuentaClienteUseCase {
 
     private static final String ENTRADA_DESCRIPCION = "Entrada automatica ya que abono generado supera a la deuda del cliente";

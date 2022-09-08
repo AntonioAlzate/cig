@@ -25,7 +25,6 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class CrearClienteUseCase {
 
     private static final String BARRIO_NO_ENCONTRADO = "El Barrio especificado no ha sido encontrado, asegurese de que se encuentre registrado";

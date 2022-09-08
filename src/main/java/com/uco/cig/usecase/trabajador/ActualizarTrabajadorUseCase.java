@@ -15,7 +15,6 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class ActualizarTrabajadorUseCase {
 
     private static final String TRABAJADOR_NO_ENCONTRADO = "El trabajador que intenta actualizar no se ha encontrado";

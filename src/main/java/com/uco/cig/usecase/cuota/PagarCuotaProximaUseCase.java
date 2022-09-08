@@ -20,7 +20,6 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class PagarCuotaProximaUseCase {
 
     private static final String NO_REGISTRA_CUOTAS = "La venta consultada no presenta cuotas pendientes";

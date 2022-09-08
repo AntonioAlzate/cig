@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class ObtenerClientePorIdUseCase {
 
     private static final String CLIENTE_NO_ENCONTRADO = "El cliente buscado no ha sido encontrado";

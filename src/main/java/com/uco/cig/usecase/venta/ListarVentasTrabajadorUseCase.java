@@ -9,7 +9,6 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 @Service
-@Transactional
 public class ListarVentasTrabajadorUseCase {
 
     private final VentaRepository ventaRepository;

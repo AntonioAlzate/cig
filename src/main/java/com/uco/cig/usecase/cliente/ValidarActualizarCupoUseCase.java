@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 @Service
-@Transactional
 public class ValidarActualizarCupoUseCase {
 
     private static final String CUPO_INSUFICIENTE = "El cupo del cliente es menor al valor de la venta";

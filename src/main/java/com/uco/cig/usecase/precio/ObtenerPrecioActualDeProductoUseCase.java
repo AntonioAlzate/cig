@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class ObtenerPrecioActualDeProductoUseCase {
 
     private static final String PRECIO_NO_CONFIGURADO = "No se encontró un precio vigente para el producto especificado";

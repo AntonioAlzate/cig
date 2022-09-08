@@ -25,7 +25,6 @@ import java.util.Locale;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class CrearProductoUseCase {
 
     private static final String CATEGORIA_PRODUCTO_INEXISTENTE = "La categoría enviada no existe en el sistema";

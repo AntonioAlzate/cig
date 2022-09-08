@@ -11,7 +11,6 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class CambiarEstadoCuentaClienteUseCase {
 
     private static final String AL_DIA = EstadoCuentaClienteEnum.AL_DIA.name();

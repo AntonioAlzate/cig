@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class ObtenerModalidadPorIdUseCase {
 
     private static final String MODALIDAD_NO_ENCONTRADA = "La Modalidad de pago no ha sido encontrada";

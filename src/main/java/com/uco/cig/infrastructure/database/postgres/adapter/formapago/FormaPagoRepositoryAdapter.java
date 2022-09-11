@@ -7,7 +7,10 @@ import com.uco.cig.infrastructure.database.postgres.repositories.FormaPagoEntity
 import com.uco.cig.shared.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FormaPagoRepositoryAdapter implements FormaPagoRepository {
@@ -28,5 +31,15 @@ public class FormaPagoRepositoryAdapter implements FormaPagoRepository {
             return Optional.empty();
 
         return Optional.of(mapperUtils.mapperToFormaPago().apply(formaPagoEntity.get()));
+    }
+
+    @Override
+    public List<FormaPago> findAll() {
+        List<FormaPagoEntity> formaPagoEntities = formaPagoEntityRepository.findAll();
+
+        if(formaPagoEntities.isEmpty())
+            return new ArrayList<>();
+
+        return formaPagoEntities.stream().map(formaPagoEntity -> mapperUtils.mapperToFormaPago().apply(formaPagoEntity)).collect(Collectors.toList());
     }
 }

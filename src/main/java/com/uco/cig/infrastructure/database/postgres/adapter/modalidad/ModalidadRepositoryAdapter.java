@@ -7,7 +7,10 @@ import com.uco.cig.infrastructure.database.postgres.repositories.ModalidadEntity
 import com.uco.cig.shared.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ModalidadRepositoryAdapter implements ModalidadRepository {
@@ -38,5 +41,15 @@ public class ModalidadRepositoryAdapter implements ModalidadRepository {
             return Optional.empty();
 
         return Optional.of(mapperUtils.mapperToModalidad().apply(modalidadEntity.get()));
+    }
+
+    @Override
+    public List<Modalidad> findAll() {
+        List<ModalidadEntity> modalidadEntities = modalidadEntityRepository.findAll();
+
+        if(modalidadEntities.isEmpty())
+            return new ArrayList<>();
+
+        return modalidadEntities.stream().map(modalidadEntity -> mapperUtils.mapperToModalidad().apply(modalidadEntity)).collect(Collectors.toList());
     }
 }

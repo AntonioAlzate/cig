@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 
-@PreAuthorize("hasAuthority('read:cig-admin')")
+@PreAuthorize("hasAuthority('SCOPE_read:cig-admin')")
 @RestController
 @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
 @RequestMapping("/api/v1/trabajadores")

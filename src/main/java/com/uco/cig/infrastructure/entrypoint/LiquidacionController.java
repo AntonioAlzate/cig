@@ -35,7 +35,7 @@ public class LiquidacionController {
         return ResponseEntity.ok(response);
     }
 
-    @PreAuthorize("hasAuthority('read:cig-admin')")
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-admin')")
     @GetMapping("/calcular-valores")
     public ResponseEntity<DatosLiquidacionDTO> obtenerDatos(@RequestBody DatosLiquidacionObtenerDTO datosLiquidacionObtenerDTO) throws BusinessException {
         OffsetDateTime fechaRealizacion = OffsetDateTime.of(datosLiquidacionObtenerDTO.getFechaRealizacion(), LocalTime.MIDNIGHT, ZoneOffset.UTC);

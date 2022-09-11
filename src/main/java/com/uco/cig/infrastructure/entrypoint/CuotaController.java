@@ -28,7 +28,7 @@ public class CuotaController {
         this.realizarAbonoCuentaUseCase = realizarAbonoCuentaUseCase;
     }
 
-    @PreAuthorize("hasAuthority('read:cig-cobrador')")
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping
     public ResponseEntity<List<Cuota>> listar(){
         List<Cuota> cuotas = listarCuotasUseCase.listar();
@@ -36,7 +36,7 @@ public class CuotaController {
         return ResponseEntity.ok(cuotas);
     }
 
-    @PreAuthorize("hasAuthority('read:cig-cobrador')")
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping("/pago-cuota")
     public ResponseEntity<Cuota> pagarCuotaProxima(@RequestBody CuotaPagoDTO cuotaPagoDTO) throws BusinessException {
         Cuota result = pagarCuotaProximaUseCase.pagar(cuotaPagoDTO);
@@ -44,7 +44,7 @@ public class CuotaController {
         return ResponseEntity.ok(result);
     }
 
-    @PreAuthorize("hasAuthority('read:cig-cobrador')")
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping("/abono-cuenta")
     public ResponseEntity<String> realizarAbonoCuenta(@RequestBody AbonoPagoDTO abonoPagoDTO) throws BusinessException {
         String result = realizarAbonoCuentaUseCase.abonar(abonoPagoDTO);

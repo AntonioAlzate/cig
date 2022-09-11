@@ -32,7 +32,7 @@ public class VentaController {
         return ResponseEntity.ok(response);
     }
 
-    @PreAuthorize("hasAuthority('read:cig-vendedor')")
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor')")
     @PostMapping("/crear")
     public ResponseEntity<Venta> realizarVenta(@RequestBody CreacionVentaDTO creacionVentaDTO) throws BusinessException {
         Venta venta = registarVentaUseCase.realizarVenta(creacionVentaDTO);

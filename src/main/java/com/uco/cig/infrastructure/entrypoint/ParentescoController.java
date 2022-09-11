@@ -19,7 +19,7 @@ public class ParentescoController {
         this.listarParentescosUseCase = listarParentescosUseCase;
     }
 
-    @PreAuthorize("hasAuthority('read:cig-vendedor') OR hasAuthority('read:cig-cobrador')")
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping
     public ResponseEntity<List<Parentesco>> listar() {
         List<Parentesco> parentescos = listarParentescosUseCase.listar();

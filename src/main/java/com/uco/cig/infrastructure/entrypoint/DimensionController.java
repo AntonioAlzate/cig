@@ -20,7 +20,7 @@ public class DimensionController {
         this.listarDimensionesUseCase = listarDimensionesUseCase;
     }
 
-    @PreAuthorize("hasAuthority('read:cig-vendedor') OR hasAuthority('read:cig-cobrador')")
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping
     public ResponseEntity<List<Dimension>> listar() {
         List<Dimension> dimensiones = listarDimensionesUseCase.listar();

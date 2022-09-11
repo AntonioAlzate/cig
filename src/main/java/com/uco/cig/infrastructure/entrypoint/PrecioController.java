@@ -24,7 +24,7 @@ public class PrecioController {
         this.crearPrecioUseCase = crearPrecioUseCase;
     }
 
-    @PreAuthorize("hasAuthority('read:cig-vendedor') OR hasAuthority('read:cig-cobrador')")
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping("/producto/{idProducto}/modalidad/{idModalidad}")
     public ResponseEntity<Precio> obtenerPrecioProducto(@PathVariable Integer idProducto, @PathVariable Integer idModalidad){
         Precio precio = obtenerPrecioActualDeProductoUseCase.obtener(idProducto, idModalidad);
@@ -32,7 +32,7 @@ public class PrecioController {
         return ResponseEntity.ok(precio);
     }
 
-    @PreAuthorize("hasAuthority('read:cig-admin')")
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-admin')")
     @PostMapping("/crear")
     public ResponseEntity<Precio> crearPrecio(@RequestBody PrecioCreacionDTO precioCreacionDTO) throws BusinessException {
         Precio precio = crearPrecioUseCase.crear(precioCreacionDTO);

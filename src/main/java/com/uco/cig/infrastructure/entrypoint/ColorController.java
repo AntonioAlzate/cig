@@ -20,7 +20,7 @@ public class ColorController {
         this.listarColoresUseCase = listarColoresUseCase;
     }
 
-    @PreAuthorize("hasAuthority('read:cig-vendedor') OR hasAuthority('read:cig-cobrador')")
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping
     public ResponseEntity<List<Color>> listar(){
         List<Color> colores = listarColoresUseCase.listar();

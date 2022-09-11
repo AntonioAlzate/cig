@@ -20,7 +20,7 @@ public class DespachoController {
         this.obtenerRegistrosConDetallesUseCase = obtenerRegistrosConDetallesUseCase;
     }
 
-    @PreAuthorize("hasAuthority('read:cig-vendedor') OR hasAuthority('read:cig-cobrador')")
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping
     public ResponseEntity<List<RegistroDespacho>> listar(){
         List<RegistroDespacho> registros = obtenerRegistrosConDetallesUseCase.registrosConDetalles();

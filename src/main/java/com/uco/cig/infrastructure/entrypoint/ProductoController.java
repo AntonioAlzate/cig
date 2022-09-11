@@ -28,7 +28,7 @@ public class ProductoController {
         this.consultarProductosConPaginacionUseCase = consultarProductosConPaginacionUseCase;
     }
 
-    @PreAuthorize("hasAuthority('read:cig-vendedor') OR hasAuthority('read:cig-cobrador')")
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping()
     public ResponseEntity<List<Producto>> listar() {
         List<Producto> productos = listarProductosUseCase.listar();
@@ -36,7 +36,7 @@ public class ProductoController {
         return ResponseEntity.ok(productos);
     }
 
-    @PreAuthorize("hasAuthority('read:cig-vendedor') OR hasAuthority('read:cig-cobrador')")
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping("/page")
     public ResponseEntity<List<Producto>> listarPage(
             @RequestParam(defaultValue = "0") int page,
@@ -50,7 +50,7 @@ public class ProductoController {
         return ResponseEntity.ok(productos);
     }
 
-    @PreAuthorize("hasAuthority('read:cig-admin')")
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-admin')")
     @PostMapping("/producto")
     public ResponseEntity<Producto> creacionProducto(@RequestBody ProductoCreacionDto productoCreacionDto) throws BusinessException {
         Producto response = crearProductoUseCase.crearProducto(productoCreacionDto);

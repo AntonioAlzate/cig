@@ -6,6 +6,7 @@ import com.uco.cig.shared.dtos.PrecioCreacionDTO;
 import com.uco.cig.usecase.precio.CrearPrecioUseCase;
 import com.uco.cig.usecase.precio.ObtenerPrecioActualDeProductoUseCase;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -23,6 +24,7 @@ public class PrecioController {
         this.crearPrecioUseCase = crearPrecioUseCase;
     }
 
+    @PreAuthorize("hasAuthority('read:cig-vendedor') OR hasAuthority('read:cig-cobrador')")
     @GetMapping("/producto/{idProducto}/modalidad/{idModalidad}")
     public ResponseEntity<Precio> obtenerPrecioProducto(@PathVariable Integer idProducto, @PathVariable Integer idModalidad){
         Precio precio = obtenerPrecioActualDeProductoUseCase.obtener(idProducto, idModalidad);
@@ -30,6 +32,7 @@ public class PrecioController {
         return ResponseEntity.ok(precio);
     }
 
+    @PreAuthorize("hasAuthority('read:cig-admin')")
     @PostMapping("/crear")
     public ResponseEntity<Precio> crearPrecio(@RequestBody PrecioCreacionDTO precioCreacionDTO) throws BusinessException {
         Precio precio = crearPrecioUseCase.crear(precioCreacionDTO);

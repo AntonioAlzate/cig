@@ -6,6 +6,7 @@ import com.uco.cig.shared.dtos.CreacionVentaDTO;
 import com.uco.cig.usecase.venta.ListarVentasUseCase;
 import com.uco.cig.usecase.venta.RegistarVentaUseCase;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -31,6 +32,7 @@ public class VentaController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAuthority('read:cig-vendedor')")
     @PostMapping("/crear")
     public ResponseEntity<Venta> realizarVenta(@RequestBody CreacionVentaDTO creacionVentaDTO) throws BusinessException {
         Venta venta = registarVentaUseCase.realizarVenta(creacionVentaDTO);

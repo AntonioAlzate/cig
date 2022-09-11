@@ -4,6 +4,7 @@ import com.uco.cig.domain.cuota.Cuota;
 import com.uco.cig.domain.despacho.registro.RegistroDespacho;
 import com.uco.cig.usecase.despacho.ObtenerRegistrosConDetallesUseCase;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class DespachoController {
         this.obtenerRegistrosConDetallesUseCase = obtenerRegistrosConDetallesUseCase;
     }
 
+    @PreAuthorize("hasAuthority('read:cig-vendedor') OR hasAuthority('read:cig-cobrador')")
     @GetMapping
     public ResponseEntity<List<RegistroDespacho>> listar(){
         List<RegistroDespacho> registros = obtenerRegistrosConDetallesUseCase.registrosConDetalles();

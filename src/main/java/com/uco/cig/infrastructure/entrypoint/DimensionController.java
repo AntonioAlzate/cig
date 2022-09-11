@@ -3,6 +3,7 @@ package com.uco.cig.infrastructure.entrypoint;
 import com.uco.cig.domain.dimension.Dimension;
 import com.uco.cig.usecase.producto.dimesion.ListarDimensionesUseCase;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class DimensionController {
         this.listarDimensionesUseCase = listarDimensionesUseCase;
     }
 
+    @PreAuthorize("hasAuthority('read:cig-vendedor') OR hasAuthority('read:cig-cobrador')")
     @GetMapping
     public ResponseEntity<List<Dimension>> listar() {
         List<Dimension> dimensiones = listarDimensionesUseCase.listar();

@@ -5,11 +5,13 @@ import com.uco.cig.domain.ciudad.Ciudad;
 import com.uco.cig.domain.departamento.Departamento;
 import com.uco.cig.domain.pais.Pais;
 import com.uco.cig.domain.region.Region;
+import com.uco.cig.domain.zona.Zona;
 import com.uco.cig.usecase.barrio.ListarBarriosCiudadUseCase;
 import com.uco.cig.usecase.ciudad.ListarCiudadesUseCase;
 import com.uco.cig.usecase.departamento.ListarDepartamentosUseCase;
 import com.uco.cig.usecase.pais.ListarPaisesUseCase;
 import com.uco.cig.usecase.region.ListarRegionesUseCase;
+import com.uco.cig.usecase.zona.ListarZonasCiudadUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,13 +27,15 @@ public class RutaController {
     private final ListarRegionesUseCase listarRegionesUseCase;
     private final ListarCiudadesUseCase listarCiudadesUseCase;
     private final ListarBarriosCiudadUseCase listarBarriosCiudadUseCase;
+    private final ListarZonasCiudadUseCase listarZonasCiudadUseCase;
 
-    public RutaController(ListarPaisesUseCase listarPaisesUseCase, ListarDepartamentosUseCase listarDepartamentosUseCase, ListarRegionesUseCase listarRegionesUseCase, ListarCiudadesUseCase listarCiudadesUseCase, ListarBarriosCiudadUseCase listarBarriosCiudadUseCase) {
+    public RutaController(ListarPaisesUseCase listarPaisesUseCase, ListarDepartamentosUseCase listarDepartamentosUseCase, ListarRegionesUseCase listarRegionesUseCase, ListarCiudadesUseCase listarCiudadesUseCase, ListarBarriosCiudadUseCase listarBarriosCiudadUseCase, ListarZonasCiudadUseCase listarZonasCiudadUseCase) {
         this.listarPaisesUseCase = listarPaisesUseCase;
         this.listarDepartamentosUseCase = listarDepartamentosUseCase;
         this.listarRegionesUseCase = listarRegionesUseCase;
         this.listarCiudadesUseCase = listarCiudadesUseCase;
         this.listarBarriosCiudadUseCase = listarBarriosCiudadUseCase;
+        this.listarZonasCiudadUseCase = listarZonasCiudadUseCase;
     }
 
     @GetMapping("/paises")
@@ -69,5 +73,10 @@ public class RutaController {
         return ResponseEntity.ok(barrios);
     }
 
+    @GetMapping("/zonas/{idCiudad}")
+    public ResponseEntity<List<Zona>> listarZonas(@PathVariable Integer idCiudad){
+        List<Zona> barrios = listarZonasCiudadUseCase.listar(idCiudad);
 
+        return ResponseEntity.ok(barrios);
+    }
 }

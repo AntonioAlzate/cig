@@ -7,6 +7,7 @@ import com.uco.cig.shared.dtos.DatosLiquidacionObtenerDTO;
 import com.uco.cig.usecase.liquidacion.CalcularLiquidacionTrabajadorUseCase;
 import com.uco.cig.usecase.liquidacion.ListarLiquidacionesUseCase;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalTime;
@@ -34,6 +35,7 @@ public class LiquidacionController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-admin')")
     @GetMapping("/calcular-valores")
     public ResponseEntity<DatosLiquidacionDTO> obtenerDatos(@RequestBody DatosLiquidacionObtenerDTO datosLiquidacionObtenerDTO) throws BusinessException {
         OffsetDateTime fechaRealizacion = OffsetDateTime.of(datosLiquidacionObtenerDTO.getFechaRealizacion(), LocalTime.MIDNIGHT, ZoneOffset.UTC);

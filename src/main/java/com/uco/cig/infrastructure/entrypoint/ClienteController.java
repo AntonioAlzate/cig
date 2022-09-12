@@ -9,6 +9,7 @@ import com.uco.cig.shared.dtos.ReferenciaCreacionDTO;
 import com.uco.cig.usecase.cliente.*;
 import com.uco.cig.usecase.referencia.CrearReferenciaUseCase;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -39,6 +40,7 @@ public class ClienteController {
         this.listarClientesConReferenciaUseCase = listarClientesConReferenciaUseCase;
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping()
     public ResponseEntity<List<Cliente>> listar(){
         List<Cliente> response = listarClientesUseCase.listar();
@@ -46,6 +48,7 @@ public class ClienteController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping("/con-referencias")
     public ResponseEntity<List<ClienteConReferenciasDTO>> listarConReferencia(){
         List<ClienteConReferenciasDTO> response = listarClientesConReferenciaUseCase.listar();
@@ -53,6 +56,7 @@ public class ClienteController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping("/cliente")
     public ResponseEntity<Cliente> obtenerPorIdentificacion(@RequestParam("identificacion") String identificacion){
         Cliente response = obtenerClientePorIdentificacionUseCase.obtener(identificacion);
@@ -60,6 +64,7 @@ public class ClienteController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping("/zona/{idZona}")
     public ResponseEntity<List<Cliente>> obtenerClientesPorZona(@PathVariable Integer idZona){
         List<Cliente> response = listarClientesZonaUseCase.listar(idZona);
@@ -67,6 +72,7 @@ public class ClienteController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @PostMapping("/cliente")
     public ResponseEntity<Cliente> creacionCliente(@RequestBody ClienteCreacionDto creacionDto) throws BusinessException {
         Cliente response = crearClienteUseCase.crear(creacionDto);
@@ -74,6 +80,7 @@ public class ClienteController {
         return ResponseEntity.created(location).body(response);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-admin')")
     @PutMapping("/cliente/{idCliente}/cambiar-estado")
     public ResponseEntity<Cliente> cambiarEstado(@PathVariable Integer idCliente){
         Cliente response = cambiarEstadoClienteUseCase.cambiarEstado(idCliente);
@@ -81,6 +88,7 @@ public class ClienteController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @PutMapping("/cliente/{id}")
     public ResponseEntity<Cliente> actualizarCliente(@RequestBody ClienteCreacionDto creacionDto, @PathVariable Integer id) throws BusinessException {
         Cliente response = actualizarClienteUseCase.actualizar(creacionDto, id);
@@ -88,6 +96,7 @@ public class ClienteController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @PostMapping("/referencia/{idCliente}")
     public ResponseEntity<Referencia> creacionCliente(@RequestBody ReferenciaCreacionDTO creacionDto, @PathVariable Integer idCliente) throws BusinessException {
         Referencia response = crearReferenciaUseCase.crear(creacionDto, idCliente);

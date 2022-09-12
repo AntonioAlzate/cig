@@ -7,6 +7,7 @@ import com.uco.cig.usecase.producto.ConsultarProductosConPaginacionUseCase;
 import com.uco.cig.usecase.producto.CrearProductoUseCase;
 import com.uco.cig.usecase.producto.ListarProductosUseCase;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -27,6 +28,7 @@ public class ProductoController {
         this.consultarProductosConPaginacionUseCase = consultarProductosConPaginacionUseCase;
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping()
     public ResponseEntity<List<Producto>> listar() {
         List<Producto> productos = listarProductosUseCase.listar();
@@ -34,6 +36,7 @@ public class ProductoController {
         return ResponseEntity.ok(productos);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping("/page")
     public ResponseEntity<List<Producto>> listarPage(
             @RequestParam(defaultValue = "0") int page,
@@ -47,6 +50,7 @@ public class ProductoController {
         return ResponseEntity.ok(productos);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-admin')")
     @PostMapping("/producto")
     public ResponseEntity<Producto> creacionProducto(@RequestBody ProductoCreacionDto productoCreacionDto) throws BusinessException {
         Producto response = crearProductoUseCase.crearProducto(productoCreacionDto);

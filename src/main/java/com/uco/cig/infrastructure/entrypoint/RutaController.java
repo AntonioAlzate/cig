@@ -16,11 +16,13 @@ import com.uco.cig.usecase.region.ListarRegionesUseCase;
 import com.uco.cig.usecase.zona.CrearRutaZonaUseCase;
 import com.uco.cig.usecase.zona.ListarZonasCiudadUseCase;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
 
+@PreAuthorize("hasAuthority('SCOPE_read:cig-admin')")
 @RestController
 @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
 @RequestMapping("/api/v1/rutas")
@@ -92,4 +94,5 @@ public class RutaController {
 
         return ResponseEntity.ok(barrios);
     }
+
 }

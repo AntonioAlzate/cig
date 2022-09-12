@@ -3,6 +3,7 @@ package com.uco.cig.infrastructure.entrypoint;
 import com.uco.cig.domain.parentesco.Parentesco;
 import com.uco.cig.usecase.parentesco.ListarParentescosUseCase;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class ParentescoController {
         this.listarParentescosUseCase = listarParentescosUseCase;
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping
     public ResponseEntity<List<Parentesco>> listar() {
         List<Parentesco> parentescos = listarParentescosUseCase.listar();

@@ -18,4 +18,11 @@ public class ZonaHelper {
                 )
         );
     }
+    public static Zona crearZona(Ciudad ciudad) throws BusinessException {
+        return Zona.construir(
+                GeneralHelper.obtenerEnteroAleatorio(),
+                UUID.randomUUID().toString(),
+                ciudad
+        );
+    }
 }

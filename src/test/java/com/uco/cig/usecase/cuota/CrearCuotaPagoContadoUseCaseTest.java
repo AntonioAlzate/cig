@@ -1,0 +1,68 @@
+package com.uco.cig.usecase.cuota;
+
+import com.uco.cig.domain.businessexception.BusinessException;
+import com.uco.cig.domain.cuota.Cuota;
+import com.uco.cig.domain.cuota.ports.CuotaRepository;
+import com.uco.cig.domain.estado.cuota.EstadoCuota;
+import com.uco.cig.domain.tipocobro.TipoCobro;
+import com.uco.cig.domain.trabajador.Trabajador;
+import com.uco.cig.domain.venta.Venta;
+import com.uco.cig.generate.CuotasHelper;
+import com.uco.cig.generate.GeneralHelper;
+import com.uco.cig.generate.TrabajadorHelper;
+import com.uco.cig.generate.VentaHelper;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+
+import static org.mockito.Mockito.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class CrearCuotaPagoContadoUseCaseTest {
+
+    CuotaRepository cuotaRepository;
+
+    CrearCuotaPagoContadoUseCase crearCuotaPagoContadoUseCase;
+
+    @BeforeEach
+    public void setup(){
+        cuotaRepository = mock(CuotaRepository.class);
+        crearCuotaPagoContadoUseCase = new CrearCuotaPagoContadoUseCase(cuotaRepository);
+    }
+
+    @Test
+    public void crearCuotaPagoContadoTest() throws BusinessException {
+        BigDecimal valorTotalCompra = GeneralHelper.obtenerValorBigDecimalAleatorio();
+        Venta venta = VentaHelper.crearVenta();
+        Trabajador trabajador = TrabajadorHelper.crearTrabajador();
+
+        TipoCobro tipoCobroNormal = TipoCobro.Construir(2, "NORMAL");
+        EstadoCuota estadoCuotaCancelada = new EstadoCuota(2, "CANCELADA");
+
+        LocalDate fechaActual = LocalDate.now();
+
+        // CreacionCuotaInicial
+        Cuota cuota = Cuota.nueva(
+                valorTotalCompra,
+                BigDecimal.ZERO,
+                fechaActual,
+                OffsetDateTime.now(),
+                venta,
+                trabajador,
+                tipoCobroNormal,
+                estadoCuotaCancelada
+        );
+
+        when(cuotaRepository.save(any())).thenReturn(cuota);
+
+        crearCuotaPagoContadoUseCase.generar(valorTotalCompra,venta,trabajador);
+
+        Mockito.verify(cuotaRepository).save(any());
+    }
+
+}

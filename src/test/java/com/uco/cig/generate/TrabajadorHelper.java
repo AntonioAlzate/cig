@@ -13,4 +13,11 @@ public class TrabajadorHelper {
             EstadoHelper.crearEstado()
         );
     }
+    public static Trabajador crearTrabajador(String IdPersona) throws BusinessException {
+        return Trabajador.construir(
+                GeneralHelper.obtenerEnteroAleatorio(),
+                PersonaHelper.crearNueva(),
+                EstadoHelper.crearEstado()
+        );
+    }
 }

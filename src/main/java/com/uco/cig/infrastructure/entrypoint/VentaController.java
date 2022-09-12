@@ -35,6 +35,7 @@ public class VentaController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping("/cliente/{idCliente}")
     public ResponseEntity<List<Venta>> listarVentasCliente(@PathVariable Integer idCliente) {
         List<Venta> response = listarVentasClienteUseCase.listar(idCliente);

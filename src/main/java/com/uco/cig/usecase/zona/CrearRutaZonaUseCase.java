@@ -23,6 +23,8 @@ import java.util.Optional;
 @Service
 public class CrearRutaZonaUseCase {
 
+    private static final String RUTA_YA_EXISTENTE = "Ya existe una ruta para está ciudad con el mismo nombre";
+
     private final ZonaRepository zonaRepository;
     private final ListarPaisesUseCase listarPaisesUseCase;
     private final CrearPaisUseCase crearPaisUseCase;
@@ -59,17 +61,17 @@ public class CrearRutaZonaUseCase {
 
         Optional<Zona> zona = listarZonasCiudadUseCase.listar(ciudadRuta.getId()).stream().filter(z -> z.getNombre().equals(creacionDTO.getNombreZona())).findFirst();
 
-        if(zona.isEmpty())
-            return zonaRepository.save(creacionDTO.getNombreZona(), ciudadRuta);
+        if (zona.isPresent())
+            throw new BusinessException(RUTA_YA_EXISTENTE);
 
-        return zona.get();
+        return zonaRepository.save(creacionDTO.getNombreZona(), ciudadRuta);
     }
 
     private Ciudad traerOCrearCiudad(Integer idCiudad, String nombreCiudad, Region regionRuta) throws BusinessException {
 
         Optional<Ciudad> ciudadRuta = listarCiudadesUseCase.listar(regionRuta.getId()).stream().filter(ciudad -> ciudad.getId().equals(idCiudad)).findFirst();
 
-        if(ciudadRuta.isEmpty())
+        if (ciudadRuta.isEmpty())
             return crearCiudadUseCase.crear(nombreCiudad, regionRuta);
 
         return ciudadRuta.get();
@@ -79,7 +81,7 @@ public class CrearRutaZonaUseCase {
 
         Optional<Region> regionRuta = listarRegionesUseCase.listar(departamentoRuta.getId()).stream().filter(region -> region.getId().equals(idRegion)).findFirst();
 
-        if(regionRuta.isEmpty())
+        if (regionRuta.isEmpty())
             return crearRegionUseCase.crear(nombreRegion, departamentoRuta);
 
         return regionRuta.get();
@@ -88,7 +90,7 @@ public class CrearRutaZonaUseCase {
     private Departamento traerOCrearDepartamento(Integer idDepartamento, String nombreDepartamento, Pais pais) throws BusinessException {
         Optional<Departamento> departamentoRuta = listarDepartamentosUseCase.listar(pais.getId()).stream().filter(departamento -> departamento.getId().equals(idDepartamento)).findFirst();
 
-        if(departamentoRuta.isEmpty())
+        if (departamentoRuta.isEmpty())
             return crearDepartamentoUseCase.crear(nombreDepartamento, pais);
 
         return departamentoRuta.get();
@@ -97,7 +99,7 @@ public class CrearRutaZonaUseCase {
     private Pais traerOCrearPais(Integer idPais, String nombrePais) throws BusinessException {
         Optional<Pais> paisRuta = listarPaisesUseCase.listar().stream().filter(pais -> pais.getId().equals(idPais)).findFirst();
 
-        if(paisRuta.isEmpty())
+        if (paisRuta.isEmpty())
             return crearPaisUseCase.crear(nombrePais);
 
         return paisRuta.get();

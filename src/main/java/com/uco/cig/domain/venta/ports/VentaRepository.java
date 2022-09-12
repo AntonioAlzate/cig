@@ -10,4 +10,6 @@ public interface VentaRepository {
     List<Venta> findAll();
     Venta save(Venta venta);
     List<Venta> findAllByIdTrabajadorAndFechaRealizacion(Integer idTrabajador, OffsetDateTime fechaRealizacion);
+
+    List<Venta> findAllByIdCliente(Integer idCliente);
 }

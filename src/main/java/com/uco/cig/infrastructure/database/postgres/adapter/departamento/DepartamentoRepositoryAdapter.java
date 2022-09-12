@@ -1,8 +1,10 @@
 package com.uco.cig.infrastructure.database.postgres.adapter.departamento;
 
+import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.businessexception.general.NotFoundException;
 import com.uco.cig.domain.departamento.Departamento;
 import com.uco.cig.domain.departamento.ports.DepartamentoRepository;
+import com.uco.cig.domain.pais.Pais;
 import com.uco.cig.infrastructure.database.postgres.entities.DepartamentoEntity;
 import com.uco.cig.infrastructure.database.postgres.entities.PaisEntity;
 import com.uco.cig.infrastructure.database.postgres.repositories.DepartamentoEntityRepository;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 public class DepartamentoRepositoryAdapter implements DepartamentoRepository {
 
     private static final String PAIS_NO_ENCONTRADO = "El país no ha sido encontrado en el sistema";
+    private static final String DEPARTAMENTO_YA_CREADO = "Ya existe un departamento con el mismo nombre en el sistema";
 
     private final DepartamentoEntityRepository departamentoEntityRepository;
     private final PaisEntityRepository paisEntityRepository;
@@ -43,5 +46,18 @@ public class DepartamentoRepositoryAdapter implements DepartamentoRepository {
             return new ArrayList<>();
 
         return departamentoEntities.stream().map(departamentoEntity -> mapperUtils.mapperToDepartamento().apply(departamentoEntity)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Departamento save(Departamento departamento) throws BusinessException {
+        Optional<DepartamentoEntity> departamentoEntity = departamentoEntityRepository.findByNombre(departamento.getNombre());
+
+        if(departamentoEntity.isPresent())
+            throw new BusinessException(DEPARTAMENTO_YA_CREADO);
+
+        PaisEntity paisEntity = mapperUtils.mapperToPaisEntity().apply(departamento.getPais());
+        DepartamentoEntity departamentoCrear = departamentoEntityRepository.save(new DepartamentoEntity(null, departamento.getNombre(), paisEntity));
+
+        return mapperUtils.mapperToDepartamento().apply(departamentoCrear);
     }
 }

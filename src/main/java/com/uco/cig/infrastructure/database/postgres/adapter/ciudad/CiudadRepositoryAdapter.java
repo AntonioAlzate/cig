@@ -1,5 +1,6 @@
 package com.uco.cig.infrastructure.database.postgres.adapter.ciudad;
 
+import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.businessexception.general.NotFoundException;
 import com.uco.cig.domain.ciudad.Ciudad;
 import com.uco.cig.domain.ciudad.ports.CiudadRepository;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 public class CiudadRepositoryAdapter implements CiudadRepository {
 
     private static final String REGION_NO_ENCONTRADA = "La región especificada no ha sido encontrada en el sistema";
+    private static final String CIUDAD_YA_CREADA = "Ya existe una ciudad creada con el mismo nombre";
 
     private final CiudadEntityRepository ciudadEntityRepository;
     private final RegionEntityRepository regionEntityRepository;
@@ -43,5 +45,18 @@ public class CiudadRepositoryAdapter implements CiudadRepository {
             return new ArrayList<>();
 
         return ciudadEntities.stream().map(ciudadEntity -> mapperUtils.mapperToCiudad().apply(ciudadEntity)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Ciudad save(Ciudad ciudad) throws BusinessException {
+        Optional<CiudadEntity> ciudadEntity = ciudadEntityRepository.findByNombre(ciudad.getNombre());
+
+        if(ciudadEntity.isPresent())
+            throw new BusinessException(CIUDAD_YA_CREADA);
+
+        RegionEntity regionEntity =mapperUtils.mapperToRegionEntity().apply(ciudad.getRegion());
+        CiudadEntity ciudadCrear = ciudadEntityRepository.save(new CiudadEntity(null, ciudad.getNombre(), regionEntity));
+
+        return mapperUtils.mapperToCiudad().apply(ciudadCrear);
     }
 }

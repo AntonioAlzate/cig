@@ -1,5 +1,6 @@
 package com.uco.cig.infrastructure.database.postgres.adapter.region;
 
+import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.businessexception.general.NotFoundException;
 import com.uco.cig.domain.region.Region;
 import com.uco.cig.domain.region.ports.RegionRepository;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 public class RegionRepositoryAdapter implements RegionRepository {
 
     private static final String DEPARTAMENTO_NO_ENCONTRADO = "El departamento ingresado no ha sido encontrado en el sistema";
+    private static final String REGION_YA_REGISTRADA = "Ya existe una región con el mismo nombre registrada en el sistema";
 
     private final RegionEntityRepository regionEntityRepository;
     private final DepartamentoEntityRepository departamentoEntityRepository;
@@ -44,5 +46,18 @@ public class RegionRepositoryAdapter implements RegionRepository {
             return new ArrayList<>();
 
         return regionEntities.stream().map(regionEntity -> mapperUtils.mapperToRegion().apply(regionEntity)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Region save(Region region) throws BusinessException {
+        Optional<RegionEntity> regionEntity = regionEntityRepository.findByNombre(region.getNombre());
+
+        if(regionEntity.isPresent())
+            throw new BusinessException(REGION_YA_REGISTRADA);
+
+        DepartamentoEntity departamentoEntity = mapperUtils.mapperToDepartamentoEntity().apply(region.getDepartamento());
+        RegionEntity regionCrear = regionEntityRepository.save(new RegionEntity(null, region.getNombre(), departamentoEntity));
+
+        return mapperUtils.mapperToRegion().apply(regionCrear);
     }
 }

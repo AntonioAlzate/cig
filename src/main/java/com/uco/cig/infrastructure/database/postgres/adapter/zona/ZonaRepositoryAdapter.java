@@ -1,6 +1,7 @@
 package com.uco.cig.infrastructure.database.postgres.adapter.zona;
 
 import com.uco.cig.domain.businessexception.general.NotFoundException;
+import com.uco.cig.domain.ciudad.Ciudad;
 import com.uco.cig.domain.zona.Zona;
 import com.uco.cig.domain.zona.ports.ZonaRepository;
 import com.uco.cig.infrastructure.database.postgres.entities.CiudadEntity;
@@ -54,5 +55,15 @@ public class ZonaRepositoryAdapter implements ZonaRepository {
             return new ArrayList<>();
 
         return zonaEntities.stream().map(zonaEntity -> mapperUtils.mapperToZona().apply(zonaEntity)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Zona save(String nombreZona, Ciudad ciudadRuta) {
+        CiudadEntity ciudadEntity = mapperUtils.mapperToCiudadEntity().apply(ciudadRuta);
+        ZonaEntity zonaEntity = new ZonaEntity(null, nombreZona, ciudadEntity);
+
+        zonaEntity = zonaEntityRepository.save(zonaEntity);
+
+        return mapperUtils.mapperToZona().apply(zonaEntity);
     }
 }

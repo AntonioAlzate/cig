@@ -11,9 +11,9 @@ import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ObtenerRegistrosConDetallesUseCaseTest {
 
@@ -28,7 +28,7 @@ class ObtenerRegistrosConDetallesUseCaseTest {
     }
 
     @Test
-    public void obtenerRegistrosConDetallesTest() throws BusinessException {
+    void obtenerRegistrosConDetallesTest() throws BusinessException {
         List<RegistroDespacho> registroDespachos = Arrays.asList(
                 RegistroDespacho.nuevo(
                         TrabajadorHelper.crearTrabajador(),

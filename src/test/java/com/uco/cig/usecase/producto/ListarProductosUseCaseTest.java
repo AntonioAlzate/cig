@@ -7,13 +7,12 @@ import com.uco.cig.generate.ProductoHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ListarProductosUseCaseTest {
 
@@ -28,7 +27,7 @@ class ListarProductosUseCaseTest {
     }
 
     @Test
-    public void listarProductosUseCaseTest() throws BusinessException {
+    void listarProductosUseCaseTest() throws BusinessException {
 
         List<Producto> productos = Arrays.asList(
                 ProductoHelper.crearProducto(),

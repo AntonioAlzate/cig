@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 @Service
 public class ObtenerTrabajadorPorIdUseCase {
 

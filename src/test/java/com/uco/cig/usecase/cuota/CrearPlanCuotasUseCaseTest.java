@@ -6,12 +6,10 @@ import com.uco.cig.domain.cuota.ports.CuotaRepository;
 import com.uco.cig.domain.estado.cuota.EstadoCuota;
 import com.uco.cig.domain.trabajador.Trabajador;
 import com.uco.cig.domain.venta.Venta;
-import com.uco.cig.generate.EstadoCuotaHelper;
 import com.uco.cig.generate.GeneralHelper;
 import com.uco.cig.generate.TipoCobroHelper;
 import com.uco.cig.generate.TrabajadorHelper;
 import com.uco.cig.generate.VentaHelper;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -23,8 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CrearPlanCuotasUseCaseTest {
 
@@ -39,7 +35,7 @@ class CrearPlanCuotasUseCaseTest {
     }
 
     @Test
-    public void crearPlanCuotasTest() throws BusinessException {
+    void crearPlanCuotasTest() throws BusinessException {
         List<Cuota> cuotasGeneradas = new ArrayList<>();
         EstadoCuota estadoCuotaPendiente = new EstadoCuota(1, "PENDIENTE");
         EstadoCuota estadoCuotaCancelada = new EstadoCuota(2, "CANCELADA");

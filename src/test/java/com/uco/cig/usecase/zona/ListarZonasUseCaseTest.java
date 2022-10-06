@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ListarZonasUseCaseTest {
 
@@ -27,7 +27,7 @@ class ListarZonasUseCaseTest {
     }
 
     @Test
-    public void listarZonasUseCaseTest() throws BusinessException {
+    void listarZonasUseCaseTest() throws BusinessException {
         List<Zona> zonas = Arrays.asList(
                 ZonaHelper.crearZona(),
                 ZonaHelper.crearZona(),

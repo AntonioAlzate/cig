@@ -10,8 +10,6 @@ import com.uco.cig.usecase.cliente.ObtenerClientePorIdUseCase;
 import com.uco.cig.usecase.parentesco.ObtenerParentescoPorIdUseCase;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-
 @Service
 public class CrearReferenciaUseCase {
 

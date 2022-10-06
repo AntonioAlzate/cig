@@ -12,9 +12,9 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ListarCiudadesUseCaseTest {
 
@@ -29,7 +29,7 @@ class ListarCiudadesUseCaseTest {
     }
 
     @Test
-    public void listarCiudadesUseCaseTest() throws BusinessException {
+    void listarCiudadesUseCaseTest() throws BusinessException {
         Region region = RegionHelper.crearRegion();
         List<Ciudad> ciudades = Arrays.asList(
                 CiudadHelper.crearCiudad(region),

@@ -7,9 +7,9 @@ import com.uco.cig.generate.ClienteHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ObtenerClientePorIdentificacionUseCaseTest {
 
@@ -24,7 +24,7 @@ class ObtenerClientePorIdentificacionUseCaseTest {
     }
 
     @Test
-    public void obtenerClientePorIdentificacionUseCaseTest() throws BusinessException {
+    void obtenerClientePorIdentificacionUseCaseTest() throws BusinessException {
         Cliente cliente = ClienteHelper.crearNuevoCliente();
 
         when(clienteRepository.findByIdentificacion(cliente.getPersona().getIdentificacion())).thenReturn(cliente);

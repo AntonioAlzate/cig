@@ -10,9 +10,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ObtenerModalidadPorIdUseCaseTest {
 
@@ -29,7 +30,7 @@ class ObtenerModalidadPorIdUseCaseTest {
     }
 
     @Test
-    public void obtenerModalidadNotFoundTest(){
+    void obtenerModalidadNotFoundTest(){
         Integer id = 1;
 
         when(modalidadRepository.findById(id)).thenReturn(Optional.empty());
@@ -40,11 +41,11 @@ class ObtenerModalidadPorIdUseCaseTest {
                 "Se esperaba excepción"
         );
 
-        assertTrue(result.getMessage().equals(MODALIDAD_NO_ENCONTRADA + " id: " + id));
+        assertEquals(result.getMessage(), MODALIDAD_NO_ENCONTRADA + " id: " + id);
     }
 
     @Test
-    public void obtenerModalidadPorIdTest() throws BusinessException {
+    void obtenerModalidadPorIdTest() throws BusinessException {
         Modalidad modalidad = ModalidadHelper.crearModalidad();
 
         when(modalidadRepository.findById(modalidad.getId())).thenReturn(Optional.of(modalidad));

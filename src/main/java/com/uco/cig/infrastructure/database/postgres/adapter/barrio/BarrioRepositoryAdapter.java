@@ -52,7 +52,7 @@ public class BarrioRepositoryAdapter implements BarrioRepository {
     }
 
     @Override
-    public List<Barrio> findAllByIdZAndIdZona_IdCiudad(Integer idCiudad) {
+    public List<Barrio> findAllByIdZAndIdZonaIdCiudad(Integer idCiudad) {
         Optional<CiudadEntity> ciudad = ciudadEntityRepository.findById(idCiudad);
 
         if(ciudad.isEmpty())

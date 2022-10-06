@@ -9,9 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CrearDepartamentoUseCaseTest {
 
@@ -26,7 +25,7 @@ class CrearDepartamentoUseCaseTest {
     }
 
     @Test
-    public void crearDepartamentoTest() throws BusinessException {
+    void crearDepartamentoTest() throws BusinessException {
         Pais pais = PaisHelper.crearPais();
         String nombreDepartamento = "DEPARTAMENTO_PRUEBA";
 

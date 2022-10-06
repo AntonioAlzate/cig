@@ -2,7 +2,6 @@ package com.uco.cig.infrastructure.database.postgres.adapter.cuentacliente;
 
 import com.uco.cig.domain.detalle.cuentafavor.entrada.EntradaCuentaFavor;
 import com.uco.cig.domain.detalle.cuentafavor.entrada.EntradaCuentaFavorRepository;
-import com.uco.cig.infrastructure.database.postgres.entities.CuentaClienteEntity;
 import com.uco.cig.infrastructure.database.postgres.entities.EntradaCuentaFavorEntity;
 import com.uco.cig.infrastructure.database.postgres.repositories.EntradaCuentaFavorEntityRepository;
 import com.uco.cig.shared.mapper.MapperUtils;

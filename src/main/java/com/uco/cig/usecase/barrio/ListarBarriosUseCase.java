@@ -4,7 +4,6 @@ import com.uco.cig.domain.barrio.Barrio;
 import com.uco.cig.domain.barrio.ports.BarrioRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service

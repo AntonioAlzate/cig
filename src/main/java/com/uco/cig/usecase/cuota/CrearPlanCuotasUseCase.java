@@ -9,7 +9,6 @@ import com.uco.cig.domain.trabajador.Trabajador;
 import com.uco.cig.domain.venta.Venta;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -30,8 +29,8 @@ public class CrearPlanCuotasUseCase {
         List<Cuota> cuotasGeneradas = new ArrayList<>();
 
         // todo: A REVISAR EL TIPO COBRO y estado cuota
-        TipoCobro tipoCobroNormal = TipoCobro.Construir(2, "NORMAL");
-        TipoCobro tipoCobroInicial = TipoCobro.Construir(1, "INICIAL");
+        TipoCobro tipoCobroNormal = TipoCobro.construir(2, "NORMAL");
+        TipoCobro tipoCobroInicial = TipoCobro.construir(1, "INICIAL");
         EstadoCuota estadoCuotaPendiente = new EstadoCuota(1, "PENDIENTE");
         EstadoCuota estadoCuotaCancelada = new EstadoCuota(2, "CANCELADA");
 

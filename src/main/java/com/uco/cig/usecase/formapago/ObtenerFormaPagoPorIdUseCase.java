@@ -5,7 +5,6 @@ import com.uco.cig.domain.formapago.FormaPago;
 import com.uco.cig.domain.formapago.ports.FormaPagoRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service

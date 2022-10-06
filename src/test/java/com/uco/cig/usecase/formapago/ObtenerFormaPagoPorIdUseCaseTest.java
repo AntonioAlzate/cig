@@ -10,9 +10,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ObtenerFormaPagoPorIdUseCaseTest {
 
@@ -29,7 +30,7 @@ class ObtenerFormaPagoPorIdUseCaseTest {
     }
 
     @Test
-    public void obtenerFormaPagoNotFoundTest(){
+    void obtenerFormaPagoNotFoundTest(){
         Integer id = 1;
 
         when(formaPagoRepository.findById(id)).thenReturn(Optional.empty());
@@ -40,11 +41,11 @@ class ObtenerFormaPagoPorIdUseCaseTest {
                 "Se esperaba exepción"
         );
 
-        assertTrue(result.getMessage().equals(FORMA_PAGO_NO_ENCONTRADA + " id: " + id));
+        assertEquals(result.getMessage(), FORMA_PAGO_NO_ENCONTRADA + " id: " + id);
     }
 
     @Test
-    public void obtenerFormaPagoPorIdTest() throws BusinessException {
+    void obtenerFormaPagoPorIdTest() throws BusinessException {
         FormaPago formaPago = FormaPagoHelper.crearFormaPago();
 
         when(formaPagoRepository.findById(formaPago.getId())).thenReturn(Optional.of(formaPago));

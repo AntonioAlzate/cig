@@ -7,7 +7,6 @@ import com.uco.cig.domain.estado.cuota.EstadoCuota;
 import com.uco.cig.domain.tipocobro.TipoCobro;
 import com.uco.cig.domain.trabajador.Trabajador;
 import com.uco.cig.domain.venta.Venta;
-import com.uco.cig.generate.CuotasHelper;
 import com.uco.cig.generate.GeneralHelper;
 import com.uco.cig.generate.TrabajadorHelper;
 import com.uco.cig.generate.VentaHelper;
@@ -20,8 +19,6 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CrearCuotaPagoContadoUseCaseTest {
 
@@ -36,12 +33,12 @@ class CrearCuotaPagoContadoUseCaseTest {
     }
 
     @Test
-    public void crearCuotaPagoContadoTest() throws BusinessException {
+    void crearCuotaPagoContadoTest() throws BusinessException {
         BigDecimal valorTotalCompra = GeneralHelper.obtenerValorBigDecimalAleatorio();
         Venta venta = VentaHelper.crearVenta();
         Trabajador trabajador = TrabajadorHelper.crearTrabajador();
 
-        TipoCobro tipoCobroNormal = TipoCobro.Construir(2, "NORMAL");
+        TipoCobro tipoCobroNormal = TipoCobro.construir(2, "NORMAL");
         EstadoCuota estadoCuotaCancelada = new EstadoCuota(2, "CANCELADA");
 
         LocalDate fechaActual = LocalDate.now();

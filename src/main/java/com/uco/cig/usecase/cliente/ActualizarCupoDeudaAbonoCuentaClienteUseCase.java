@@ -4,11 +4,8 @@ import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.cliente.Cliente;
 import com.uco.cig.domain.cliente.ports.ClienteRepository;
 import com.uco.cig.domain.cuentacliente.CuentaCliente;
-import com.uco.cig.domain.detalle.cuentafavor.entrada.EntradaCuentaFavor;
-import com.uco.cig.domain.detalle.cuentafavor.entrada.EntradaCuentaFavorRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 @Service

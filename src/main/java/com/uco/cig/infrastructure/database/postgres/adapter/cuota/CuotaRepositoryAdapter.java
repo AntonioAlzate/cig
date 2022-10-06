@@ -14,7 +14,6 @@ import com.uco.cig.infrastructure.database.postgres.repositories.VentaEntityRepo
 import com.uco.cig.shared.mapper.MapperUtils;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;

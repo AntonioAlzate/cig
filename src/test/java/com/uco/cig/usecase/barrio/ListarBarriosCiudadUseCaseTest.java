@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ListarBarriosCiudadUseCaseTest {
 
@@ -27,7 +27,7 @@ class ListarBarriosCiudadUseCaseTest {
     }
 
     @Test
-    public void listarBarriosCiudadTest() throws BusinessException {
+    void listarBarriosCiudadTest() throws BusinessException {
         Integer Id = 1;
 
         List<Barrio> barrios = Arrays.asList(
@@ -37,7 +37,7 @@ class ListarBarriosCiudadUseCaseTest {
                 BarrioHelper.construirAleratorio()
         );
 
-        when(barrioRepository.findAllByIdZAndIdZona_IdCiudad(Id)).thenReturn(barrios);
+        when(barrioRepository.findAllByIdZAndIdZonaIdCiudad(Id)).thenReturn(barrios);
 
         List<Barrio> result = listarBarriosCiudadUseCase.listar(Id);
 

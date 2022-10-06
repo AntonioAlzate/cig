@@ -1,7 +1,6 @@
 package com.uco.cig.infrastructure.entrypoint;
 
 import com.uco.cig.domain.businessexception.BusinessException;
-import com.uco.cig.domain.cliente.Cliente;
 import com.uco.cig.domain.trabajador.Trabajador;
 import com.uco.cig.shared.dtos.TrabajadorCreacionDto;
 import com.uco.cig.usecase.trabajador.*;

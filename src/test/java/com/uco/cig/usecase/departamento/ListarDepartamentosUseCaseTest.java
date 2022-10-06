@@ -13,9 +13,9 @@ import org.mockito.Mockito;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ListarDepartamentosUseCaseTest {
 
@@ -30,7 +30,7 @@ class ListarDepartamentosUseCaseTest {
     }
 
     @Test
-    public void listarDepartamentosUseCaseTest() throws BusinessException {
+    void listarDepartamentosUseCaseTest() throws BusinessException {
         Pais pais = PaisHelper.crearPais();
         List<Departamento> departamentos = Arrays.asList(
                 DepartamentosHelper.crearDepartamento(pais),

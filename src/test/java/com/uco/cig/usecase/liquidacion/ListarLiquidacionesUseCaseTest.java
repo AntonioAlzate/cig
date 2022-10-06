@@ -4,7 +4,6 @@ import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.liquidacion.Liquidacion;
 import com.uco.cig.domain.liquidacion.ports.LiquidacionRepository;
 import com.uco.cig.generate.LiquidacionHelper;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -12,9 +11,9 @@ import org.mockito.Mockito;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ListarLiquidacionesUseCaseTest {
 
@@ -29,7 +28,7 @@ class ListarLiquidacionesUseCaseTest {
     }
 
     @Test
-    public void listarLiquidacionesUseCaseTest() throws BusinessException {
+    void listarLiquidacionesUseCaseTest() throws BusinessException {
         List<Liquidacion> liquidaciones = Arrays.asList(
                 LiquidacionHelper.crearLiquidacion(),
                 LiquidacionHelper.crearLiquidacion(),

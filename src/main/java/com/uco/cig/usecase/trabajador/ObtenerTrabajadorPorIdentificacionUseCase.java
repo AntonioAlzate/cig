@@ -4,8 +4,6 @@ import com.uco.cig.domain.trabajador.Trabajador;
 import com.uco.cig.domain.trabajador.ports.TrabajadorRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-
 @Service
 public class ObtenerTrabajadorPorIdentificacionUseCase {
 

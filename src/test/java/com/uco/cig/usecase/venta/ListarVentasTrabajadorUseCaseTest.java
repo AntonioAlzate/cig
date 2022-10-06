@@ -9,13 +9,12 @@ import com.uco.cig.generate.VentaHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ListarVentasTrabajadorUseCaseTest {
 
@@ -30,7 +29,7 @@ class ListarVentasTrabajadorUseCaseTest {
     }
 
     @Test
-    public void listarVentasTrabajadorUseCaseTest() throws BusinessException {
+    void listarVentasTrabajadorUseCaseTest() throws BusinessException {
         Trabajador trabajador = TrabajadorHelper.crearTrabajador();
         List<Venta> ventas = Arrays.asList(
                 VentaHelper.crearVenta(trabajador),

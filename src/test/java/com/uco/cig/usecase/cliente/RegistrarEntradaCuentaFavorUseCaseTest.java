@@ -11,9 +11,8 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class RegistrarEntradaCuentaFavorUseCaseTest {
 
@@ -28,7 +27,7 @@ class RegistrarEntradaCuentaFavorUseCaseTest {
     }
 
     @Test
-    public void registrarEntradaCuentaFavorTest() throws BusinessException {
+    void registrarEntradaCuentaFavorTest() throws BusinessException {
         String descripcion = UUID.randomUUID().toString();
         BigDecimal valor = GeneralHelper.obtenerValorBigDecimalAleatorio();
         DetalleCuentaFavor detalleCuentaFavor = DetalleCuentaFavor.construir(

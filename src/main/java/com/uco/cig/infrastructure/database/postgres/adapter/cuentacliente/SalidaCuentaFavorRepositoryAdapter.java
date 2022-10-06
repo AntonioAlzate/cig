@@ -1,11 +1,8 @@
 package com.uco.cig.infrastructure.database.postgres.adapter.cuentacliente;
 
-import com.uco.cig.domain.detalle.cuentafavor.entrada.EntradaCuentaFavor;
 import com.uco.cig.domain.detalle.cuentafavor.salida.SalidaCuentaFavor;
 import com.uco.cig.domain.detalle.cuentafavor.salida.SalidaCuentaFavorRepository;
-import com.uco.cig.infrastructure.database.postgres.entities.EntradaCuentaFavorEntity;
 import com.uco.cig.infrastructure.database.postgres.entities.SalidaCuentaFavorEntity;
-import com.uco.cig.infrastructure.database.postgres.repositories.EntradaCuentaFavorEntityRepository;
 import com.uco.cig.infrastructure.database.postgres.repositories.SalidaCuentaFavorEntityRepository;
 import com.uco.cig.shared.mapper.MapperUtils;
 import org.springframework.stereotype.Service;

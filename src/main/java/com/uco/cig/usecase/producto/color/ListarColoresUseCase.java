@@ -4,7 +4,6 @@ import com.uco.cig.domain.color.Color;
 import com.uco.cig.domain.color.ports.ColorRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service

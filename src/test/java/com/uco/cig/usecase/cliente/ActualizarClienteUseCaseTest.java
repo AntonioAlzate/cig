@@ -3,7 +3,6 @@ package com.uco.cig.usecase.cliente;
 import com.uco.cig.domain.barrio.Barrio;
 import com.uco.cig.domain.barrio.ports.BarrioRepository;
 import com.uco.cig.domain.businessexception.BusinessException;
-import com.uco.cig.domain.businessexception.general.BadRequestException;
 import com.uco.cig.domain.businessexception.general.NotFoundException;
 import com.uco.cig.domain.cliente.Cliente;
 import com.uco.cig.domain.cliente.ports.ClienteRepository;
@@ -17,7 +16,6 @@ import com.uco.cig.shared.dtos.ClienteCreacionDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.net.http.WebSocketHandshakeException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -44,7 +42,7 @@ class ActualizarClienteUseCaseTest {
     }
 
     @Test
-    public void actualizarClienteUseCaseTest() throws BusinessException {
+    void actualizarClienteUseCaseTest() throws BusinessException {
         Integer id = 1;
         Integer idBarrio = 1;
         String identificacion = "1234567890";
@@ -62,7 +60,7 @@ class ActualizarClienteUseCaseTest {
     }
 
     @Test
-    public void intentarActualizarClienteConIdentificacionPersonaYaRegistradaTest() throws BusinessException {
+    void intentarActualizarClienteConIdentificacionPersonaYaRegistradaTest() throws BusinessException {
         Integer id = 1;
         Integer idBarrio = 1;
         String identificacion = "1234567890";
@@ -84,7 +82,7 @@ class ActualizarClienteUseCaseTest {
     }
 
     @Test
-    public void clienteNoEncontradoParaActualizarTest(){
+    void clienteNoEncontradoParaActualizarTest(){
         Integer id = 1;
         Optional<Cliente> cliente = Optional.empty();
 

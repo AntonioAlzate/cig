@@ -10,13 +10,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.sql.Ref;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ListarReferenciasDeClienteUseCaseTest {
 
@@ -31,7 +30,7 @@ class ListarReferenciasDeClienteUseCaseTest {
     }
 
     @Test
-    public void listarReferenciasDeClienteUseCaseTest() throws BusinessException {
+    void listarReferenciasDeClienteUseCaseTest() throws BusinessException {
         Cliente cliente = ClienteHelper.crearNuevoCliente();
         List<Referencia> referencias = Arrays.asList(
                 ReferenciasHelper.crearReferencia(cliente),

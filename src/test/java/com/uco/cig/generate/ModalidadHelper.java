@@ -8,7 +8,7 @@ import java.util.UUID;
 public class ModalidadHelper {
 
     public static Modalidad crearModalidad() throws BusinessException {
-        return Modalidad.Construir(
+        return Modalidad.construir(
                 GeneralHelper.obtenerEnteroAleatorio(),
                 UUID.randomUUID().toString()
         );

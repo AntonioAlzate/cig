@@ -6,7 +6,6 @@ import com.uco.cig.domain.detalle.cuentafavor.entrada.EntradaCuentaFavor;
 import com.uco.cig.domain.detalle.cuentafavor.entrada.EntradaCuentaFavorRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 @Service

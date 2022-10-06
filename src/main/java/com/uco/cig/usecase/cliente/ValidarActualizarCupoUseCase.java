@@ -1,11 +1,11 @@
 package com.uco.cig.usecase.cliente;
 
+import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.businessexception.general.BadRequestException;
 import com.uco.cig.domain.cuentacliente.CuentaCliente;
 import com.uco.cig.domain.cuentacliente.ports.CuentaClienteRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 @Service
@@ -19,7 +19,7 @@ public class ValidarActualizarCupoUseCase {
         this.cuentaClienteRepository = cuentaClienteRepository;
     }
 
-    public void validarActualizar(CuentaCliente cuentaCliente, BigDecimal valorTotalCompra, BigDecimal cuotaInicial) {
+    public void validarActualizar(CuentaCliente cuentaCliente, BigDecimal valorTotalCompra, BigDecimal cuotaInicial) throws BusinessException {
         BigDecimal valorCredito = valorTotalCompra.subtract(cuotaInicial);
 
         if(cuentaCliente.getCupo().subtract(valorCredito).compareTo(BigDecimal.ZERO) < 0 ){

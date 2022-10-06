@@ -4,7 +4,6 @@ import com.uco.cig.domain.producto.Producto;
 import com.uco.cig.domain.producto.ports.ProductoRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service

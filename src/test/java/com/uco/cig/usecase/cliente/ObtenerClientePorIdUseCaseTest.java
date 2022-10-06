@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static org.mockito.Mockito.*;
-
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ObtenerClientePorIdUseCaseTest {
 
@@ -29,7 +29,7 @@ class ObtenerClientePorIdUseCaseTest {
     }
 
     @Test
-    public void obtenerClientePorIdInexistenteTest(){
+    void obtenerClientePorIdInexistenteTest(){
         Integer id = 1;
 
         when(clienteRepository.findById(id)).thenReturn(Optional.empty());
@@ -44,7 +44,7 @@ class ObtenerClientePorIdUseCaseTest {
     }
 
     @Test
-    public void obtenerClientePorIdUseCaseTest() throws BusinessException {
+    void obtenerClientePorIdUseCaseTest() throws BusinessException {
         Optional<Cliente> cliente = Optional.of(ClienteHelper.crearNuevoCliente());
 
         when(clienteRepository.findById(cliente.get().getId())).thenReturn(cliente);

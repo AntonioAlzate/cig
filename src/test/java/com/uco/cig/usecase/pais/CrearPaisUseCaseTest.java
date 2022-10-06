@@ -9,9 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CrearPaisUseCaseTest {
 
@@ -26,7 +25,7 @@ class CrearPaisUseCaseTest {
     }
 
     @Test
-    public void crearPaisTest() throws BusinessException {
+    void crearPaisTest() throws BusinessException {
         Pais pais = PaisHelper.crearPais();
 
         when(paisRepository.save(any())).thenReturn(pais);

@@ -4,7 +4,6 @@ import com.uco.cig.domain.cuota.Cuota;
 import com.uco.cig.domain.cuota.ports.CuotaRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service

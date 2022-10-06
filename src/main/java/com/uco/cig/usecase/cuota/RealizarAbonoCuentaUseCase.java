@@ -3,7 +3,6 @@ package com.uco.cig.usecase.cuota;
 import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.businessexception.general.NotFoundException;
 import com.uco.cig.domain.cliente.Cliente;
-import com.uco.cig.domain.cliente.ports.ClienteRepository;
 import com.uco.cig.domain.cuota.Cuota;
 import com.uco.cig.domain.cuota.ports.CuotaRepository;
 import com.uco.cig.domain.estado.cuota.EstadoCuota;
@@ -14,7 +13,6 @@ import com.uco.cig.usecase.cliente.ObtenerClientePorIdUseCase;
 import com.uco.cig.usecase.trabajador.ObtenerTrabajadorPorIdUseCase;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -76,7 +74,7 @@ public class RealizarAbonoCuentaUseCase {
     }
 
 
-    private void guardarCuota(Cuota cuota, BigDecimal resta, OffsetDateTime fechaRealizacion, Trabajador trabajador, EstadoCuota estadoCuota) {
+    private void guardarCuota(Cuota cuota, BigDecimal resta, OffsetDateTime fechaRealizacion, Trabajador trabajador, EstadoCuota estadoCuota) throws BusinessException {
         cuota.setResta(resta);
         cuota.setFechaRealizacion(fechaRealizacion);
         cuota.setTrabajador(trabajador);

@@ -276,7 +276,7 @@ public class MapperUtils {
     public Function<FormaPagoEntity, FormaPago> mapperToFormaPago() {
         return entity -> {
             try {
-                return FormaPago.Construir(
+                return FormaPago.construir(
                         entity.getId(),
                         entity.getNombre(),
                         entity.getNumeroDias(),
@@ -291,7 +291,7 @@ public class MapperUtils {
     public Function<ModalidadEntity, Modalidad> mapperToModalidad() {
         return entity -> {
             try {
-                return Modalidad.Construir(
+                return Modalidad.construir(
                         entity.getId(),
                         entity.getNombre()
                 );
@@ -323,7 +323,7 @@ public class MapperUtils {
     public Function<TipoCobroEntity, TipoCobro> mapperToTipoCobro() {
         return entity -> {
             try {
-                return TipoCobro.Construir(
+                return TipoCobro.construir(
                         entity.getId(),
                         entity.getNombre()
                 );
@@ -361,19 +361,13 @@ public class MapperUtils {
     }
 
     public Function<RegistroDespachoEntity, RegistroDespacho> mapperToRegistroDespacho() {
-        return entity -> {
-            try {
-                return RegistroDespacho.construir(
-                        entity.getId(),
-                        mapperToTrabajador().apply(entity.getIdTrabajadorRealiza()),
-                        mapperToTrabajador().apply(entity.getIdTrabajadorRecibe()),
-                        entity.getFecha(),
-                        new ArrayList<>()
-                );
-            } catch (BusinessException e) {
-                throw new IllegalArgumentException(e.getMessage());
-            }
-        };
+        return entity -> RegistroDespacho.construir(
+                entity.getId(),
+                mapperToTrabajador().apply(entity.getIdTrabajadorRealiza()),
+                mapperToTrabajador().apply(entity.getIdTrabajadorRecibe()),
+                entity.getFecha(),
+                new ArrayList<>()
+        );
     }
 
     public Function<EstadoDespachoEntity, EstadoDespacho> mapperToEstadoDespacho() {

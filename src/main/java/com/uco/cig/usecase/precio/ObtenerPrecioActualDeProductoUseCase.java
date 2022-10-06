@@ -5,7 +5,6 @@ import com.uco.cig.domain.precio.Precio;
 import com.uco.cig.domain.precio.ports.PrecioRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;

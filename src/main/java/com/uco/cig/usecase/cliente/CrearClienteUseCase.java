@@ -14,13 +14,11 @@ import com.uco.cig.domain.estado.cuentacliente.ports.EstadoCuentaClienteReposito
 import com.uco.cig.domain.estado.ports.EstadoRepository;
 import com.uco.cig.domain.persona.Persona;
 import com.uco.cig.domain.persona.ports.PersonaRepository;
-import com.uco.cig.domain.referencia.Referencia;
 import com.uco.cig.shared.dtos.ClienteCreacionDto;
 import com.uco.cig.shared.dtos.ReferenciaCreacionDTO;
 import com.uco.cig.usecase.referencia.CrearReferenciaUseCase;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.Optional;
 
@@ -86,7 +84,7 @@ public class CrearClienteUseCase {
                 creacionDto.getTelefonoReferencia1(),
                 creacionDto.getIdParentescoReferencia1()
         );
-        Referencia referencia1 = crearReferenciaUseCase.crear(referenciaCreacionDTO1, cliente.getId());
+        crearReferenciaUseCase.crear(referenciaCreacionDTO1, cliente.getId());
 
         ReferenciaCreacionDTO referenciaCreacionDTO2 = new ReferenciaCreacionDTO(
                 creacionDto.getNombreReferencia2(),
@@ -94,7 +92,7 @@ public class CrearClienteUseCase {
                 creacionDto.getIdParentescoReferencia2()
         );
 
-        Referencia referencia2 = crearReferenciaUseCase.crear(referenciaCreacionDTO2, cliente.getId());
+        crearReferenciaUseCase.crear(referenciaCreacionDTO2, cliente.getId());
 
         return cliente;
     }
@@ -102,7 +100,7 @@ public class CrearClienteUseCase {
     private boolean yaExisteCliente(String identificacion) {
         Optional<Persona> persona = personaRepository.findByIdentificacion(identificacion);
 
-        if(persona == null){
+        if(persona.isEmpty()){
             return false;
         }
 

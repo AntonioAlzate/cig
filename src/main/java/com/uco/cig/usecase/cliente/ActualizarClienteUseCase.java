@@ -11,7 +11,6 @@ import com.uco.cig.domain.persona.ports.PersonaRepository;
 import com.uco.cig.shared.dtos.ClienteCreacionDto;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.Optional;
 
@@ -77,6 +76,6 @@ public class ActualizarClienteUseCase {
     private boolean yaExistePersona(String identificacion) {
         Optional<Persona> persona = personaRepository.findByIdentificacion(identificacion);
 
-        return persona != null;
+        return persona.isPresent();
     }
 }

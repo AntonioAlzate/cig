@@ -10,7 +10,6 @@ import com.uco.cig.shared.dtos.DetalleVentaDTO;
 import com.uco.cig.usecase.precio.ObtenerPrecioActualDeProductoUseCase;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;

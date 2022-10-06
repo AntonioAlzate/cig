@@ -6,15 +6,14 @@ import com.uco.cig.domain.pais.ports.PaisRepository;
 import com.uco.cig.generate.PaisHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ListarPaisesUseCaseTest {
 
@@ -29,7 +28,7 @@ class ListarPaisesUseCaseTest {
     }
 
     @Test
-    public void listarPaisesUseCaseTest() throws BusinessException {
+    void listarPaisesUseCaseTest() throws BusinessException {
         List<Pais> paises = Arrays.asList(
                 PaisHelper.crearPais(),
                 PaisHelper.crearPais(),

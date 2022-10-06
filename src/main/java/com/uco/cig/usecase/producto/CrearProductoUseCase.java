@@ -18,7 +18,6 @@ import com.uco.cig.shared.dtos.ProductoCreacionDto;
 import com.uco.cig.usecase.precio.CrearPrecioUseCase;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Locale;
@@ -27,15 +26,15 @@ import java.util.Optional;
 @Service
 public class CrearProductoUseCase {
 
-    private static final String CATEGORIA_PRODUCTO_INEXISTENTE = "La categoría enviada no existe en el sistema";
+    //private static final String CATEGORIA_PRODUCTO_INEXISTENTE = "La categoría enviada no existe en el sistema";
     private static final String PRODUCTO_CON_REFERENCIA_YA_REGISTRADO = "La referencia enviada ya se encuentra asignada un producto";
     private static final String ESTADO_NO_ENCONTRADO = "El Estado especificado no ha sido encontrado, asegurese de que se encuentre registrado";
     private static final String CATEGORIA_NOMBRE_EXISTENTE = "Ya existe una categoría con el mismo nombre registrada en el sistema";
     private static final String COLOR_NOMBRE_YA_REGISTRADO = "Ya existe un color con el mismo nombre registrado en el sistema";
     private static final String DIMENSION_YA_REGISTRADA = "Ya existe una dimensión con el mismo largo y ancho en el sistema";
 
-    private static final Integer idModalidadCredito = 1;
-    private static final Integer idModalidadContado = 2;
+    private static final Integer ID_MODALIDAD_CREDITO = 1;
+    private static final Integer ID_MODALIDAD_CONTADO = 2;
 
     private final DimensionRepository dimensionRepository;
     private final CategoriaRepository categoriaRepository;
@@ -56,23 +55,23 @@ public class CrearProductoUseCase {
 
     public Producto crearProducto(ProductoCreacionDto productoCreacionDto) throws BusinessException {
 
-        Optional<Categoria> categoria = getCategoria(productoCreacionDto);
+        Categoria categoria = getCategoria(productoCreacionDto);
 
-        Optional<Dimension> dimension = getDimension(productoCreacionDto);
+        Dimension dimension = getDimension(productoCreacionDto);
 
         Optional<Estado> estado = getEstado();
 
         validarNoExistenciaProducto(productoCreacionDto.getReferencia().toUpperCase());
 
         Producto productoCrear = Producto.nuevo(productoCreacionDto.getNombre(), productoCreacionDto.getReferencia().toUpperCase(Locale.ROOT), productoCreacionDto.getDescripcion(), estado.get(),
-                dimension.get(), categoria.get(), productoCreacionDto.getCantidad());
+                dimension, categoria, productoCreacionDto.getCantidad());
 
-        Optional<Color> color = getColorOCrear(productoCreacionDto);
+        Color color = getColorOCrear(productoCreacionDto);
 
-        Producto productoCreado = productoRepository.save(productoCrear, color.get());
+        Producto productoCreado = productoRepository.save(productoCrear, color);
 
-        crearPrecioProducto(productoCreado.getId(), productoCreacionDto.getValorContado(), idModalidadContado);
-        crearPrecioProducto(productoCreado.getId(), productoCreacionDto.getValorCredito(), idModalidadCredito);
+        crearPrecioProducto(productoCreado.getId(), productoCreacionDto.getValorContado(), ID_MODALIDAD_CONTADO);
+        crearPrecioProducto(productoCreado.getId(), productoCreacionDto.getValorCredito(), ID_MODALIDAD_CREDITO);
 
         return productoCreado;
     }
@@ -83,7 +82,7 @@ public class CrearProductoUseCase {
         crearPrecioUseCase.crear(precioCreacionDTO);
     }
 
-    private Optional<Color> getColorOCrear(ProductoCreacionDto productoCreacionDto) throws BusinessException {
+    private Color getColorOCrear(ProductoCreacionDto productoCreacionDto) throws BusinessException {
         Optional<Color> color = colorRepository.findById(productoCreacionDto.getIdColor());
 
         if (color.isEmpty()) {
@@ -97,7 +96,7 @@ public class CrearProductoUseCase {
 
             color = Optional.of(colorRepository.save(colorConstruir));
         }
-        return color;
+        return color.get();
     }
 
     private Optional<Estado> getEstado() {
@@ -108,7 +107,7 @@ public class CrearProductoUseCase {
         return estado;
     }
 
-    private Optional<Dimension> getDimension(ProductoCreacionDto productoCreacionDto) throws BusinessException {
+    private Dimension getDimension(ProductoCreacionDto productoCreacionDto) throws BusinessException {
         Optional<Dimension> dimension = dimensionRepository.findById(productoCreacionDto.getIdDimension());
 
         if (dimension.isEmpty()) {
@@ -124,10 +123,10 @@ public class CrearProductoUseCase {
 
             dimension = Optional.of(dimensionRepository.save(dimesionConstruir));
         }
-        return dimension;
+        return dimension.get();
     }
 
-    private Optional<Categoria> getCategoria(ProductoCreacionDto productoCreacionDto) throws BusinessException {
+    private Categoria getCategoria(ProductoCreacionDto productoCreacionDto) throws BusinessException {
         Optional<Categoria> categoria = categoriaRepository.findById(productoCreacionDto.getIdCategoria());
 
         if (categoria.isEmpty()){
@@ -143,7 +142,7 @@ public class CrearProductoUseCase {
             categoria = Optional.of(categoriaRepository.save(categoriaConstruir));
         }
 
-        return categoria;
+        return categoria.get();
     }
 
     private void validarNoExistenciaProducto(String referencia) throws BusinessException {

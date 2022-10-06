@@ -1,6 +1,5 @@
 package com.uco.cig.infrastructure.entrypoint;
 
-import com.uco.cig.domain.cuota.Cuota;
 import com.uco.cig.domain.despacho.registro.RegistroDespacho;
 import com.uco.cig.usecase.despacho.ObtenerRegistrosConDetallesUseCase;
 import org.springframework.http.ResponseEntity;

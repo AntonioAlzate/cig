@@ -17,8 +17,6 @@ import java.util.UUID;
 
 import static org.mockito.Mockito.*;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class EnlazarDetallesAVentaYGuardarUseCaseTest {
 
     DetalleVentaRepository detalleVentaRepository;
@@ -32,7 +30,7 @@ class EnlazarDetallesAVentaYGuardarUseCaseTest {
     }
 
     @Test
-    public void enlazarDetallesAVentaYGuardarTest() throws BusinessException {
+    void enlazarDetallesAVentaYGuardarTest() throws BusinessException {
         Venta venta = VentaHelper.crearVenta();
         List<DetalleVenta> detalleVentas = Arrays.asList(
                 DetalleVenta.nuevo(

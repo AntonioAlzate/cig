@@ -5,7 +5,6 @@ import com.uco.cig.domain.modalidad.Modalidad;
 import com.uco.cig.domain.modalidad.ports.ModalidadRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service

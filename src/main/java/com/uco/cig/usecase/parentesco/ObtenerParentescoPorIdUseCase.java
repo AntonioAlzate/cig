@@ -5,7 +5,6 @@ import com.uco.cig.domain.parentesco.Parentesco;
 import com.uco.cig.domain.parentesco.ports.ParentescoRespository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service

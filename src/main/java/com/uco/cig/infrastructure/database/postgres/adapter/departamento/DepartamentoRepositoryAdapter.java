@@ -4,7 +4,6 @@ import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.businessexception.general.NotFoundException;
 import com.uco.cig.domain.departamento.Departamento;
 import com.uco.cig.domain.departamento.ports.DepartamentoRepository;
-import com.uco.cig.domain.pais.Pais;
 import com.uco.cig.infrastructure.database.postgres.entities.DepartamentoEntity;
 import com.uco.cig.infrastructure.database.postgres.entities.PaisEntity;
 import com.uco.cig.infrastructure.database.postgres.repositories.DepartamentoEntityRepository;

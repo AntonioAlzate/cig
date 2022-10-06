@@ -15,7 +15,6 @@ import com.uco.cig.domain.trabajador.ports.TrabajadorRepository;
 import com.uco.cig.shared.dtos.TrabajadorCreacionDto;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -66,7 +65,7 @@ public class CrearTrabajadorUseCase {
     private boolean yaExisteTrabajador(String identificacion) {
         Optional<Persona> persona = personaRepository.findByIdentificacion(identificacion);
 
-        if(persona == null){
+        if(persona.isEmpty()){
             return false;
         }
 

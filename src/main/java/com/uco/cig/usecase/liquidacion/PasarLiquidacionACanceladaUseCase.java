@@ -4,14 +4,12 @@ import com.uco.cig.domain.liquidacion.Liquidacion;
 import com.uco.cig.domain.liquidacion.ports.LiquidacionRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-
 @Service
-public class PasarLiquidaciónACanceladaUseCase {
+public class PasarLiquidacionACanceladaUseCase {
 
     private final LiquidacionRepository liquidacionRepository;
 
-    public PasarLiquidaciónACanceladaUseCase(LiquidacionRepository liquidacionRepository) {
+    public PasarLiquidacionACanceladaUseCase(LiquidacionRepository liquidacionRepository) {
         this.liquidacionRepository = liquidacionRepository;
     }
 

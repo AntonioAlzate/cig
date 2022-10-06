@@ -20,7 +20,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -59,7 +58,7 @@ class RealizarAbonoCuentaUseCaseTest {
     }
 
     @Test
-    public void cuentasPendientesExepcionTest(){
+    void cuentasPendientesExepcionTest(){
         AbonoPagoDTO abonoPagoDTO = new AbonoPagoDTO(
                 1,
                 1,
@@ -81,7 +80,7 @@ class RealizarAbonoCuentaUseCaseTest {
     }
 
     @Test
-    public void  realizarAbonoExitosoTest() throws BusinessException {
+    void  realizarAbonoExitosoTest() throws BusinessException {
         Cliente cliente = ClienteHelper.crearNuevoCliente();
         Trabajador trabajador = TrabajadorHelper.crearTrabajador(cliente.getPersona().getIdentificacion());
         AbonoPagoDTO abonoPagoDTO = new AbonoPagoDTO(

@@ -4,7 +4,6 @@ import com.uco.cig.domain.categoria.Categoria;
 import com.uco.cig.domain.categoria.ports.CategoriaRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service

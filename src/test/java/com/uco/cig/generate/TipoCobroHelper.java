@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class TipoCobroHelper {
     public static TipoCobro crearTipoCobro() throws BusinessException {
-        return TipoCobro.Construir(
+        return TipoCobro.construir(
                 GeneralHelper.obtenerEnteroAleatorio(),
                 UUID.randomUUID().toString()
         );

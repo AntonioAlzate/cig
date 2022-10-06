@@ -1,7 +1,6 @@
 package com.uco.cig.generate;
 
 import com.uco.cig.domain.businessexception.BusinessException;
-import com.uco.cig.domain.estado.Estado;
 import com.uco.cig.domain.trabajador.Trabajador;
 
 public class TrabajadorHelper {

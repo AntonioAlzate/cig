@@ -9,7 +9,6 @@ import com.uco.cig.domain.trabajador.Trabajador;
 import com.uco.cig.domain.venta.Venta;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -27,7 +26,7 @@ public class CrearCuotaPagoContadoUseCase {
     public void generar(BigDecimal valorTotalCompra, Venta venta, Trabajador trabajador) throws BusinessException {
 
         // todo: A REVISAR EL TIPO COBRO y estado cuota
-        TipoCobro tipoCobroNormal = TipoCobro.Construir(2, "NORMAL");
+        TipoCobro tipoCobroNormal = TipoCobro.construir(2, "NORMAL");
         EstadoCuota estadoCuotaCancelada = new EstadoCuota(2, "CANCELADA");
 
         LocalDate fechaActual = LocalDate.now();

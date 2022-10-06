@@ -11,7 +11,6 @@ import com.uco.cig.domain.trabajador.ports.TrabajadorRepository;
 import com.uco.cig.shared.dtos.TrabajadorCreacionDto;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -74,6 +73,6 @@ public class ActualizarTrabajadorUseCase {
     private boolean yaExistePersona(String identificacion) {
         Optional<Persona> persona = personaRepository.findByIdentificacion(identificacion);
 
-        return persona != null;
+        return persona.isPresent();
     }
 }

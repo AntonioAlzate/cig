@@ -11,9 +11,9 @@ import org.mockito.Mockito;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ListarColoresUseCaseTest {
 
@@ -28,7 +28,7 @@ class ListarColoresUseCaseTest {
     }
 
     @Test
-    public void listarColoresUseCaseTest() throws BusinessException {
+    void listarColoresUseCaseTest() throws BusinessException {
         List<Color> colores = Arrays.asList(
                 ColorHelper.crearColor(),
                 ColorHelper.crearColor(),

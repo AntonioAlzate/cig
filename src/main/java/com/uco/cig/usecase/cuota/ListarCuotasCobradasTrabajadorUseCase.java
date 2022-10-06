@@ -5,7 +5,6 @@ import com.uco.cig.domain.cuota.ports.CuotaRepository;
 import com.uco.cig.domain.estado.cuota.EstadoCuota;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.OffsetDateTime;
 import java.util.List;
 

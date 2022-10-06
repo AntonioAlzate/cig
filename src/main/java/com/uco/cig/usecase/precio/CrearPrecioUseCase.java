@@ -12,7 +12,6 @@ import com.uco.cig.domain.producto.ports.ProductoRepository;
 import com.uco.cig.shared.dtos.PrecioCreacionDTO;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;

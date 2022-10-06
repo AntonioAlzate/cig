@@ -8,11 +8,7 @@ import com.uco.cig.domain.cuota.ports.CuotaRepository;
 import com.uco.cig.domain.estado.cuota.EstadoCuota;
 import com.uco.cig.domain.trabajador.Trabajador;
 import com.uco.cig.domain.venta.Venta;
-import com.uco.cig.generate.ClienteHelper;
-import com.uco.cig.generate.CuotasHelper;
-import com.uco.cig.generate.EstadoCuotaHelper;
-import com.uco.cig.generate.TrabajadorHelper;
-import com.uco.cig.generate.VentaHelper;
+import com.uco.cig.generate.*;
 import com.uco.cig.shared.dtos.CuotaPagoDTO;
 import com.uco.cig.usecase.cliente.ActualizarCupoDeudaAbonoCuentaClienteUseCase;
 import com.uco.cig.usecase.cliente.ObtenerClientePorIdUseCase;
@@ -22,9 +18,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static org.mockito.Mockito.*;
-
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 
 class PagarCuotaProximaUseCaseTest {
@@ -57,7 +52,7 @@ class PagarCuotaProximaUseCaseTest {
     }
 
     @Test
-    public void getCuotaProximaNoRegistraTest(){
+    void getCuotaProximaNoRegistraTest(){
         Integer id = 1;
         EstadoCuota estadoCuota = EstadoCuotaHelper.crearEstadoCuota();
         CuotaPagoDTO cuotaPagoDTO = new CuotaPagoDTO(1,1,1);
@@ -77,7 +72,7 @@ class PagarCuotaProximaUseCaseTest {
     }
 
     @Test
-    public void pagarTest() throws BusinessException {
+    void pagarTest() throws BusinessException {
         Cliente cliente = ClienteHelper.crearNuevoCliente();
         Trabajador trabajador = TrabajadorHelper.crearTrabajador(cliente.getPersona().getIdentificacion());
         Venta venta = VentaHelper.crearVenta(trabajador);

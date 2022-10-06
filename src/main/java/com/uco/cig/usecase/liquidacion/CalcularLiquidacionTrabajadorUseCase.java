@@ -15,7 +15,6 @@ import com.uco.cig.usecase.trabajador.ObtenerTrabajadorPorIdUseCase;
 import com.uco.cig.usecase.venta.ListarVentasTrabajadorUseCase;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -39,8 +38,8 @@ public class CalcularLiquidacionTrabajadorUseCase {
 
     public DatosLiquidacionDTO calcular(Integer idTrabajador, OffsetDateTime fechaRealizacion, Boolean crearLiquidacion) throws BusinessException {
         //todo:
-        TipoCobro tipoCobroInicial = TipoCobro.Construir(1, "INICIAL");
-        TipoCobro tipoCobroNormal = TipoCobro.Construir(2, "NORMAL");
+        TipoCobro tipoCobroInicial = TipoCobro.construir(1, "INICIAL");
+        TipoCobro tipoCobroNormal = TipoCobro.construir(2, "NORMAL");
         EstadoLiquidacion estadoLiquidacion = new EstadoLiquidacion(2, "CANCELADA");
 
         DatosLiquidacionDTO datosLiquidacionDTO = new DatosLiquidacionDTO();

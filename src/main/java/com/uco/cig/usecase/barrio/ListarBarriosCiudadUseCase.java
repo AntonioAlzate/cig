@@ -16,6 +16,6 @@ public class ListarBarriosCiudadUseCase {
     }
 
     public List<Barrio> listar(Integer idCiudad){
-        return barrioRepository.findAllByIdZAndIdZona_IdCiudad(idCiudad);
+        return barrioRepository.findAllByIdZAndIdZonaIdCiudad(idCiudad);
     }
 }

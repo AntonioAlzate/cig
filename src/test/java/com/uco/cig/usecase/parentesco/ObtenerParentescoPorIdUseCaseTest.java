@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ObtenerParentescoPorIdUseCaseTest {
 
@@ -28,7 +28,7 @@ class ObtenerParentescoPorIdUseCaseTest {
     }
 
     @Test
-    public void obtenerParentescoNotFound(){
+    void obtenerParentescoNotFound(){
         Integer id = 1;
 
         when(parentescoRespository.findById(id)).thenReturn(Optional.empty());
@@ -39,11 +39,11 @@ class ObtenerParentescoPorIdUseCaseTest {
                 "Se esperaba excepción"
         );
 
-        assertTrue(result.getMessage().equals(PARENTESCO_CON_ID_NO_ENCONTRADO));
+        assertEquals(PARENTESCO_CON_ID_NO_ENCONTRADO, result.getMessage());
     }
 
     @Test
-    public void obtenerParentescoPorIdTest(){
+    void obtenerParentescoPorIdTest(){
         Parentesco parentesco = ParentescoHelper.crearParentesco();
 
         when(parentescoRespository.findById(any())).thenReturn(Optional.of(parentesco));

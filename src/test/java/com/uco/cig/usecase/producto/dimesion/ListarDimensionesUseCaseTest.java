@@ -7,12 +7,12 @@ import com.uco.cig.generate.DimensionesHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.mockito.Mockito.*;
-
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ListarDimensionesUseCaseTest {
 
@@ -27,7 +27,7 @@ class ListarDimensionesUseCaseTest {
     }
 
     @Test
-    public void listarDimensionesUsecaseTest() throws BusinessException {
+    void listarDimensionesUsecaseTest() throws BusinessException {
         List<Dimension> dimensiones = Arrays.asList(
                 DimensionesHelper.crearDiemension(),
                 DimensionesHelper.crearDiemension(),

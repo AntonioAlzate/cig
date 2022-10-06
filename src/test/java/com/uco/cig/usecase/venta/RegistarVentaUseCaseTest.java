@@ -12,9 +12,7 @@ import com.uco.cig.usecase.modalidad.ObtenerModalidadPorIdUseCase;
 import com.uco.cig.usecase.trabajador.ObtenerTrabajadorPorIdUseCase;
 import org.junit.jupiter.api.BeforeEach;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 class RegistarVentaUseCaseTest {
 

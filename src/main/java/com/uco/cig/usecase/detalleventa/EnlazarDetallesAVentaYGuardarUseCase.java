@@ -1,11 +1,11 @@
 package com.uco.cig.usecase.detalleventa;
 
+import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.detalle.venta.DetalleVenta;
 import com.uco.cig.domain.detalle.venta.ports.DetalleVentaRepository;
 import com.uco.cig.domain.venta.Venta;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +20,11 @@ public class EnlazarDetallesAVentaYGuardarUseCase {
 
     public void enlazarGuardar(List<DetalleVenta> detallesVenta, Venta venta) {
         detallesVenta = detallesVenta.stream().map(detalleVenta -> {
-            detalleVenta.setVenta(venta);
+            try {
+                detalleVenta.setVenta(venta);
+            } catch (BusinessException e) {
+                e.printStackTrace();
+            }
             return detalleVenta;
         }).collect(Collectors.toList());
 

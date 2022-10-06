@@ -8,7 +8,7 @@ import java.util.UUID;
 public class FormaPagoHelper {
 
     public static FormaPago crearFormaPago() throws BusinessException {
-        return FormaPago.Construir(
+        return FormaPago.construir(
                 GeneralHelper.obtenerEnteroAleatorio(),
                 UUID.randomUUID().toString(),
                 GeneralHelper.obtenerEnteroAleatorio(),

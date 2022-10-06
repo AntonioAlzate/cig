@@ -11,9 +11,9 @@ import org.mockito.Mockito;
 
 import java.math.BigDecimal;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ValidarActualizarCupoUseCaseTest {
 
@@ -30,7 +30,7 @@ class ValidarActualizarCupoUseCaseTest {
     }
 
     @Test
-    public void validarActualizarBadRequest() throws BusinessException {
+    void validarActualizarBadRequest() throws BusinessException {
         CuentaCliente cuentaCliente = CuentaClienteHelper.crearCuentaClienteSinCupo();
         BigDecimal cuotaInicial = BigDecimal.ONE;
         BigDecimal valorTotalCompra = BigDecimal.TEN;
@@ -45,7 +45,7 @@ class ValidarActualizarCupoUseCaseTest {
     }
 
     @Test
-    public void validarActualizarCupoTest() throws BusinessException {
+    void validarActualizarCupoTest() throws BusinessException {
         CuentaCliente cuentaCliente = CuentaClienteHelper.crearCuentaClienteVeinteCupo();
         BigDecimal cuotaInicial = BigDecimal.ONE;
         BigDecimal valorTotalCompra = BigDecimal.TEN;

@@ -14,7 +14,6 @@ public class RegistroDespacho {
 
     private static final String TRABAJADOR_REALIZA_REQUERIDO = "El trabajador que realiza el despacho es requerido";
     private static final String TRABAJADOR_RECIBE_REQUERIDO = "El trabajador que recibe el despacho es requerido";
-    private static final String FECHA_REQUERIDO = "La fecha de realización de un despacho es requerida";
     private static final String FECHA_FUTURA = "La fecha de realización de un despacho no puede ser una fecha del futuro";
 
 

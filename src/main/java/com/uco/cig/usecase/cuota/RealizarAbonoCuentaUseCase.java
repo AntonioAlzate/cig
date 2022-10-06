@@ -21,7 +21,6 @@ import java.util.List;
 public class RealizarAbonoCuentaUseCase {
 
     private static final String ABONO_EXITOSO = "El abono fue exitoso";
-    private static final String ABONO_FALLIDO = "Error al realizar abono";
     private static final String SIN_CUOTAS_PENDIENTES = "La venta no tiene cuotas pendientes por lo cual no se puede realizar el abono.";
 
     private final CuotaRepository cuotaRepository;

@@ -26,7 +26,7 @@ public class Trabajador {
         this.estado = Objects.requireNonNull(estado, ESTADO_REQUERODO);
     }
 
-    public static Trabajador construir(Integer id, Persona persona, Estado estado) throws BusinessException {
+    public static Trabajador construir(Integer id, Persona persona, Estado estado) {
         return new Trabajador(id, persona, estado);
     }
 

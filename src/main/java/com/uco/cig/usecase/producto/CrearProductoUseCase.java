@@ -26,7 +26,6 @@ import java.util.Optional;
 @Service
 public class CrearProductoUseCase {
 
-    //private static final String CATEGORIA_PRODUCTO_INEXISTENTE = "La categoría enviada no existe en el sistema";
     private static final String PRODUCTO_CON_REFERENCIA_YA_REGISTRADO = "La referencia enviada ya se encuentra asignada un producto";
     private static final String ESTADO_NO_ENCONTRADO = "El Estado especificado no ha sido encontrado, asegurese de que se encuentre registrado";
     private static final String CATEGORIA_NOMBRE_EXISTENTE = "Ya existe una categoría con el mismo nombre registrada en el sistema";

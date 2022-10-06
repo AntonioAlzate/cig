@@ -18,7 +18,7 @@ public class RegistrarEntradaCuentaFavorUseCase {
     }
 
     public EntradaCuentaFavor registrar(String descripcion, BigDecimal valor, DetalleCuentaFavor detalleCuentaFavor) throws BusinessException {
-        EntradaCuentaFavor entradaCuentaFavor = EntradaCuentaFavor.nuevo(descripcion, valor, detalleCuentaFavor);
+        EntradaCuentaFavor entradaCuentaFavor = EntradaCuentaFavor.nuevo(descripcion.trim(), valor, detalleCuentaFavor);
 
         return entradaCuentaFavorRepository.save(entradaCuentaFavor);
     }

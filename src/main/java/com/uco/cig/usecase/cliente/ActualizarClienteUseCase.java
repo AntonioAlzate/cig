@@ -52,13 +52,13 @@ public class ActualizarClienteUseCase {
         if(barrio == null)
             throw new BusinessException(BARRIO_REQUERIDO);
 
-        cliente.getPersona().setIdentificacion(creacionDto.getIdentificacion());
-        cliente.getPersona().setPrimerNombre(creacionDto.getPrimerNombre());
-        cliente.getPersona().setSegundoNombre(creacionDto.getSegundoNombre());
-        cliente.getPersona().setPrimerApellido(creacionDto.getPrimerApellido());
-        cliente.getPersona().setSegundoApellido(creacionDto.getSegundoApellido());
-        cliente.getPersona().setDireccion(creacionDto.getDireccion());
-        cliente.getPersona().setTelefono(creacionDto.getTelefono());
+        cliente.getPersona().setIdentificacion(creacionDto.getIdentificacion().trim());
+        cliente.getPersona().setPrimerNombre(creacionDto.getPrimerNombre().trim().toUpperCase());
+        cliente.getPersona().setSegundoNombre(creacionDto.getSegundoNombre().trim().toUpperCase());
+        cliente.getPersona().setPrimerApellido(creacionDto.getPrimerApellido().trim().toUpperCase());
+        cliente.getPersona().setSegundoApellido(creacionDto.getSegundoApellido().trim().toUpperCase());
+        cliente.getPersona().setDireccion(creacionDto.getDireccion().trim().toUpperCase());
+        cliente.getPersona().setTelefono(creacionDto.getTelefono().trim());
         cliente.getCuentaCliente().setCupo(new BigDecimal(creacionDto.getCupo()));
         cliente.getPersona().setBarrio(barrio);
 

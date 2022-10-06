@@ -49,7 +49,7 @@ public class CrearClienteUseCase {
 
     public Cliente crear(ClienteCreacionDto creacionDto) throws BusinessException {
 
-        if(yaExisteCliente(creacionDto.getIdentificacion()))
+        if(yaExisteCliente(creacionDto.getIdentificacion().trim()))
             throw new BusinessException(CLIENTE_YA_REGISTRADO);
 
         Optional<Barrio> barrio =
@@ -64,13 +64,13 @@ public class CrearClienteUseCase {
         BigDecimal cupo = new BigDecimal(creacionDto.getCupo());
 
         Cliente cliente = Cliente.nuevo(
-                creacionDto.getIdentificacion(),
-                creacionDto.getPrimerNombre(),
-                creacionDto.getSegundoNombre(),
-                creacionDto.getPrimerApellido(),
-                creacionDto.getSegundoApellido(),
-                creacionDto.getDireccion(),
-                creacionDto.getTelefono(),
+                creacionDto.getIdentificacion().trim(),
+                creacionDto.getPrimerNombre().trim().toUpperCase(),
+                creacionDto.getSegundoNombre().trim().toUpperCase(),
+                creacionDto.getPrimerApellido().trim().toUpperCase(),
+                creacionDto.getSegundoApellido().trim().toUpperCase(),
+                creacionDto.getDireccion().trim().toUpperCase(),
+                creacionDto.getTelefono().trim(),
                 barrio.orElse(null),
                 cupo,
                 estadoCuentaCliente.orElse(null),
@@ -80,15 +80,15 @@ public class CrearClienteUseCase {
         cliente = clienteRepository.save(cliente);
 
         ReferenciaCreacionDTO referenciaCreacionDTO1 = new ReferenciaCreacionDTO(
-                creacionDto.getNombreReferencia1(),
-                creacionDto.getTelefonoReferencia1(),
+                creacionDto.getNombreReferencia1().trim().toUpperCase(),
+                creacionDto.getTelefonoReferencia1().trim(),
                 creacionDto.getIdParentescoReferencia1()
         );
         crearReferenciaUseCase.crear(referenciaCreacionDTO1, cliente.getId());
 
         ReferenciaCreacionDTO referenciaCreacionDTO2 = new ReferenciaCreacionDTO(
-                creacionDto.getNombreReferencia2(),
-                creacionDto.getTelefonoReferencia2(),
+                creacionDto.getNombreReferencia2().trim().toUpperCase(),
+                creacionDto.getTelefonoReferencia2().trim(),
                 creacionDto.getIdParentescoReferencia2()
         );
 

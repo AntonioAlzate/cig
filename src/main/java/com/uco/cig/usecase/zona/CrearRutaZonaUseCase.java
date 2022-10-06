@@ -51,20 +51,20 @@ public class CrearRutaZonaUseCase {
 
     public Zona crearRuta(RutaCreacionDTO creacionDTO) throws BusinessException {
 
-        Pais paisRuta = traerOCrearPais(creacionDTO.getIdPais(), creacionDTO.getNombrePais());
+        Pais paisRuta = traerOCrearPais(creacionDTO.getIdPais(), creacionDTO.getNombrePais().trim().toUpperCase());
 
-        Departamento departamentoRuta = traerOCrearDepartamento(creacionDTO.getIdDepartamento(), creacionDTO.getNombreDepartamento(), paisRuta);
+        Departamento departamentoRuta = traerOCrearDepartamento(creacionDTO.getIdDepartamento(), creacionDTO.getNombreDepartamento().trim().toUpperCase(), paisRuta);
 
-        Region regionRuta = traerOCrearRegion(creacionDTO.getIdRegion(), creacionDTO.getNombreRegion(), departamentoRuta);
+        Region regionRuta = traerOCrearRegion(creacionDTO.getIdRegion(), creacionDTO.getNombreRegion().trim().toUpperCase(), departamentoRuta);
 
-        Ciudad ciudadRuta = traerOCrearCiudad(creacionDTO.getIdCiudad(), creacionDTO.getNombreCiudad(), regionRuta);
+        Ciudad ciudadRuta = traerOCrearCiudad(creacionDTO.getIdCiudad(), creacionDTO.getNombreCiudad().trim().toUpperCase(), regionRuta);
 
-        Optional<Zona> zona = listarZonasCiudadUseCase.listar(ciudadRuta.getId()).stream().filter(z -> z.getNombre().equals(creacionDTO.getNombreZona())).findFirst();
+        Optional<Zona> zona = listarZonasCiudadUseCase.listar(ciudadRuta.getId()).stream().filter(z -> z.getNombre().equals(creacionDTO.getNombreZona().trim().toUpperCase())).findFirst();
 
         if (zona.isPresent())
             throw new BusinessException(RUTA_YA_EXISTENTE);
 
-        return zonaRepository.save(creacionDTO.getNombreZona(), ciudadRuta);
+        return zonaRepository.save(creacionDTO.getNombreZona().trim().toUpperCase(), ciudadRuta);
     }
 
     private Ciudad traerOCrearCiudad(Integer idCiudad, String nombreCiudad, Region regionRuta) throws BusinessException {

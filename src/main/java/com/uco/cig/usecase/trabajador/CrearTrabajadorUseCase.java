@@ -48,13 +48,13 @@ public class CrearTrabajadorUseCase {
                 Optional.ofNullable(estadoRepository.findByNombre(EstadoEnum.ACTIVO.toString()).orElseThrow(() -> new NotFoundException(ESTADO_NO_ENCONTRADO)));
 
         Trabajador trabajador = Trabajador.nuevo(
-                creacionDto.getIdentificacion(),
-                creacionDto.getPrimerNombre(),
-                creacionDto.getSegundoNombre(),
-                creacionDto.getPrimerApellido(),
-                creacionDto.getSegundoApellido(),
-                creacionDto.getDireccion(),
-                creacionDto.getTelefono(),
+                creacionDto.getIdentificacion().trim(),
+                creacionDto.getPrimerNombre().trim().toUpperCase(),
+                creacionDto.getSegundoNombre().trim().toUpperCase(),
+                creacionDto.getPrimerApellido().trim().toUpperCase(),
+                creacionDto.getSegundoApellido().trim().toUpperCase(),
+                creacionDto.getDireccion().trim().toUpperCase(),
+                creacionDto.getTelefono().trim(),
                 barrio.orElse(null),
                 estado.orElse(null)
         );
@@ -63,7 +63,7 @@ public class CrearTrabajadorUseCase {
     }
 
     private boolean yaExisteTrabajador(String identificacion) {
-        Optional<Persona> persona = personaRepository.findByIdentificacion(identificacion);
+        Optional<Persona> persona = personaRepository.findByIdentificacion(identificacion.trim());
 
         if(persona.isEmpty()){
             return false;

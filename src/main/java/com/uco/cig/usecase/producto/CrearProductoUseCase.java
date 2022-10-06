@@ -60,10 +60,16 @@ public class CrearProductoUseCase {
 
         Optional<Estado> estado = getEstado();
 
-        validarNoExistenciaProducto(productoCreacionDto.getReferencia().toUpperCase());
+        validarNoExistenciaProducto(productoCreacionDto.getReferencia().trim().toUpperCase());
 
-        Producto productoCrear = Producto.nuevo(productoCreacionDto.getNombre(), productoCreacionDto.getReferencia().toUpperCase(Locale.ROOT), productoCreacionDto.getDescripcion(), estado.get(),
-                dimension, categoria, productoCreacionDto.getCantidad());
+        Producto productoCrear = Producto.nuevo(
+                productoCreacionDto.getNombre().trim().toUpperCase(),
+                productoCreacionDto.getReferencia().trim().toUpperCase(),
+                productoCreacionDto.getDescripcion().trim(),
+                estado.get(),
+                dimension,
+                categoria,
+                productoCreacionDto.getCantidad());
 
         Color color = getColorOCrear(productoCreacionDto);
 
@@ -84,14 +90,16 @@ public class CrearProductoUseCase {
     private Color getColorOCrear(ProductoCreacionDto productoCreacionDto) throws BusinessException {
         Optional<Color> color = colorRepository.findById(productoCreacionDto.getIdColor());
 
+        String valNombreColor = productoCreacionDto.getNombreColor().trim().toUpperCase();
+
         if (color.isEmpty()) {
 
-            Color colorPorNombre = colorRepository.findByNombre(productoCreacionDto.getNombreColor());
+            Color colorPorNombre = colorRepository.findByNombre(valNombreColor);
 
             if(colorPorNombre != null)
                 throw new BusinessException(COLOR_NOMBRE_YA_REGISTRADO);
 
-            Color colorConstruir = new Color(null, productoCreacionDto.getNombreColor());
+            Color colorConstruir = new Color(null, valNombreColor);
 
             color = Optional.of(colorRepository.save(colorConstruir));
         }
@@ -128,15 +136,17 @@ public class CrearProductoUseCase {
     private Categoria getCategoria(ProductoCreacionDto productoCreacionDto) throws BusinessException {
         Optional<Categoria> categoria = categoriaRepository.findById(productoCreacionDto.getIdCategoria());
 
+        String valNombreCategoria = productoCreacionDto.getNombreCategoria().trim().toUpperCase();
+
         if (categoria.isEmpty()){
 
-            Categoria categoriaPorNombre = categoriaRepository.findByNombre(productoCreacionDto.getNombreCategoria());
+            Categoria categoriaPorNombre = categoriaRepository.findByNombre(valNombreCategoria);
 
             if(categoriaPorNombre != null)
                 throw new BusinessException(CATEGORIA_NOMBRE_EXISTENTE);
 
             Categoria categoriaConstruir =
-                    Categoria.nuevo(productoCreacionDto.getNombreCategoria());
+                    Categoria.nuevo(valNombreCategoria);
 
             categoria = Optional.of(categoriaRepository.save(categoriaConstruir));
         }
@@ -145,7 +155,7 @@ public class CrearProductoUseCase {
     }
 
     private void validarNoExistenciaProducto(String referencia) throws BusinessException {
-        Optional<Producto> productoValidar = productoRepository.findByReferencia(referencia);
+        Optional<Producto> productoValidar = productoRepository.findByReferencia(referencia.trim().toUpperCase());
 
         if (productoValidar.isPresent()) {
             throw new BusinessException(PRODUCTO_CON_REFERENCIA_YA_REGISTRADO);

@@ -211,15 +211,11 @@ public class MapperUtils {
 
     public Function<TrabajadorEntity, Trabajador> mapperToTrabajador() {
         return entity -> {
-            try {
-                return Trabajador.construir(
-                        entity.getId(),
-                        mapperToPersona().apply(entity.getIdPersona()),
-                        mapperToEstado().apply(entity.getIdEstado())
-                );
-            } catch (BusinessException e) {
-                throw new IllegalArgumentException(e.getMessage());
-            }
+            return Trabajador.construir(
+                    entity.getId(),
+                    mapperToPersona().apply(entity.getIdPersona()),
+                    mapperToEstado().apply(entity.getIdEstado())
+            );
         };
     }
 

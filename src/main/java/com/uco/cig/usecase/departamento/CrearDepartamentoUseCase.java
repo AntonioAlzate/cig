@@ -16,7 +16,10 @@ public class CrearDepartamentoUseCase {
     }
 
     public Departamento crear(String nombreDepartamento, Pais pais) throws BusinessException {
-        Departamento departamento = Departamento.nuevo(nombreDepartamento, pais);
+        Departamento departamento = Departamento.nuevo(
+                nombreDepartamento.trim().toUpperCase(),
+                pais
+        );
         return departamentoRepository.save(departamento);
     }
 }

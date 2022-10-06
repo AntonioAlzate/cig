@@ -14,6 +14,6 @@ public class ObtenerClientePorIdentificacionUseCase {
     }
 
     public Cliente obtener(String identificacion){
-        return clienteRepository.findByIdentificacion(identificacion);
+        return clienteRepository.findByIdentificacion(identificacion.trim());
     }
 }

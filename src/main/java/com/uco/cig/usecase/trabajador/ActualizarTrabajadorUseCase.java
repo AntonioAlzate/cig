@@ -51,13 +51,13 @@ public class ActualizarTrabajadorUseCase {
         if(barrio == null)
             throw new BusinessException(BARRIO_REQUERIDO);
 
-        trabajador.getPersona().setIdentificacion(creacionDto.getIdentificacion());
-        trabajador.getPersona().setPrimerNombre(creacionDto.getPrimerNombre());
-        trabajador.getPersona().setSegundoNombre(creacionDto.getSegundoNombre());
-        trabajador.getPersona().setPrimerApellido(creacionDto.getPrimerApellido());
-        trabajador.getPersona().setSegundoApellido(creacionDto.getSegundoApellido());
-        trabajador.getPersona().setDireccion(creacionDto.getDireccion());
-        trabajador.getPersona().setTelefono(creacionDto.getTelefono());
+        trabajador.getPersona().setIdentificacion(creacionDto.getIdentificacion().trim().toUpperCase());
+        trabajador.getPersona().setPrimerNombre(creacionDto.getPrimerNombre().trim().toUpperCase());
+        trabajador.getPersona().setSegundoNombre(creacionDto.getSegundoNombre().trim().toUpperCase());
+        trabajador.getPersona().setPrimerApellido(creacionDto.getPrimerApellido().trim().toUpperCase());
+        trabajador.getPersona().setSegundoApellido(creacionDto.getSegundoApellido().trim().toUpperCase());
+        trabajador.getPersona().setDireccion(creacionDto.getDireccion().trim().toUpperCase());
+        trabajador.getPersona().setTelefono(creacionDto.getTelefono().trim());
         trabajador.getPersona().setBarrio(barrio);
 
         Trabajador trabajadorValidado =
@@ -71,7 +71,7 @@ public class ActualizarTrabajadorUseCase {
     }
 
     private boolean yaExistePersona(String identificacion) {
-        Optional<Persona> persona = personaRepository.findByIdentificacion(identificacion);
+        Optional<Persona> persona = personaRepository.findByIdentificacion(identificacion.trim());
 
         return persona.isPresent();
     }

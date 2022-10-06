@@ -14,6 +14,6 @@ public class ObtenerTrabajadorPorIdentificacionUseCase {
     }
 
     public Trabajador obtener(String identificacion){
-        return trabajadorRepository.findByIdentificacion(identificacion);
+        return trabajadorRepository.findByIdentificacion(identificacion.trim());
     }
 }

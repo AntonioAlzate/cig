@@ -16,7 +16,10 @@ public class CrearRegionUseCase {
     }
 
     public Region crear(String nombreRegion, Departamento departamento) throws BusinessException {
-        Region region = Region.nuevo(nombreRegion, departamento);
+        Region region = Region.nuevo(
+                nombreRegion.trim().toUpperCase(),
+                departamento
+        );
 
         return regionRepository.save(region);
     }

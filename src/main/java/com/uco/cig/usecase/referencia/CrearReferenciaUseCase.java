@@ -27,7 +27,11 @@ public class CrearReferenciaUseCase {
         Cliente cliente = obtenerClientePorIdUseCase.obtener(idCliente);
         Parentesco parentesco = parentescoPorIdUseCase.obtener(creacionDTO.getIdParentesco());
 
-        Referencia referencia = Referencia.nuevo(creacionDTO.getNombre(), creacionDTO.getTelefono(), cliente, parentesco);
+        Referencia referencia = Referencia.nuevo(
+                creacionDTO.getNombre().trim().toUpperCase(),
+                creacionDTO.getTelefono().trim(),
+                cliente,
+                parentesco);
 
         return referenciaRepository.save(referencia);
     }

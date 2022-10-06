@@ -16,7 +16,10 @@ public class CrearCiudadUseCase {
     }
 
     public Ciudad crear(String nombreCiudad, Region region) throws BusinessException {
-        Ciudad ciudad = Ciudad.nuevo(nombreCiudad, region);
+        Ciudad ciudad = Ciudad.nuevo(
+                nombreCiudad.trim().toUpperCase(),
+                region
+        );
         return ciudadRepository.save(ciudad);
     }
 }

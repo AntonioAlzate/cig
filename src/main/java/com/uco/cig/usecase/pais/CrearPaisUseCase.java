@@ -15,7 +15,7 @@ public class CrearPaisUseCase {
     }
 
     public Pais crear(String nombrePais) throws BusinessException {
-        Pais pais = Pais.nuevo(nombrePais);
+        Pais pais = Pais.nuevo(nombrePais.trim().toUpperCase());
         return paisRepository.save(pais);
     }
 }

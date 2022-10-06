@@ -3,9 +3,6 @@ package com.uco.cig.domain.persona.validator;
 import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.common.validator.ComunValidator;
 
-import java.util.Objects;
-import java.util.Optional;
-
 public final class PersonaValidator extends ComunValidator {
 
     public static void validarLongitudIdentificacion(String identificacion, String mensaje) throws BusinessException {
@@ -24,8 +21,7 @@ public final class PersonaValidator extends ComunValidator {
 
         int longitud = 0;
 
-        if(valor != null)
-            longitud = valor.split(" ").length;
+        longitud = valor.split(" ").length;
 
         if (longitud > 1) {
             throw new BusinessException(mensaje);

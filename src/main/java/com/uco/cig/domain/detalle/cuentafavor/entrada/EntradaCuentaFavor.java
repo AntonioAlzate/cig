@@ -39,31 +39,15 @@ public class EntradaCuentaFavor {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getDescripcion() {
         return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
     }
 
     public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
-    }
-
     public DetalleCuentaFavor getDetalleCuentaFavor() {
         return detalleCuentaFavor;
-    }
-
-    public void setDetalleCuentaFavor(DetalleCuentaFavor detalleCuentaFavor) {
-        this.detalleCuentaFavor = detalleCuentaFavor;
     }
 }

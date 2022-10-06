@@ -3,7 +3,6 @@ package com.uco.cig.domain.detalle.cuentafavor.salida;
 import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.common.validator.ComunValidator;
 import com.uco.cig.domain.detalle.cuentafavor.DetalleCuentaFavor;
-import com.uco.cig.domain.detalle.cuentafavor.entrada.EntradaCuentaFavor;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -40,31 +39,15 @@ public class SalidaCuentaFavor {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getDescripcion() {
         return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
     }
 
     public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
-    }
-
     public DetalleCuentaFavor getDetalleCuentaFavor() {
         return detalleCuentaFavor;
-    }
-
-    public void setDetalleCuentaFavor(DetalleCuentaFavor detalleCuentaFavor) {
-        this.detalleCuentaFavor = detalleCuentaFavor;
     }
 }

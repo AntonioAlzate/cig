@@ -6,9 +6,7 @@ import com.uco.cig.domain.color.Color;
 import com.uco.cig.domain.common.validator.ComunValidator;
 import com.uco.cig.domain.dimension.Dimension;
 import com.uco.cig.domain.estado.Estado;
-import com.uco.cig.domain.producto.validator.ProductoValidator;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Producto {
@@ -35,12 +33,12 @@ public class Producto {
 
     private Producto(Integer id, String nombre, String referencia, String descripcion, Estado estado, Dimension dimension, Categoria categoria, Integer cantidadExistente) throws BusinessException {
         this.id = id;
-        ProductoValidator.validarCadenaNoVacia(nombre, NOMBRE_REQUERIDO);
+        ComunValidator.validarCadenaNoVacia(nombre, NOMBRE_REQUERIDO);
         this.nombre = Objects.requireNonNull(nombre, NOMBRE_REQUERIDO);
-        ProductoValidator.validarCadenaNoVacia(referencia, REFERENCIA_REQUERIDO);
-        ProductoValidator.validarUnicaPalabra(referencia, REFERENCIA_MAS_DE_UNA_PALABRA);
+        ComunValidator.validarCadenaNoVacia(referencia, REFERENCIA_REQUERIDO);
+        ComunValidator.validarUnicaPalabra(referencia, REFERENCIA_MAS_DE_UNA_PALABRA);
         this.referencia = Objects.requireNonNull(referencia, REFERENCIA_REQUERIDO);
-        ProductoValidator.validarCadenaNoVacia(descripcion, DESCRIPCION_REQUERIDO);
+        ComunValidator.validarCadenaNoVacia(descripcion, DESCRIPCION_REQUERIDO);
         this.descripcion = Objects.requireNonNull(descripcion, DESCRIPCION_REQUERIDO);
         this.estado = Objects.requireNonNull(estado, ESTADO_REQUERIDO);
         this.dimension = Objects.requireNonNull(dimension, DIMENSION_REQUERIDO);
@@ -61,71 +59,39 @@ public class Producto {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public String getReferencia() {
         return referencia;
     }
 
-    public void setReferencia(String referencia) {
-        this.referencia = referencia;
-    }
-
     public String getDescripcion() {
         return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
     }
 
     public Estado getEstado() {
         return estado;
     }
 
-    public void setEstado(Estado estado) {
-        this.estado = estado;
-    }
-
     public Dimension getDimension() {
         return dimension;
-    }
-
-    public void setDimension(Dimension dimension) {
-        this.dimension = dimension;
     }
 
     public Categoria getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
-
     public Color getColor() {
         return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
     }
 
     public Integer getCantidadExistente() {
         return cantidadExistente;
     }
 
-    public void setCantidadExistente(Integer cantidadExistente) {
-        this.cantidadExistente = cantidadExistente;
+    public void setColor(Color color) {
+        this.color = color;
     }
 }

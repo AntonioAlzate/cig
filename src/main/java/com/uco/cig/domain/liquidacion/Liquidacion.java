@@ -27,7 +27,7 @@ public class Liquidacion {
         this.fecha = Objects.requireNonNull(fecha, FECHA_REQUERIDA);
         ComunValidator.validarNumeroMayorIgualCero(valor, VALOR_INVALIDO);
         this.valor = Objects.requireNonNull(valor, VALOR_REQUERIDO);
-        this.trabajador = Objects.requireNonNull(trabajador, TRABAJADOR_REQUERIDO);;
+        this.trabajador = Objects.requireNonNull(trabajador, TRABAJADOR_REQUERIDO);
         this.estadoLiquidacion = Objects.requireNonNull(estadoLiquidacion, ESTADO_LIQUIDACION_REQUERIDO);
     }
 
@@ -44,39 +44,19 @@ public class Liquidacion {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public OffsetDateTime getFecha() {
         return fecha;
-    }
-
-    public void setFecha(OffsetDateTime fecha) {
-        this.fecha = fecha;
     }
 
     public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
-    }
-
     public Trabajador getTrabajador() {
         return trabajador;
     }
 
-    public void setTrabajador(Trabajador trabajador) {
-        this.trabajador = trabajador;
-    }
-
     public EstadoLiquidacion getEstadoLiquidacion() {
         return estadoLiquidacion;
-    }
-
-    public void setEstadoLiquidacion(EstadoLiquidacion estadoLiquidacion) {
-        this.estadoLiquidacion = estadoLiquidacion;
     }
 }

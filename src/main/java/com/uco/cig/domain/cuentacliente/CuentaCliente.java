@@ -1,7 +1,7 @@
 package com.uco.cig.domain.cuentacliente;
 
 import com.uco.cig.domain.businessexception.BusinessException;
-import com.uco.cig.domain.cuentacliente.validator.CuentaClienteValidator;
+import com.uco.cig.domain.common.validator.ComunValidator;
 import com.uco.cig.domain.detalle.cuentafavor.DetalleCuentaFavor;
 import com.uco.cig.domain.estado.cuentacliente.EstadoCuentaCliente;
 
@@ -24,12 +24,12 @@ public class CuentaCliente {
 
     private CuentaCliente(Integer id, BigDecimal cupo, BigDecimal saldoDeuda, EstadoCuentaCliente estadoCuentaCliente, DetalleCuentaFavor detalleCuentaFavor) throws BusinessException {
         this.id = id;
-        CuentaClienteValidator.validarNumeroMayorIgualCero(cupo, VALOR_NEGATIVO);
+        ComunValidator.validarNumeroMayorIgualCero(cupo, VALOR_NEGATIVO);
         this.cupo = Objects.requireNonNull(cupo, CUPO_REQUERIDO);
-        CuentaClienteValidator.validarNumeroMayorIgualCero(saldoDeuda, VALOR_NEGATIVO);
+        ComunValidator.validarNumeroMayorIgualCero(saldoDeuda, VALOR_NEGATIVO);
         this.saldoDeuda = Objects.requireNonNull(saldoDeuda, SALDO_REQUERIDO);
-        this.estadoCuentaCliente = Objects.requireNonNull(estadoCuentaCliente, ESTADO_CUENTA_REQUERIDO);;
-        this.detalleCuentaFavor = Objects.requireNonNull(detalleCuentaFavor, DETALLE_CUENTA_REQUERIDO);;
+        this.estadoCuentaCliente = Objects.requireNonNull(estadoCuentaCliente, ESTADO_CUENTA_REQUERIDO);
+        this.detalleCuentaFavor = Objects.requireNonNull(detalleCuentaFavor, DETALLE_CUENTA_REQUERIDO);
     }
 
     public static CuentaCliente nuevo(BigDecimal cupo, EstadoCuentaCliente estadoCuentaCliente) throws BusinessException {
@@ -41,44 +41,33 @@ public class CuentaCliente {
         return new CuentaCliente(id, cupo, saldoDeuda, estadoCuentaCliente, detalleCuentaFavor);
     }
 
-
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public BigDecimal getCupo() {
         return cupo;
     }
 
-    public void setCupo(BigDecimal cupo) {
-        this.cupo = cupo;
-    }
-
     public BigDecimal getSaldoDeuda() {
         return saldoDeuda;
-    }
-
-    public void setSaldoDeuda(BigDecimal saldoDeuda) {
-        this.saldoDeuda = saldoDeuda;
     }
 
     public EstadoCuentaCliente getEstadoCuentaCliente() {
         return estadoCuentaCliente;
     }
 
-    public void setEstadoCuentaCliente(EstadoCuentaCliente estadoCuentaCliente) {
-        this.estadoCuentaCliente = estadoCuentaCliente;
-    }
-
     public DetalleCuentaFavor getDetalleCuentaFavor() {
         return detalleCuentaFavor;
     }
 
-    public void setDetalleCuentaFavor(DetalleCuentaFavor detalleCuentaFavor) {
-        this.detalleCuentaFavor = detalleCuentaFavor;
+    public void setCupo(BigDecimal cupo) throws BusinessException {
+        ComunValidator.validarNumeroMayorIgualCero(cupo, VALOR_NEGATIVO);
+        this.cupo = Objects.requireNonNull(cupo, CUPO_REQUERIDO);
+    }
+
+    public void setSaldoDeuda(BigDecimal saldoDeuda) throws BusinessException {
+        ComunValidator.validarNumeroMayorIgualCero(saldoDeuda, VALOR_NEGATIVO);
+        this.saldoDeuda = Objects.requireNonNull(saldoDeuda, SALDO_REQUERIDO);
     }
 }

@@ -37,7 +37,7 @@ public class RegistroDespacho {
         return new RegistroDespacho(null, trabajadorRealiza,trabajadorRecibe,fecha, new ArrayList<>());
     }
 
-    public static RegistroDespacho construir(Integer id, Trabajador trabajadorRealiza, Trabajador trabajadorRecibe, OffsetDateTime fecha, List<DetalleDespacho> detalles) throws BusinessException {
+    public static RegistroDespacho construir(Integer id, Trabajador trabajadorRealiza, Trabajador trabajadorRecibe, OffsetDateTime fecha, List<DetalleDespacho> detalles) {
         return new RegistroDespacho(id, trabajadorRealiza,trabajadorRecibe,fecha, detalles);
     }
 
@@ -45,32 +45,16 @@ public class RegistroDespacho {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public Trabajador getTrabajadorRealiza() {
         return trabajadorRealiza;
-    }
-
-    public void setTrabajadorRealiza(Trabajador trabajadorRealiza) {
-        this.trabajadorRealiza = trabajadorRealiza;
     }
 
     public Trabajador getTrabajadorRecibe() {
         return trabajadorRecibe;
     }
 
-    public void setTrabajadorRecibe(Trabajador trabajadorRecibe) {
-        this.trabajadorRecibe = trabajadorRecibe;
-    }
-
     public OffsetDateTime getFecha() {
         return fecha;
-    }
-
-    public void setFecha(OffsetDateTime fecha) {
-        this.fecha = fecha;
     }
 
     public List<DetalleDespacho> getDetalles() {

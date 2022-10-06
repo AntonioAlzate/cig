@@ -2,7 +2,6 @@ package com.uco.cig.domain.referencia;
 
 import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.cliente.Cliente;
-import com.uco.cig.domain.common.validator.ComunValidator;
 import com.uco.cig.domain.parentesco.Parentesco;
 import com.uco.cig.domain.persona.validator.PersonaValidator;
 
@@ -43,39 +42,19 @@ public class Referencia {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
     public Cliente getCliente() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
     public Parentesco getParentesco() {
         return parentesco;
-    }
-
-    public void setParentesco(Parentesco parentesco) {
-        this.parentesco = parentesco;
     }
 }

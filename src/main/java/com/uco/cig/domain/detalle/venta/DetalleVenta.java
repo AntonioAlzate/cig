@@ -48,55 +48,32 @@ public class DetalleVenta {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public Integer getCantidad() {
         return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
     }
 
     public BigDecimal getValorTotal() {
         return valorTotal;
     }
 
-    public void setValorTotal(BigDecimal valorTotal) {
-        this.valorTotal = valorTotal;
-    }
-
     public BigDecimal getDescuentoAdicional() {
         return descuentoAdicional;
-    }
-
-    public void setDescuentoAdicional(BigDecimal descuentoAdicional) {
-        this.descuentoAdicional = descuentoAdicional;
     }
 
     public String getJustificacion() {
         return justificacion;
     }
 
-    public void setJustificacion(String justificacion) {
-        this.justificacion = justificacion;
-    }
-
     public Venta getVenta() {
         return venta;
-    }
-
-    public void setVenta(Venta venta) {
-        this.venta = venta;
     }
 
     public Producto getProducto() {
         return producto;
     }
 
-    public void setProducto(Producto producto) {
-        this.producto = producto;
+    public void setVenta(Venta venta) throws BusinessException {
+        this.venta = Venta.construir(venta.getId(), venta.getFecha(), venta.getValorTotal(), venta.getTrabajador(), venta.getFormaPago(), venta.getModalidad(),
+                venta.getCuentaCliente(), venta.getEstadoVenta());
     }
 }

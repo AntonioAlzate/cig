@@ -1,8 +1,8 @@
 package com.uco.cig.domain.region;
 
 import com.uco.cig.domain.businessexception.BusinessException;
+import com.uco.cig.domain.common.validator.ComunValidator;
 import com.uco.cig.domain.departamento.Departamento;
-import com.uco.cig.domain.region.validator.RegionValidator;
 
 import java.util.Objects;
 
@@ -17,7 +17,7 @@ public class Region {
 
     private Region(Integer id, String nombre, Departamento departamento) throws BusinessException {
         this.id = id;
-        RegionValidator.validarCadenaNoVacia(nombre, NOMBRE_REGION_REQUERIDO);
+        ComunValidator.validarCadenaNoVacia(nombre, NOMBRE_REGION_REQUERIDO);
         this.nombre = Objects.requireNonNull(nombre, NOMBRE_REGION_REQUERIDO);
         this.departamento = Objects.requireNonNull(departamento, DEPARTAMENTO_REQUERIDO);
     }
@@ -34,23 +34,11 @@ public class Region {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public Departamento getDepartamento() {
         return departamento;
-    }
-
-    public void setDepartamento(Departamento departamento) {
-        this.departamento = departamento;
     }
 }

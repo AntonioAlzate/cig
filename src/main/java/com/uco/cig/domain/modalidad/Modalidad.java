@@ -22,7 +22,7 @@ public class Modalidad {
         return new Modalidad(null, nombre);
     }
 
-    public static Modalidad Construir(Integer id, String nombre) throws BusinessException {
+    public static Modalidad construir(Integer id, String nombre) throws BusinessException {
         return new Modalidad(id, nombre);
     }
 
@@ -30,15 +30,7 @@ public class Modalidad {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 }

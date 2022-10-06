@@ -9,5 +9,5 @@ public interface BarrioRepository {
     Optional<Barrio> findById(Integer id);
     List<Barrio> findAll();
 
-    List<Barrio> findAllByIdZAndIdZona_IdCiudad(Integer idCiudad);
+    List<Barrio> findAllByIdZAndIdZonaIdCiudad(Integer idCiudad);
 }

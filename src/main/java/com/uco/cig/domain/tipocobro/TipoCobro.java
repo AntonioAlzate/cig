@@ -2,7 +2,6 @@ package com.uco.cig.domain.tipocobro;
 
 import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.common.validator.ComunValidator;
-import com.uco.cig.domain.formapago.FormaPago;
 
 import java.util.Objects;
 
@@ -23,7 +22,7 @@ public class TipoCobro {
         return new TipoCobro(null, nombre);
     }
 
-    public static TipoCobro Construir(Integer id, String nombre) throws BusinessException {
+    public static TipoCobro construir(Integer id, String nombre) throws BusinessException {
         return new TipoCobro(id, nombre);
     }
 
@@ -31,15 +30,7 @@ public class TipoCobro {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 }

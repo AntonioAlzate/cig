@@ -2,7 +2,6 @@ package com.uco.cig.domain.cuota;
 
 import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.common.validator.ComunValidator;
-import com.uco.cig.domain.cuota.validator.CuotaValidator;
 import com.uco.cig.domain.estado.cuota.EstadoCuota;
 import com.uco.cig.domain.tipocobro.TipoCobro;
 import com.uco.cig.domain.trabajador.Trabajador;
@@ -32,12 +31,12 @@ public class Cuota {
 
     private Cuota(Integer id, BigDecimal valorCobro, BigDecimal resta, LocalDate fechaPropuesta, OffsetDateTime fechaRealizacion, Venta venta, Trabajador trabajador, TipoCobro tipoCobro, EstadoCuota estadoCuota) throws BusinessException {
         this.id = id;
-        CuotaValidator.validarNumeroMayorIgualCero(valorCobro, VALOR_COBRO_MENOR_CERO);
+        ComunValidator.validarNumeroMayorIgualCero(valorCobro, VALOR_COBRO_MENOR_CERO);
         this.valorCobro = Objects.requireNonNull(valorCobro, CAMPO_REQUERIDO + "valor cobro");
-        CuotaValidator.validarNumeroMayorIgualCero(resta, VALOR_RESTA_MENOR_CERO);
+        ComunValidator.validarNumeroMayorIgualCero(resta, VALOR_RESTA_MENOR_CERO);
         this.resta = Objects.requireNonNull(resta, CAMPO_REQUERIDO + "resta");
         this.fechaPropuesta = Objects.requireNonNull(fechaPropuesta, CAMPO_REQUERIDO + "fecha propuesta");
-        CuotaValidator.validarFechaNoFutura(fechaRealizacion, FECHA_FUTURO);
+        ComunValidator.validarFechaNoFutura(fechaRealizacion, FECHA_FUTURO);
         this.fechaRealizacion = fechaRealizacion;
         this.venta = Objects.requireNonNull(venta, CAMPO_REQUERIDO + "venta");
         this.trabajador = trabajador;
@@ -57,68 +56,50 @@ public class Cuota {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public BigDecimal getValorCobro() {
         return valorCobro;
-    }
-
-    public void setValorCobro(BigDecimal valorCobro) {
-        this.valorCobro = valorCobro;
     }
 
     public BigDecimal getResta() {
         return resta;
     }
 
-    public void setResta(BigDecimal resta) {
-        this.resta = resta;
-    }
-
     public LocalDate getFechaPropuesta() {
         return fechaPropuesta;
-    }
-
-    public void setFechaPropuesta(LocalDate fechaPropuesta) {
-        this.fechaPropuesta = fechaPropuesta;
     }
 
     public OffsetDateTime getFechaRealizacion() {
         return fechaRealizacion;
     }
 
-    public void setFechaRealizacion(OffsetDateTime fechaRealizacion) {
-        this.fechaRealizacion = fechaRealizacion;
-    }
-
     public Venta getVenta() {
         return venta;
-    }
-
-    public void setVenta(Venta venta) {
-        this.venta = venta;
     }
 
     public Trabajador getTrabajador() {
         return trabajador;
     }
 
-    public void setTrabajador(Trabajador trabajador) {
-        this.trabajador = trabajador;
-    }
-
     public TipoCobro getTipoCobro() {
         return tipoCobro;
     }
 
-    public void setTipoCobro(TipoCobro tipoCobro) {
-        this.tipoCobro = tipoCobro;
-    }
-
     public EstadoCuota getEstadoCuota() {
         return estadoCuota;
+    }
+
+    public void setResta(BigDecimal resta) throws BusinessException {
+        ComunValidator.validarNumeroMayorIgualCero(resta, VALOR_RESTA_MENOR_CERO);
+        this.resta = Objects.requireNonNull(resta, CAMPO_REQUERIDO + "resta");
+    }
+
+    public void setFechaRealizacion(OffsetDateTime fechaRealizacion) throws BusinessException {
+        ComunValidator.validarFechaNoFutura(fechaRealizacion, FECHA_FUTURO);
+        this.fechaRealizacion = fechaRealizacion;
+    }
+
+    public void setTrabajador(Trabajador trabajador) throws BusinessException {
+        this.trabajador = Trabajador.construir(trabajador.getId(), trabajador.getPersona(), trabajador.getEstado());
     }
 
     public void setEstadoCuota(EstadoCuota estadoCuota) {

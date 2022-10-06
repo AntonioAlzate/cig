@@ -1,7 +1,7 @@
 package com.uco.cig.domain.ciudad;
 
 import com.uco.cig.domain.businessexception.BusinessException;
-import com.uco.cig.domain.ciudad.validator.CiudadValidator;
+import com.uco.cig.domain.common.validator.ComunValidator;
 import com.uco.cig.domain.region.Region;
 
 import java.util.Objects;
@@ -17,7 +17,7 @@ public class Ciudad {
 
     private Ciudad(Integer id, String nombre, Region region) throws BusinessException {
         this.id = id;
-        CiudadValidator.validarCadenaNoVacia(nombre, NOMBRE_CIUDAD_REQUERIDO);
+        ComunValidator.validarCadenaNoVacia(nombre, NOMBRE_CIUDAD_REQUERIDO);
         this.nombre = Objects.requireNonNull(nombre, NOMBRE_CIUDAD_REQUERIDO);
         this.region = Objects.requireNonNull(region, REGION_REQUERIDO);
     }
@@ -34,23 +34,11 @@ public class Ciudad {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public Region getRegion() {
         return region;
-    }
-
-    public void setRegion(Region region) {
-        this.region = region;
     }
 }

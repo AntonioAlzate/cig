@@ -1,7 +1,7 @@
 package com.uco.cig.domain.pais;
 
 import com.uco.cig.domain.businessexception.BusinessException;
-import com.uco.cig.domain.pais.validator.PaisValidator;
+import com.uco.cig.domain.common.validator.ComunValidator;
 
 import java.util.Objects;
 
@@ -14,7 +14,7 @@ public class Pais {
 
     private Pais(Integer id, String nombre) throws BusinessException {
         this.id = id;
-        PaisValidator.validarCadenaNoVacia(nombre, NOMBRE_PAIS_REQUERIDO);
+        ComunValidator.validarCadenaNoVacia(nombre, NOMBRE_PAIS_REQUERIDO);
         this.nombre = Objects.requireNonNull(nombre, NOMBRE_PAIS_REQUERIDO);
     }
 
@@ -30,15 +30,7 @@ public class Pais {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 }

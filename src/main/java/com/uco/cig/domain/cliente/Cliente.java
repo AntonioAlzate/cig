@@ -40,36 +40,27 @@ public class Cliente {
         return new Cliente(null, persona, cuentaCliente, estado);
     }
 
-
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Persona getPersona() {
         return persona;
     }
 
-    public void setPersona(Persona persona) {
-        this.persona = persona;
-    }
-
     public CuentaCliente getCuentaCliente() {
         return cuentaCliente;
-    }
-
-    public void setCuentaCliente(CuentaCliente cuentaCliente) {
-        this.cuentaCliente = cuentaCliente;
     }
 
     public Estado getEstado() {
         return estado;
     }
 
+    public void setCuentaCliente(CuentaCliente cuentaCliente) throws BusinessException {
+        this.cuentaCliente = CuentaCliente.construir(cuentaCliente.getId(), cuentaCliente.getCupo(), cuentaCliente.getSaldoDeuda(), cuentaCliente.getEstadoCuentaCliente(), cuentaCliente.getDetalleCuentaFavor());
+    }
+
     public void setEstado(Estado estado) {
-        this.estado = estado;
+        this.estado = Objects.requireNonNull(estado, CAMPO_REQUERIDO);
     }
 }

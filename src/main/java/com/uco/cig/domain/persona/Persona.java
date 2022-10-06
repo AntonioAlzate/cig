@@ -2,6 +2,7 @@ package com.uco.cig.domain.persona;
 
 import com.uco.cig.domain.barrio.Barrio;
 import com.uco.cig.domain.businessexception.BusinessException;
+import com.uco.cig.domain.common.validator.ComunValidator;
 import com.uco.cig.domain.persona.validator.PersonaValidator;
 
 import java.util.Objects;
@@ -37,32 +38,32 @@ public class Persona {
     private Persona(Integer id, String identificacion, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String direccion, String telefono, Barrio barrio) throws BusinessException {
         this.id = id;
 
-        PersonaValidator.validarFormatoNumerico(identificacion, FORMATO_INCORRECTO_IDENTIFICACION);
+        ComunValidator.validarFormatoNumerico(identificacion, FORMATO_INCORRECTO_IDENTIFICACION);
         PersonaValidator.validarLongitudIdentificacion(identificacion, LONGITUD_IDENTIFICACION_NO_VALIDA);
-        PersonaValidator.validarCadenaNoVacia(identificacion, IDENTIFICACION_REQUERIDA);
+        ComunValidator.validarCadenaNoVacia(identificacion, IDENTIFICACION_REQUERIDA);
         this.identificacion = Objects.requireNonNull(identificacion, IDENTIFICACION_REQUERIDA);
 
-        PersonaValidator.validarCadenaNoVacia(primerNombre, PRIMER_NOMBRE_REQUERIDO);
-        PersonaValidator.validarUnicaPalabra(primerNombre, FORMATO_PRIMER_NOMBRE_INCORRECTO);
+        ComunValidator.validarCadenaNoVacia(primerNombre, PRIMER_NOMBRE_REQUERIDO);
+        ComunValidator.validarUnicaPalabra(primerNombre, FORMATO_PRIMER_NOMBRE_INCORRECTO);
         this.primerNombre = Objects.requireNonNull(primerNombre, PRIMER_NOMBRE_REQUERIDO);
 
         PersonaValidator.validarUnicaPalabraSegundoNombre(segundoNombre, FORMATO_SEGUNDO_NOMBRE_INCORRECTO);
         this.segundoNombre = segundoNombre;
 
-        PersonaValidator.validarCadenaNoVacia(primerApellido, PRIMER_APELLIDO_REQUERIDO);
-        PersonaValidator.validarUnicaPalabra(primerApellido, FORMATO_PRIMER_APELLIDO_INCORRECTO);
+        ComunValidator.validarCadenaNoVacia(primerApellido, PRIMER_APELLIDO_REQUERIDO);
+        ComunValidator.validarUnicaPalabra(primerApellido, FORMATO_PRIMER_APELLIDO_INCORRECTO);
         this.primerApellido = Objects.requireNonNull(primerApellido, PRIMER_APELLIDO_REQUERIDO);
 
-        PersonaValidator.validarCadenaNoVacia(segundoApellido, SEGUNDO_APELLIDO_REQUERIDO);
-        PersonaValidator.validarUnicaPalabra(segundoApellido, FORMATO_SEGUNDO_APELLIDO_INCORRECTO);
+        ComunValidator.validarCadenaNoVacia(segundoApellido, SEGUNDO_APELLIDO_REQUERIDO);
+        ComunValidator.validarUnicaPalabra(segundoApellido, FORMATO_SEGUNDO_APELLIDO_INCORRECTO);
         this.segundoApellido = Objects.requireNonNull(segundoApellido, SEGUNDO_APELLIDO_REQUERIDO);
 
-        PersonaValidator.validarCadenaNoVacia(direccion, DIRECCION_REQUERIDA);
+        ComunValidator.validarCadenaNoVacia(direccion, DIRECCION_REQUERIDA);
         this.direccion = Objects.requireNonNull(direccion, DIRECCION_REQUERIDA);
 
-        PersonaValidator.validarCadenaNoVacia(telefono, TELEFONO_REQUERIDO);
+        ComunValidator.validarCadenaNoVacia(telefono, TELEFONO_REQUERIDO);
         PersonaValidator.validarLongitudTelefono(telefono, LONGITUD_TELEFONO_NO_VALIDA);
-        PersonaValidator.validarFormatoNumerico(telefono, TELEFONO_FORMATO_INCORRECTO);
+        ComunValidator.validarFormatoNumerico(telefono, TELEFONO_FORMATO_INCORRECTO);
         this.telefono = Objects.requireNonNull(telefono, TELEFONO_REQUERIDO);
 
         this.barrio = Objects.requireNonNull(barrio, BARRIO_ES_REQUERIDO);
@@ -81,71 +82,81 @@ public class Persona {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getIdentificacion() {
         return identificacion;
-    }
-
-    public void setIdentificacion(String identificacion) {
-        this.identificacion = identificacion;
     }
 
     public String getPrimerNombre() {
         return primerNombre;
     }
 
-    public void setPrimerNombre(String primerNombre) {
-        this.primerNombre = primerNombre;
-    }
-
     public String getSegundoNombre() {
         return segundoNombre;
-    }
-
-    public void setSegundoNombre(String segundoNombre) {
-        this.segundoNombre = segundoNombre;
     }
 
     public String getPrimerApellido() {
         return primerApellido;
     }
 
-    public void setPrimerApellido(String primerApellido) {
-        this.primerApellido = primerApellido;
-    }
-
     public String getSegundoApellido() {
         return segundoApellido;
-    }
-
-    public void setSegundoApellido(String segundoApellido) {
-        this.segundoApellido = segundoApellido;
     }
 
     public String getDireccion() {
         return direccion;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
     public String getTelefono() {
         return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
     }
 
     public Barrio getBarrio() {
         return barrio;
     }
 
-    public void setBarrio(Barrio barrio) {
-        this.barrio = barrio;
+    public void setIdentificacion(String identificacion) throws BusinessException {
+        ComunValidator.validarFormatoNumerico(identificacion, FORMATO_INCORRECTO_IDENTIFICACION);
+        PersonaValidator.validarLongitudIdentificacion(identificacion, LONGITUD_IDENTIFICACION_NO_VALIDA);
+        ComunValidator.validarCadenaNoVacia(identificacion, IDENTIFICACION_REQUERIDA);
+        this.identificacion = Objects.requireNonNull(identificacion, IDENTIFICACION_REQUERIDA);
+    }
+
+    public void setPrimerNombre(String primerNombre) throws BusinessException {
+        ComunValidator.validarCadenaNoVacia(primerNombre, PRIMER_NOMBRE_REQUERIDO);
+        ComunValidator.validarUnicaPalabra(primerNombre, FORMATO_PRIMER_NOMBRE_INCORRECTO);
+        this.primerNombre = Objects.requireNonNull(primerNombre, PRIMER_NOMBRE_REQUERIDO);
+    }
+
+    public void setSegundoNombre(String segundoNombre) throws BusinessException {
+        PersonaValidator.validarUnicaPalabraSegundoNombre(segundoNombre, FORMATO_SEGUNDO_NOMBRE_INCORRECTO);
+        this.segundoNombre = segundoNombre;
+    }
+
+    public void setPrimerApellido(String primerApellido) throws BusinessException {
+        ComunValidator.validarCadenaNoVacia(primerApellido, PRIMER_APELLIDO_REQUERIDO);
+        ComunValidator.validarUnicaPalabra(primerApellido, FORMATO_PRIMER_APELLIDO_INCORRECTO);
+        this.primerApellido = Objects.requireNonNull(primerApellido, PRIMER_APELLIDO_REQUERIDO);
+    }
+
+    public void setSegundoApellido(String segundoApellido) throws BusinessException {
+        ComunValidator.validarCadenaNoVacia(segundoApellido, SEGUNDO_APELLIDO_REQUERIDO);
+        ComunValidator.validarUnicaPalabra(segundoApellido, FORMATO_SEGUNDO_APELLIDO_INCORRECTO);
+        this.segundoApellido = Objects.requireNonNull(segundoApellido, SEGUNDO_APELLIDO_REQUERIDO);
+    }
+
+    public void setDireccion(String direccion) throws BusinessException {
+        ComunValidator.validarCadenaNoVacia(direccion, DIRECCION_REQUERIDA);
+        this.direccion = Objects.requireNonNull(direccion, DIRECCION_REQUERIDA);
+    }
+
+    public void setTelefono(String telefono) throws BusinessException {
+        ComunValidator.validarCadenaNoVacia(telefono, TELEFONO_REQUERIDO);
+        PersonaValidator.validarLongitudTelefono(telefono, LONGITUD_TELEFONO_NO_VALIDA);
+        ComunValidator.validarFormatoNumerico(telefono, TELEFONO_FORMATO_INCORRECTO);
+        this.telefono = Objects.requireNonNull(telefono, TELEFONO_REQUERIDO);
+    }
+
+    public void setBarrio(Barrio barrio) throws BusinessException {
+        this.barrio = Barrio.construir(barrio.getId(), barrio.getNombre(), barrio.getZona());
     }
 }

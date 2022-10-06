@@ -1,7 +1,7 @@
 package com.uco.cig.domain.barrio;
 
-import com.uco.cig.domain.barrio.validator.BarrioValidator;
 import com.uco.cig.domain.businessexception.BusinessException;
+import com.uco.cig.domain.common.validator.ComunValidator;
 import com.uco.cig.domain.zona.Zona;
 
 import java.util.Objects;
@@ -17,7 +17,7 @@ public class Barrio {
 
     private Barrio(Integer id, String nombre, Zona zona) throws BusinessException {
         this.id = id;
-        BarrioValidator.validarCadenaNoVacia(nombre, NOMBRE_BARRIO_REQUERIDO);
+        ComunValidator.validarCadenaNoVacia(nombre, NOMBRE_BARRIO_REQUERIDO);
         this.nombre = Objects.requireNonNull(nombre, NOMBRE_BARRIO_REQUERIDO);
         this.zona = Objects.requireNonNull(zona, ZONA_REQUERIDO);
     }
@@ -34,23 +34,11 @@ public class Barrio {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public Zona getZona() {
         return zona;
-    }
-
-    public void setZona(Zona zona) {
-        this.zona = zona;
     }
 }

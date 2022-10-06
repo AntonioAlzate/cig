@@ -1,7 +1,7 @@
 package com.uco.cig.domain.detalle.cuentafavor;
 
 import com.uco.cig.domain.businessexception.BusinessException;
-import com.uco.cig.domain.detalle.cuentafavor.validator.DetalleCuentaFavorValidator;
+import com.uco.cig.domain.common.validator.ComunValidator;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -16,7 +16,7 @@ public class DetalleCuentaFavor {
 
     private DetalleCuentaFavor(Integer id, BigDecimal valor) throws BusinessException {
         this.id = id;
-        DetalleCuentaFavorValidator.validarNumeroMayorIgualCero(valor, VALOR_NEGATIVO);
+        ComunValidator.validarNumeroMayorIgualCero(valor, VALOR_NEGATIVO);
         this.valor = Objects.requireNonNull(valor, VALOR_REQUERIDO);
     }
 
@@ -32,15 +32,12 @@ public class DetalleCuentaFavor {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
+    public void setValor(BigDecimal valor) throws BusinessException {
+        ComunValidator.validarNumeroMayorIgualCero(valor, VALOR_NEGATIVO);
+        this.valor = Objects.requireNonNull(valor, VALOR_REQUERIDO);
     }
 }

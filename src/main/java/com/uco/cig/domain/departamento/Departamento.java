@@ -1,7 +1,7 @@
 package com.uco.cig.domain.departamento;
 
 import com.uco.cig.domain.businessexception.BusinessException;
-import com.uco.cig.domain.departamento.validator.DepartamentoValidator;
+import com.uco.cig.domain.common.validator.ComunValidator;
 import com.uco.cig.domain.pais.Pais;
 
 import java.util.Objects;
@@ -18,7 +18,7 @@ public class Departamento {
 
     private Departamento(Integer id, String nombre, Pais pais) throws BusinessException {
         this.id = id;
-        DepartamentoValidator.validarCadenaNoVacia(nombre, NOMBRE_DEPARTAMENTO_REQUERIDO);
+        ComunValidator.validarCadenaNoVacia(nombre, NOMBRE_DEPARTAMENTO_REQUERIDO);
         this.nombre = Objects.requireNonNull(nombre,NOMBRE_DEPARTAMENTO_REQUERIDO);
         this.pais = Objects.requireNonNull(pais, PAIS_REQUERIDO);
     }
@@ -35,23 +35,11 @@ public class Departamento {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public Pais getPais() {
         return pais;
-    }
-
-    public void setPais(Pais pais) {
-        this.pais = pais;
     }
 }

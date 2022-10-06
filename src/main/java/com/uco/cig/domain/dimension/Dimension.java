@@ -36,23 +36,11 @@ public class Dimension {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public BigDecimal getLargo() {
         return largo;
     }
 
-    public void setLargo(BigDecimal largo) {
-        this.largo = largo;
-    }
-
     public BigDecimal getAncho() {
         return ancho;
-    }
-
-    public void setAncho(BigDecimal ancho) {
-        this.ancho = ancho;
     }
 }

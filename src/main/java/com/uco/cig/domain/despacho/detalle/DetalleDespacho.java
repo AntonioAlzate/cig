@@ -48,47 +48,23 @@ public class DetalleDespacho {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public Integer getCantidadInicial() {
         return cantidadInicial;
-    }
-
-    public void setCantidadInicial(Integer cantidadInicial) {
-        this.cantidadInicial = cantidadInicial;
     }
 
     public Integer getCantidadEntregar() {
         return cantidadEntregar;
     }
 
-    public void setCantidadEntregar(Integer cantidadEntregar) {
-        this.cantidadEntregar = cantidadEntregar;
-    }
-
     public RegistroDespacho getRegistroDespacho() {
         return registroDespacho;
-    }
-
-    public void setRegistroDespacho(RegistroDespacho registroDespacho) {
-        this.registroDespacho = registroDespacho;
     }
 
     public EstadoDespacho getEstadoDespacho() {
         return estadoDespacho;
     }
 
-    public void setEstadoDespacho(EstadoDespacho estadoDespacho) {
-        this.estadoDespacho = estadoDespacho;
-    }
-
     public Producto getProducto() {
         return producto;
-    }
-
-    public void setProducto(Producto producto) {
-        this.producto = producto;
     }
 }

@@ -7,6 +7,10 @@ import com.uco.cig.domain.estado.cuota.EstadoCuota;
 import com.uco.cig.domain.tipocobro.TipoCobro;
 import com.uco.cig.domain.trabajador.Trabajador;
 import com.uco.cig.domain.venta.Venta;
+import com.uco.cig.usecase.cuota.estado.ConsultarEstadoCuotaCanceladaUseCase;
+import com.uco.cig.usecase.cuota.estado.ConsultarEstadoCuotaPendienteUseCase;
+import com.uco.cig.usecase.cuota.tipocobro.ConsultarTipoCobroInicialUseCase;
+import com.uco.cig.usecase.cuota.tipocobro.ConsultarTipoCobroNormalUseCase;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -21,18 +25,26 @@ public class CrearPlanCuotasUseCase {
 
     private final CuotaRepository cuotaRepository;
 
-    public CrearPlanCuotasUseCase(CuotaRepository cuotaRepository) {
+    private final ConsultarTipoCobroNormalUseCase consultarTipoCobroNormalUseCase;
+    private final ConsultarTipoCobroInicialUseCase consultarTipoCobroInicialUseCase;
+    private final ConsultarEstadoCuotaPendienteUseCase consultarEstadoCuotaPendienteUseCase;
+    private final ConsultarEstadoCuotaCanceladaUseCase consultarEstadoCuotaCanceladaUseCase;
+
+    public CrearPlanCuotasUseCase(CuotaRepository cuotaRepository, ConsultarTipoCobroNormalUseCase consultarTipoCobroNormalUseCase, ConsultarTipoCobroInicialUseCase consultarTipoCobroInicialUseCase, ConsultarEstadoCuotaPendienteUseCase consultarEstadoCuotaPendienteUseCase, ConsultarEstadoCuotaCanceladaUseCase consultarEstadoCuotaCanceladaUseCase) {
         this.cuotaRepository = cuotaRepository;
+        this.consultarTipoCobroNormalUseCase = consultarTipoCobroNormalUseCase;
+        this.consultarTipoCobroInicialUseCase = consultarTipoCobroInicialUseCase;
+        this.consultarEstadoCuotaPendienteUseCase = consultarEstadoCuotaPendienteUseCase;
+        this.consultarEstadoCuotaCanceladaUseCase = consultarEstadoCuotaCanceladaUseCase;
     }
 
     public void generar(BigDecimal valorTotalCompra, BigDecimal valorCuotaInicial, Integer numeroDias, BigDecimal valorMinimo, Venta venta, Trabajador trabajador) throws BusinessException {
         List<Cuota> cuotasGeneradas = new ArrayList<>();
 
-        // todo: A REVISAR EL TIPO COBRO y estado cuota
-        TipoCobro tipoCobroNormal = TipoCobro.construir(2, "NORMAL");
-        TipoCobro tipoCobroInicial = TipoCobro.construir(1, "INICIAL");
-        EstadoCuota estadoCuotaPendiente = new EstadoCuota(1, "PENDIENTE");
-        EstadoCuota estadoCuotaCancelada = new EstadoCuota(2, "CANCELADA");
+        TipoCobro tipoCobroNormal = consultarTipoCobroNormalUseCase.consultar();
+        TipoCobro tipoCobroInicial = consultarTipoCobroInicialUseCase.consultar();
+        EstadoCuota estadoCuotaPendiente = consultarEstadoCuotaPendienteUseCase.consultar();
+        EstadoCuota estadoCuotaCancelada = consultarEstadoCuotaCanceladaUseCase.consultar();
 
 
         BigDecimal valorFinanciar = valorTotalCompra.subtract(valorCuotaInicial);

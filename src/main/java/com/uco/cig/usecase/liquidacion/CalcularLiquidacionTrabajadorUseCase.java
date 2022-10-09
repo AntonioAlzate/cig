@@ -11,6 +11,8 @@ import com.uco.cig.domain.trabajador.Trabajador;
 import com.uco.cig.domain.venta.Venta;
 import com.uco.cig.shared.dtos.DatosLiquidacionDTO;
 import com.uco.cig.usecase.cuota.ListarCuotasCobradasTrabajadorUseCase;
+import com.uco.cig.usecase.cuota.tipocobro.ConsultarTipoCobroInicialUseCase;
+import com.uco.cig.usecase.cuota.tipocobro.ConsultarTipoCobroNormalUseCase;
 import com.uco.cig.usecase.trabajador.ObtenerTrabajadorPorIdUseCase;
 import com.uco.cig.usecase.venta.ListarVentasTrabajadorUseCase;
 import org.springframework.stereotype.Service;
@@ -28,19 +30,24 @@ public class CalcularLiquidacionTrabajadorUseCase {
     private final ListarCuotasCobradasTrabajadorUseCase cuotasCobradasTrabajadorUseCase;
     private final ListarVentasTrabajadorUseCase ventasTrabajadorUseCase;
     private final ObtenerTrabajadorPorIdUseCase obtenerTrabajadorPorIdUseCase;
+    private final ConsultarTipoCobroInicialUseCase consultarTipoCobroInicialUseCase;
+    private final ConsultarTipoCobroNormalUseCase consultarTipoCobroNormalUseCase;
+    private final ConsultarEstadoLiquidacionCanceladaUseCase consultarEstadoLiquidacionCanceladaUseCase;
 
-    public CalcularLiquidacionTrabajadorUseCase(LiquidacionRepository liquidacionRepository, ListarCuotasCobradasTrabajadorUseCase cuotasCobradasTrabajadorUseCase, ListarVentasTrabajadorUseCase ventasTrabajadorUseCase, ObtenerTrabajadorPorIdUseCase obtenerTrabajadorPorIdUseCase) {
+    public CalcularLiquidacionTrabajadorUseCase(LiquidacionRepository liquidacionRepository, ListarCuotasCobradasTrabajadorUseCase cuotasCobradasTrabajadorUseCase, ListarVentasTrabajadorUseCase ventasTrabajadorUseCase, ObtenerTrabajadorPorIdUseCase obtenerTrabajadorPorIdUseCase, ConsultarTipoCobroInicialUseCase consultarTipoCobroInicialUseCase, ConsultarTipoCobroNormalUseCase consultarTipoCobroNormalUseCase, ConsultarEstadoLiquidacionCanceladaUseCase consultarEstadoLiquidacionCanceladaUseCase) {
         this.liquidacionRepository = liquidacionRepository;
         this.cuotasCobradasTrabajadorUseCase = cuotasCobradasTrabajadorUseCase;
         this.ventasTrabajadorUseCase = ventasTrabajadorUseCase;
         this.obtenerTrabajadorPorIdUseCase = obtenerTrabajadorPorIdUseCase;
+        this.consultarTipoCobroInicialUseCase = consultarTipoCobroInicialUseCase;
+        this.consultarTipoCobroNormalUseCase = consultarTipoCobroNormalUseCase;
+        this.consultarEstadoLiquidacionCanceladaUseCase = consultarEstadoLiquidacionCanceladaUseCase;
     }
 
     public DatosLiquidacionDTO calcular(Integer idTrabajador, OffsetDateTime fechaRealizacion, Boolean crearLiquidacion) throws BusinessException {
-        //todo:
-        TipoCobro tipoCobroInicial = TipoCobro.construir(1, "INICIAL");
-        TipoCobro tipoCobroNormal = TipoCobro.construir(2, "NORMAL");
-        EstadoLiquidacion estadoLiquidacion = new EstadoLiquidacion(2, "CANCELADA");
+        TipoCobro tipoCobroInicial = consultarTipoCobroInicialUseCase.consultar();
+        TipoCobro tipoCobroNormal = consultarTipoCobroNormalUseCase.consultar();
+        EstadoLiquidacion estadoLiquidacion = consultarEstadoLiquidacionCanceladaUseCase.consultar();
 
         DatosLiquidacionDTO datosLiquidacionDTO = new DatosLiquidacionDTO();
 

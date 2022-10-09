@@ -10,6 +10,8 @@ import com.uco.cig.domain.trabajador.Trabajador;
 import com.uco.cig.shared.dtos.CuotaPagoDTO;
 import com.uco.cig.usecase.cliente.ActualizarCupoDeudaAbonoCuentaClienteUseCase;
 import com.uco.cig.usecase.cliente.ObtenerClientePorIdUseCase;
+import com.uco.cig.usecase.cuota.estado.ConsultarEstadoCuotaCanceladaUseCase;
+import com.uco.cig.usecase.cuota.estado.ConsultarEstadoCuotaPendienteUseCase;
 import com.uco.cig.usecase.trabajador.ObtenerTrabajadorPorIdUseCase;
 import org.springframework.stereotype.Service;
 
@@ -26,18 +28,21 @@ public class PagarCuotaProximaUseCase {
     private final ObtenerTrabajadorPorIdUseCase trabajadorPorIdUseCase;
     private final ObtenerClientePorIdUseCase clientePorIdUseCase;
     private final ActualizarCupoDeudaAbonoCuentaClienteUseCase actualizarCupoDeudaCuentaClienteUseCase;
+    private final ConsultarEstadoCuotaPendienteUseCase consultarEstadoCuotaPendienteUseCase;
+    private final ConsultarEstadoCuotaCanceladaUseCase consultarEstadoCuotaCanceladaUseCase;
 
-    public PagarCuotaProximaUseCase(CuotaRepository cuotaRepository, ObtenerTrabajadorPorIdUseCase trabajadorPorIdUseCase, ObtenerClientePorIdUseCase clientePorIdUseCase, ActualizarCupoDeudaAbonoCuentaClienteUseCase actualizarCupoDeudaCuentaClienteUseCase) {
+    public PagarCuotaProximaUseCase(CuotaRepository cuotaRepository, ObtenerTrabajadorPorIdUseCase trabajadorPorIdUseCase, ObtenerClientePorIdUseCase clientePorIdUseCase, ActualizarCupoDeudaAbonoCuentaClienteUseCase actualizarCupoDeudaCuentaClienteUseCase, ConsultarEstadoCuotaPendienteUseCase consultarEstadoCuotaPendienteUseCase, ConsultarEstadoCuotaCanceladaUseCase consultarEstadoCuotaCanceladaUseCase) {
         this.cuotaRepository = cuotaRepository;
         this.trabajadorPorIdUseCase = trabajadorPorIdUseCase;
         this.clientePorIdUseCase = clientePorIdUseCase;
         this.actualizarCupoDeudaCuentaClienteUseCase = actualizarCupoDeudaCuentaClienteUseCase;
+        this.consultarEstadoCuotaPendienteUseCase = consultarEstadoCuotaPendienteUseCase;
+        this.consultarEstadoCuotaCanceladaUseCase = consultarEstadoCuotaCanceladaUseCase;
     }
 
     public Cuota pagar(CuotaPagoDTO cuotaPagoDTO) throws BusinessException {
-        // todo: estado cuota
-        EstadoCuota estadoCuotaPendiente = new EstadoCuota(1, "PEDIENTE");
-        EstadoCuota estadoCuotaCancelada = new EstadoCuota(2, "CANCELADA");
+        EstadoCuota estadoCuotaPendiente = consultarEstadoCuotaPendienteUseCase.consultar();
+        EstadoCuota estadoCuotaCancelada = consultarEstadoCuotaCanceladaUseCase.consultar();
 
         Trabajador trabajadorCobra = trabajadorPorIdUseCase.obtener(cuotaPagoDTO.getIdTrabajador());
 

@@ -10,6 +10,8 @@ import com.uco.cig.domain.venta.Venta;
 import com.uco.cig.generate.GeneralHelper;
 import com.uco.cig.generate.TrabajadorHelper;
 import com.uco.cig.generate.VentaHelper;
+import com.uco.cig.usecase.cuota.estado.ConsultarEstadoCuotaCanceladaUseCase;
+import com.uco.cig.usecase.cuota.tipocobro.ConsultarTipoCobroNormalUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -23,13 +25,16 @@ import static org.mockito.Mockito.*;
 class CrearCuotaPagoContadoUseCaseTest {
 
     CuotaRepository cuotaRepository;
-
+    ConsultarTipoCobroNormalUseCase consultarTipoCobroNormalUseCase;
+    ConsultarEstadoCuotaCanceladaUseCase consultarEstadoCuotaCanceladaUseCase;
     CrearCuotaPagoContadoUseCase crearCuotaPagoContadoUseCase;
 
     @BeforeEach
     public void setup(){
         cuotaRepository = mock(CuotaRepository.class);
-        crearCuotaPagoContadoUseCase = new CrearCuotaPagoContadoUseCase(cuotaRepository);
+        consultarTipoCobroNormalUseCase = mock(ConsultarTipoCobroNormalUseCase.class);
+        consultarEstadoCuotaCanceladaUseCase = mock(ConsultarEstadoCuotaCanceladaUseCase.class);
+        crearCuotaPagoContadoUseCase = new CrearCuotaPagoContadoUseCase(cuotaRepository, consultarTipoCobroNormalUseCase, consultarEstadoCuotaCanceladaUseCase);
     }
 
     @Test

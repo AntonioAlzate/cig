@@ -12,6 +12,8 @@ import com.uco.cig.generate.*;
 import com.uco.cig.shared.dtos.CuotaPagoDTO;
 import com.uco.cig.usecase.cliente.ActualizarCupoDeudaAbonoCuentaClienteUseCase;
 import com.uco.cig.usecase.cliente.ObtenerClientePorIdUseCase;
+import com.uco.cig.usecase.cuota.estado.ConsultarEstadoCuotaCanceladaUseCase;
+import com.uco.cig.usecase.cuota.estado.ConsultarEstadoCuotaPendienteUseCase;
 import com.uco.cig.usecase.trabajador.ObtenerTrabajadorPorIdUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +35,8 @@ class PagarCuotaProximaUseCaseTest {
     ObtenerClientePorIdUseCase clientePorIdUseCase;
 
     ActualizarCupoDeudaAbonoCuentaClienteUseCase actualizarCupoDeudaAbonoCuentaClienteUseCase;
-
+    ConsultarEstadoCuotaPendienteUseCase consultarEstadoCuotaPendienteUseCase;
+    ConsultarEstadoCuotaCanceladaUseCase consultarEstadoCuotaCanceladaUseCase;
     PagarCuotaProximaUseCase pagarCuotaProximaUseCase;
 
     @BeforeEach
@@ -41,14 +44,14 @@ class PagarCuotaProximaUseCaseTest {
         cuotaRepository = mock(CuotaRepository.class);
         trabajadorPorIdUseCase = mock(ObtenerTrabajadorPorIdUseCase.class);
         clientePorIdUseCase = mock(ObtenerClientePorIdUseCase.class);
-        actualizarCupoDeudaAbonoCuentaClienteUseCase = mock(
-                ActualizarCupoDeudaAbonoCuentaClienteUseCase.class
-        );
+        actualizarCupoDeudaAbonoCuentaClienteUseCase = mock(ActualizarCupoDeudaAbonoCuentaClienteUseCase.class);
+        consultarEstadoCuotaCanceladaUseCase = mock(ConsultarEstadoCuotaCanceladaUseCase.class);
+        consultarEstadoCuotaPendienteUseCase = mock(ConsultarEstadoCuotaPendienteUseCase.class);
         pagarCuotaProximaUseCase = new PagarCuotaProximaUseCase(cuotaRepository,
                 trabajadorPorIdUseCase,
                 clientePorIdUseCase,
-                actualizarCupoDeudaAbonoCuentaClienteUseCase
-        );
+                actualizarCupoDeudaAbonoCuentaClienteUseCase,
+                consultarEstadoCuotaPendienteUseCase, consultarEstadoCuotaCanceladaUseCase);
     }
 
     @Test

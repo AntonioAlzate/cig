@@ -10,6 +10,10 @@ import com.uco.cig.generate.GeneralHelper;
 import com.uco.cig.generate.TipoCobroHelper;
 import com.uco.cig.generate.TrabajadorHelper;
 import com.uco.cig.generate.VentaHelper;
+import com.uco.cig.usecase.cuota.estado.ConsultarEstadoCuotaCanceladaUseCase;
+import com.uco.cig.usecase.cuota.estado.ConsultarEstadoCuotaPendienteUseCase;
+import com.uco.cig.usecase.cuota.tipocobro.ConsultarTipoCobroInicialUseCase;
+import com.uco.cig.usecase.cuota.tipocobro.ConsultarTipoCobroNormalUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -26,12 +30,20 @@ class CrearPlanCuotasUseCaseTest {
 
     CuotaRepository cuotaRepository;
 
+    ConsultarTipoCobroNormalUseCase consultarTipoCobroNormalUseCase;
+    ConsultarTipoCobroInicialUseCase consultarTipoCobroInicialUseCase;
+    ConsultarEstadoCuotaPendienteUseCase consultarEstadoCuotaPendienteUseCase;
+    ConsultarEstadoCuotaCanceladaUseCase consultarEstadoCuotaCanceladaUseCase;
     CrearPlanCuotasUseCase crearPlanCuotasUseCase;
 
     @BeforeEach
     public void setup(){
         cuotaRepository = mock(CuotaRepository.class);
-        crearPlanCuotasUseCase = new CrearPlanCuotasUseCase(cuotaRepository);
+        consultarTipoCobroNormalUseCase = mock(ConsultarTipoCobroNormalUseCase.class);
+        consultarTipoCobroInicialUseCase = mock(ConsultarTipoCobroInicialUseCase.class);
+        consultarEstadoCuotaPendienteUseCase = mock(ConsultarEstadoCuotaPendienteUseCase.class);
+        consultarEstadoCuotaCanceladaUseCase = mock(ConsultarEstadoCuotaCanceladaUseCase.class);
+        crearPlanCuotasUseCase = new CrearPlanCuotasUseCase(cuotaRepository, consultarTipoCobroNormalUseCase, consultarTipoCobroInicialUseCase, consultarEstadoCuotaPendienteUseCase, consultarEstadoCuotaCanceladaUseCase);
     }
 
     @Test

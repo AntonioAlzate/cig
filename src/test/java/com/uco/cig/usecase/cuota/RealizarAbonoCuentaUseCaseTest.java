@@ -14,6 +14,10 @@ import com.uco.cig.generate.TrabajadorHelper;
 import com.uco.cig.shared.dtos.AbonoPagoDTO;
 import com.uco.cig.usecase.cliente.ActualizarCupoDeudaAbonoCuentaClienteUseCase;
 import com.uco.cig.usecase.cliente.ObtenerClientePorIdUseCase;
+import com.uco.cig.usecase.cuota.estado.ConsultarEstadoCuotaCanceladaUseCase;
+import com.uco.cig.usecase.cuota.estado.ConsultarEstadoCuotaPendienteUseCase;
+import com.uco.cig.usecase.cuota.tipocobro.ConsultarTipoCobroNormalUseCase;
+import com.uco.cig.usecase.liquidacion.ConsultarEstadoLiquidacionCanceladaUseCase;
 import com.uco.cig.usecase.trabajador.ObtenerTrabajadorPorIdUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,20 +45,24 @@ class RealizarAbonoCuentaUseCaseTest {
 
     RealizarAbonoCuentaUseCase realizarAbonoCuentaUseCase;
 
+    ConsultarEstadoCuotaCanceladaUseCase consultarEstadoCuotaCanceladaUseCase;
+    ConsultarEstadoCuotaPendienteUseCase consultarEstadoCuotaPendienteUseCase;
+
     @BeforeEach
     public void setup(){
         cuotaRepository = mock(CuotaRepository.class);
         trabajadorPorIdUseCase = mock(ObtenerTrabajadorPorIdUseCase.class);
         clientePorIdUseCase = mock(ObtenerClientePorIdUseCase.class);
-        actualizarCupoDeudaAbonoCuentaClienteUseCase = mock(
-                ActualizarCupoDeudaAbonoCuentaClienteUseCase.class
-        );
+        actualizarCupoDeudaAbonoCuentaClienteUseCase = mock(ActualizarCupoDeudaAbonoCuentaClienteUseCase.class);
+        consultarEstadoCuotaPendienteUseCase = mock(ConsultarEstadoCuotaPendienteUseCase.class);
+        consultarEstadoCuotaCanceladaUseCase = mock(ConsultarEstadoCuotaCanceladaUseCase.class);
         realizarAbonoCuentaUseCase = new RealizarAbonoCuentaUseCase(
                 cuotaRepository,
                 trabajadorPorIdUseCase,
                 clientePorIdUseCase,
-                actualizarCupoDeudaAbonoCuentaClienteUseCase
-        );
+                actualizarCupoDeudaAbonoCuentaClienteUseCase,
+                consultarEstadoCuotaCanceladaUseCase,
+                consultarEstadoCuotaPendienteUseCase);
     }
 
     @Test

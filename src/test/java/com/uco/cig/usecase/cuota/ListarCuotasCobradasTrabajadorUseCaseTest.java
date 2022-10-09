@@ -7,6 +7,7 @@ import com.uco.cig.domain.trabajador.Trabajador;
 import com.uco.cig.generate.CuotasHelper;
 import com.uco.cig.generate.EstadoCuotaHelper;
 import com.uco.cig.generate.TrabajadorHelper;
+import com.uco.cig.usecase.cuota.estado.ConsultarEstadoCuotaCanceladaUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,12 +22,15 @@ class ListarCuotasCobradasTrabajadorUseCaseTest {
 
     CuotaRepository cuotaRepository;
 
+    ConsultarEstadoCuotaCanceladaUseCase estadoCuotaCanceladaUseCase;
+
     ListarCuotasCobradasTrabajadorUseCase listarCuotasCobradasTrabajadorUseCase;
 
     @BeforeEach
     public void setup(){
         cuotaRepository = mock(CuotaRepository.class);
-        listarCuotasCobradasTrabajadorUseCase = new ListarCuotasCobradasTrabajadorUseCase(cuotaRepository);
+        estadoCuotaCanceladaUseCase = mock(ConsultarEstadoCuotaCanceladaUseCase.class);
+        listarCuotasCobradasTrabajadorUseCase = new ListarCuotasCobradasTrabajadorUseCase(cuotaRepository, estadoCuotaCanceladaUseCase);
     }
 
     @Test

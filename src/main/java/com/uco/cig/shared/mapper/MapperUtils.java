@@ -211,11 +211,16 @@ public class MapperUtils {
 
     public Function<TrabajadorEntity, Trabajador> mapperToTrabajador() {
         return entity -> {
-            return Trabajador.construir(
-                    entity.getId(),
-                    mapperToPersona().apply(entity.getIdPersona()),
-                    mapperToEstado().apply(entity.getIdEstado())
-            );
+            try {
+                return Trabajador.construir(
+                        entity.getId(),
+                        mapperToPersona().apply(entity.getIdPersona()),
+                        mapperToEstado().apply(entity.getIdEstado()),
+                        entity.getCorreo()
+                );
+            } catch (BusinessException e) {
+                throw new RuntimeException(e);
+            }
         };
     }
 
@@ -614,8 +619,8 @@ public class MapperUtils {
         return trabajador -> new TrabajadorEntity(
                 trabajador.getId(),
                 mappertoPersonaEntity().apply(trabajador.getPersona()),
-                mappertoEstadoEntity().apply(trabajador.getEstado())
-        );
+                mappertoEstadoEntity().apply(trabajador.getEstado()),
+                trabajador.getCorreo());
     }
 
     public Function<Dimension, DimensionEntity> mappertoDimensionEntity() {

@@ -12,4 +12,5 @@ public interface TrabajadorEntityRepository extends JpaRepository<TrabajadorEnti
     Boolean existsByIdPersona(PersonaEntity idPersona);
 
     Optional<TrabajadorEntity> findByIdPersona(PersonaEntity idPersona);
+    Optional<TrabajadorEntity> findByCorreo(String correo);
 }

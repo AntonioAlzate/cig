@@ -20,7 +20,8 @@ import java.util.Optional;
 @Service
 public class CrearTrabajadorUseCase {
 
-    private static final String TRABAJADOR_YA_REGISTRADO = "El trabajador que desea ingresar ya se encuentra registrado";
+    private static final String TRABAJADOR_CON_IDENTIFICACION_YA_REGISTRADO = "Ya se encuentra registrado en el sistema un trabajador con identificación:";
+    private static final String TRABAJADOR_CON_CORREO_YA_REGISTRADO = "Ya se encuentra registrado en el sistema un trabajador con correo:";
     private static final String BARRIO_NO_ENCONTRADO = "El Barrio especificado no ha sido encontrado, asegurese de que se encuentre registrado";
     private static final String ESTADO_NO_ENCONTRADO = "El Estado especificado no ha sido encontrado, asegurese de que se encuentre registrado";
 
@@ -38,8 +39,12 @@ public class CrearTrabajadorUseCase {
     }
 
     public Trabajador crear(TrabajadorCreacionDto creacionDto) throws BusinessException {
-        if(yaExisteTrabajador(creacionDto.getIdentificacion()))
-            throw new BusinessException(TRABAJADOR_YA_REGISTRADO);
+        if(yaExisteTrabajadorConIdentificacion(creacionDto.getIdentificacion()))
+            throw new BusinessException(TRABAJADOR_CON_IDENTIFICACION_YA_REGISTRADO + " " + creacionDto.getIdentificacion());
+
+        if(yaExisteTrabajadorConCorreo(creacionDto.getCorreo())){
+            throw new BusinessException(TRABAJADOR_CON_CORREO_YA_REGISTRADO + " " + creacionDto.getCorreo());
+        }
 
         Optional<Barrio> barrio =
                 Optional.ofNullable(barrioRepository.findById(creacionDto.getIdBarrio()).orElseThrow(() -> new NotFoundException(BARRIO_NO_ENCONTRADO)));
@@ -56,19 +61,27 @@ public class CrearTrabajadorUseCase {
                 creacionDto.getDireccion().trim().toUpperCase(),
                 creacionDto.getTelefono().trim(),
                 barrio.orElse(null),
-                estado.orElse(null)
+                estado.orElse(null),
+                creacionDto.getCorreo().trim()
         );
 
         return trabajadorRepository.save(trabajador);
     }
 
-    private boolean yaExisteTrabajador(String identificacion) {
-        Optional<Persona> persona = personaRepository.findByIdentificacion(identificacion.trim());
+    private boolean yaExisteTrabajadorConCorreo(String correo) {
 
-        if(persona.isEmpty()){
+        Optional<Trabajador> trabajador = trabajadorRepository.findByCorreo(correo);
+
+        return trabajador.isPresent();
+    }
+
+    private boolean yaExisteTrabajadorConIdentificacion(String identificacion) {
+        Optional<Persona> personaByIdentificacion = personaRepository.findByIdentificacion(identificacion.trim());
+
+        if(personaByIdentificacion.isEmpty()){
             return false;
         }
 
-        return trabajadorRepository.existsByIdPersona(persona.orElse(null));
+        return trabajadorRepository.existsByIdPersona(personaByIdentificacion.orElse(null));
     }
 }

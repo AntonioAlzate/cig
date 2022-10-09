@@ -12,4 +12,5 @@ public class TrabajadorCreacionDto {
     private final String direccion;
     private final String telefono;
     private final Integer idBarrio;
+    private final String correo;
 }

@@ -99,7 +99,7 @@ public class Cuota {
     }
 
     public void setTrabajador(Trabajador trabajador) throws BusinessException {
-        this.trabajador = Trabajador.construir(trabajador.getId(), trabajador.getPersona(), trabajador.getEstado());
+        this.trabajador = Trabajador.construir(trabajador.getId(), trabajador.getPersona(), trabajador.getEstado(), trabajador.getCorreo());
     }
 
     public void setEstadoCuota(EstadoCuota estadoCuota) {

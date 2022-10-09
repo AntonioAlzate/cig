@@ -113,4 +113,14 @@ public class TrabajadorRepositoryAdapter implements TrabajadorRepository {
 
         return trabajadores.stream().map(x -> mapperUtils.mapperToTrabajador().apply(x)).collect(Collectors.toList());
     }
+
+    @Override
+    public Optional<Trabajador> findByCorreo(String correo) {
+        Optional<TrabajadorEntity> trabajadorEntity = trabajadorEntityRepository.findByCorreo(correo);
+
+        if(trabajadorEntity.isEmpty())
+            return Optional.empty();
+
+        return Optional.of(mapperUtils.mapperToTrabajador().apply(trabajadorEntity.get()));
+    }
 }

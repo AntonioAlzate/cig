@@ -19,6 +19,7 @@ public class ActualizarTrabajadorUseCase {
     private static final String TRABAJADOR_NO_ENCONTRADO = "El trabajador que intenta actualizar no se ha encontrado";
     private static final String BARRIO_REQUERIDO = "No es posible actualizar un cliente sin especificar un barrio valido";
     private static final String IDENTIFICACION_YA_REGISTRADA = "La identificación ingresada ya se encuentra registrada en otro usuario por lo tanto no se puede actualizar";
+    private static final String TRABAJADOR_CON_CORREO_YA_REGISTRADO = "Ya se encuentra registrado en el sistema un trabajador con correo:";
 
     private final TrabajadorRepository trabajadorRepository;
     private final BarrioRepository barrioRepository;
@@ -48,6 +49,10 @@ public class ActualizarTrabajadorUseCase {
 
         Barrio barrio = barrioRepository.findById(creacionDto.getIdBarrio()).orElse(null);
 
+        if(yaExisteTrabajadorConCorreo(creacionDto.getCorreo())){
+            throw new BusinessException(TRABAJADOR_CON_CORREO_YA_REGISTRADO + " " + creacionDto.getCorreo());
+        }
+
         if(barrio == null)
             throw new BusinessException(BARRIO_REQUERIDO);
 
@@ -59,15 +64,24 @@ public class ActualizarTrabajadorUseCase {
         trabajador.getPersona().setDireccion(creacionDto.getDireccion().trim().toUpperCase());
         trabajador.getPersona().setTelefono(creacionDto.getTelefono().trim());
         trabajador.getPersona().setBarrio(barrio);
+        trabajador.setCorreo(creacionDto.getCorreo().trim());
 
         Trabajador trabajadorValidado =
                 Trabajador.construir(
                         trabajador.getId(),
                         trabajador.getPersona(),
-                        trabajador.getEstado()
+                        trabajador.getEstado(),
+                        trabajador.getCorreo()
                 );
 
         return Optional.of(trabajadorValidado);
+    }
+
+    private boolean yaExisteTrabajadorConCorreo(String correo) {
+
+        Optional<Trabajador> trabajador = trabajadorRepository.findByCorreo(correo);
+
+        return trabajador.isPresent();
     }
 
     private boolean yaExistePersona(String identificacion) {

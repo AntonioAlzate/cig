@@ -18,13 +18,17 @@ public class TrabajadorEntity {
     @JoinColumn(name = "idEstado", nullable = false)
     private EstadoEntity idEstadoEntity;
 
+    @Column(name = "correo", nullable = false, length = 32)
+    private String correo;
+
     public TrabajadorEntity() {
     }
 
-    public TrabajadorEntity(Integer id, PersonaEntity idPersona, EstadoEntity idEstadoEntity) {
+    public TrabajadorEntity(Integer id, PersonaEntity idPersona, EstadoEntity idEstadoEntity, String correo) {
         this.id = id;
         this.idPersona = idPersona;
         this.idEstadoEntity = idEstadoEntity;
+        this.correo = correo;
     }
 
     public EstadoEntity getIdEstado() {
@@ -49,5 +53,13 @@ public class TrabajadorEntity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 }

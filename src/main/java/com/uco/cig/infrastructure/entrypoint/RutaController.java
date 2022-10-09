@@ -46,6 +46,7 @@ public class RutaController {
         this.crearRutaZonaUseCase = crearRutaZonaUseCase;
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-admin')")
     @PostMapping("/ruta")
     public ResponseEntity<Zona> crearRuta(@RequestBody RutaCreacionDTO rutaCreacionDTO) throws BusinessException {
         Zona zona =crearRutaZonaUseCase.crearRuta(rutaCreacionDTO);
@@ -53,6 +54,7 @@ public class RutaController {
         return ResponseEntity.created(location).body(zona);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping("/paises")
     public ResponseEntity<List<Pais>> listarPaises(){
         List<Pais> pais = listarPaisesUseCase.listar();
@@ -60,6 +62,7 @@ public class RutaController {
         return ResponseEntity.ok(pais);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping("/departamentos/{idPais}")
     public ResponseEntity<List<Departamento>> listarDepartamentos(@PathVariable Integer idPais){
         List<Departamento> departamentos = listarDepartamentosUseCase.listar(idPais);
@@ -67,6 +70,7 @@ public class RutaController {
         return ResponseEntity.ok(departamentos);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping("/regiones/{idDepartamento}")
     public ResponseEntity<List<Region>> listarRegiones(@PathVariable Integer idDepartamento){
         List<Region> regiones = listarRegionesUseCase.listar(idDepartamento);
@@ -74,6 +78,7 @@ public class RutaController {
         return ResponseEntity.ok(regiones);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping("/ciudades/{idRegion}")
     public ResponseEntity<List<Ciudad>> listarCiudades(@PathVariable Integer idRegion){
         List<Ciudad> ciudades = listarCiudadesUseCase.listar(idRegion);
@@ -81,6 +86,7 @@ public class RutaController {
         return ResponseEntity.ok(ciudades);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping("/barrios/{idCiudad}")
     public ResponseEntity<List<Barrio>> listarBarrios(@PathVariable Integer idCiudad){
         List<Barrio> barrios = listarBarriosCiudadUseCase.listar(idCiudad);
@@ -88,6 +94,7 @@ public class RutaController {
         return ResponseEntity.ok(barrios);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @GetMapping("/zonas/{idCiudad}")
     public ResponseEntity<List<Zona>> listarZonas(@PathVariable Integer idCiudad){
         List<Zona> barrios = listarZonasCiudadUseCase.listar(idCiudad);

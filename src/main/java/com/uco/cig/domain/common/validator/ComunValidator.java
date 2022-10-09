@@ -5,8 +5,23 @@ import com.uco.cig.domain.businessexception.BusinessException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ComunValidator {
+
+    public static void validarFormatoCorreo(String correo, String mensaje) throws BusinessException {
+        if(correo == null)
+            return;
+
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+
+        Matcher matcher = pattern.matcher(correo);
+
+        if(!matcher.find())
+            throw new BusinessException(mensaje);
+    }
 
     public static void validarCadenaNoVacia(String valor, String mensaje) throws BusinessException {
         if (valor == null)

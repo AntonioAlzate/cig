@@ -18,4 +18,6 @@ public interface TrabajadorRepository {
     Trabajador findByIdentificacion(String identificacion);
 
     List<Trabajador> findAll();
+
+    Optional<Trabajador> findByCorreo(String correo);
 }

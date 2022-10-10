@@ -40,15 +40,15 @@ public class TrabajadorRepositoryAdapter implements TrabajadorRepository {
     @Override
     public Trabajador save(Trabajador trabajador) {
 
-        PersonaEntity personaValidar = personaEntityRepository.findByIdentificacion(trabajador.getPersona().getIdentificacion());
+        Optional<PersonaEntity> personaValidar = personaEntityRepository.findById(40);
 
         Persona persona = trabajador.getPersona();
         PersonaEntity personaEntity = mapperUtils.mappertoPersonaEntity().apply(persona);
 
-        if(personaValidar == null){
+        if(personaValidar.isEmpty()){
             personaEntity = personaEntityRepository.save(personaEntity);
         } else {
-            personaEntity = personaValidar;
+            personaEntity = personaValidar.get();
         }
 
         TrabajadorEntity trabajadorEntity =  mapperUtils.mappertoTrabajadorEntity().apply(trabajador);
@@ -91,14 +91,14 @@ public class TrabajadorRepositoryAdapter implements TrabajadorRepository {
 
     @Override
     public Trabajador findByIdentificacion(String identificacion) {
-        PersonaEntity personaEntity = personaEntityRepository.findByIdentificacion(identificacion);
+        Optional<PersonaEntity> personaEntity = personaEntityRepository.findByIdentificacion(identificacion);
         Optional<TrabajadorEntity> trabajadorEntity;
 
-        if (personaEntity == null) {
+        if (personaEntity.isEmpty()) {
             throw new NotFoundException(PERSONA_NO_ENCONTRADA);
         }
 
-        trabajadorEntity = trabajadorEntityRepository.findByIdPersona(personaEntity);
+        trabajadorEntity = trabajadorEntityRepository.findByIdPersona(personaEntity.get());
 
         if (trabajadorEntity.isEmpty()) {
             throw new NotFoundException(TRABAJADOR_CON_IDENTIFICACION_NO_EXISTE);
@@ -122,5 +122,16 @@ public class TrabajadorRepositoryAdapter implements TrabajadorRepository {
             return Optional.empty();
 
         return Optional.of(mapperUtils.mapperToTrabajador().apply(trabajadorEntity.get()));
+    }
+
+    @Override
+    public Trabajador update(Trabajador trabajador) {
+        TrabajadorEntity trabajadorEntity = mapperUtils.mappertoTrabajadorEntity().apply(trabajador);
+
+        trabajadorEntity.setIdPersona(personaEntityRepository.save(trabajadorEntity.getIdPersona()));
+
+        trabajadorEntity = trabajadorEntityRepository.save(trabajadorEntity);
+
+        return mapperUtils.mapperToTrabajador().apply(trabajadorEntity);
     }
 }

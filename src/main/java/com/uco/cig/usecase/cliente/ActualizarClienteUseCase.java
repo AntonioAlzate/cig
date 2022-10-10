@@ -6,12 +6,17 @@ import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.businessexception.general.NotFoundException;
 import com.uco.cig.domain.cliente.Cliente;
 import com.uco.cig.domain.cliente.ports.ClienteRepository;
+import com.uco.cig.domain.parentesco.Parentesco;
 import com.uco.cig.domain.persona.Persona;
 import com.uco.cig.domain.persona.ports.PersonaRepository;
+import com.uco.cig.domain.referencia.Referencia;
 import com.uco.cig.shared.dtos.ClienteCreacionDto;
+import com.uco.cig.usecase.parentesco.ObtenerParentescoPorIdUseCase;
+import com.uco.cig.usecase.referencia.ListarReferenciasDeClienteUseCase;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,11 +29,15 @@ public class ActualizarClienteUseCase {
     private final ClienteRepository clienteRepository;
     private final BarrioRepository barrioRepository;
     private final PersonaRepository personaRepository;
+    private final ListarReferenciasDeClienteUseCase listarReferenciasDeClienteUseCase;
+    private final ObtenerParentescoPorIdUseCase obtenerParentescoPorIdUseCase;
 
-    public ActualizarClienteUseCase(ClienteRepository clienteRepository, BarrioRepository barrioRepository, PersonaRepository personaRepository) {
+    public ActualizarClienteUseCase(ClienteRepository clienteRepository, BarrioRepository barrioRepository, PersonaRepository personaRepository, ListarReferenciasDeClienteUseCase listarReferenciasDeClienteUseCase, ObtenerParentescoPorIdUseCase obtenerParentescoPorIdUseCase) {
         this.clienteRepository = clienteRepository;
         this.barrioRepository = barrioRepository;
         this.personaRepository = personaRepository;
+        this.listarReferenciasDeClienteUseCase = listarReferenciasDeClienteUseCase;
+        this.obtenerParentescoPorIdUseCase = obtenerParentescoPorIdUseCase;
     }
 
     public Cliente actualizar(ClienteCreacionDto creacionDto, Integer id) throws BusinessException {
@@ -39,10 +48,26 @@ public class ActualizarClienteUseCase {
 
         cliente = pasarDatosDTO(cliente.get(), creacionDto);
 
-        if(yaExistePersona(cliente.get().getPersona().getIdentificacion()))
+        if(yaExistePersona(cliente.get().getPersona().getIdentificacion(), creacionDto.getIdentificacion()))
             throw new BusinessException(IDENTIFICACION_YA_REGISTRADA);
 
-        return clienteRepository.save(cliente.get());
+        List<Referencia> referencias = listarReferenciasDeClienteUseCase.listar(id);
+        Referencia referencia1 = referencias.get(0);
+        Referencia referencia2 = referencias.get(1);
+
+        referencia1 = actualizarReferenciaDTO(referencia1, creacionDto.getNombreReferencia1(), creacionDto.getTelefonoReferencia1(), creacionDto.getIdParentescoReferencia1());
+        referencia2 = actualizarReferenciaDTO(referencia2, creacionDto.getNombreReferencia2(), creacionDto.getTelefonoReferencia2(), creacionDto.getIdParentescoReferencia2());
+
+        return clienteRepository.update(cliente.get(), referencia1, referencia2);
+    }
+
+    private Referencia actualizarReferenciaDTO(Referencia referencia, String nombreReferencia, String telefonoReferencia, Integer idParentescoReferencia) throws BusinessException {
+        Parentesco parentesco = obtenerParentescoPorIdUseCase.obtener(idParentescoReferencia);
+
+        referencia.setNombre(nombreReferencia.trim().toUpperCase());
+        referencia.setTelefono(telefonoReferencia.trim());
+        referencia.setParentesco(parentesco);
+        return referencia;
     }
 
     private Optional<Cliente> pasarDatosDTO(Cliente cliente, ClienteCreacionDto creacionDto) throws BusinessException {
@@ -73,9 +98,15 @@ public class ActualizarClienteUseCase {
         return Optional.of(clienteValidado);
     }
 
-    private boolean yaExistePersona(String identificacion) {
-        Optional<Persona> persona = personaRepository.findByIdentificacion(identificacion);
+    private boolean yaExistePersona(String identificacionCliente, String identificacionActualizar) {
+        Optional<Persona> persona = personaRepository.findByIdentificacion(identificacionActualizar);
 
-        return persona.isPresent();
+        if(persona.isEmpty())
+            return false;
+
+        if(persona.get().getIdentificacion().equals(identificacionCliente))
+            return false;
+
+        return true;
     }
 }

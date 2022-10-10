@@ -22,8 +22,8 @@ public class PersonaRepositoryAdapter implements PersonaRepository {
 
     @Override
     public Optional<Persona> findByIdentificacion(String identificacion) {
-        PersonaEntity personaEntity = personaEntityRepository.findByIdentificacion(identificacion);
-        return personaEntity != null ? Optional.of(mapperUtils.mapperToPersona().apply(personaEntity)) : Optional.empty();
+        Optional<PersonaEntity> personaEntity = personaEntityRepository.findByIdentificacion(identificacion);
+        return personaEntity.isPresent() ? Optional.of(mapperUtils.mapperToPersona().apply(personaEntity.get())) : Optional.empty();
     }
 
     @Override

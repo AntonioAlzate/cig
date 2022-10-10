@@ -39,17 +39,17 @@ public class ActualizarTrabajadorUseCase {
 
         trabajador = pasarDatosDTO(trabajador.get(), creacionDto);
         
-        if(yaExistePersona(trabajador.get().getPersona().getIdentificacion()))
+        if(yaExistePersona(trabajador.get().getPersona().getIdentificacion(), id))
             throw new BusinessException(IDENTIFICACION_YA_REGISTRADA);
 
-        return trabajadorRepository.save(trabajador.get());
+        return trabajadorRepository.update(trabajador.get());
     }
 
     private Optional<Trabajador> pasarDatosDTO(Trabajador trabajador, TrabajadorCreacionDto creacionDto) throws BusinessException {
 
         Barrio barrio = barrioRepository.findById(creacionDto.getIdBarrio()).orElse(null);
 
-        if(yaExisteTrabajadorConCorreo(creacionDto.getCorreo())){
+        if(yaExisteTrabajadorConCorreo(creacionDto.getCorreo(), trabajador)){
             throw new BusinessException(TRABAJADOR_CON_CORREO_YA_REGISTRADO + " " + creacionDto.getCorreo());
         }
 
@@ -77,16 +77,22 @@ public class ActualizarTrabajadorUseCase {
         return Optional.of(trabajadorValidado);
     }
 
-    private boolean yaExisteTrabajadorConCorreo(String correo) {
+    private boolean yaExisteTrabajadorConCorreo(String correo, Trabajador trabajador) {
+        Optional<Trabajador> trabajadorDespues = trabajadorRepository.findByCorreo(correo);
 
-        Optional<Trabajador> trabajador = trabajadorRepository.findByCorreo(correo);
+        if(trabajadorDespues.isEmpty())
+            return false;
 
-        return trabajador.isPresent();
+        return !trabajador.getId().equals(trabajadorDespues.get().getId());
     }
 
-    private boolean yaExistePersona(String identificacion) {
+    private boolean yaExistePersona(String identificacion, Integer id) {
         Optional<Persona> persona = personaRepository.findByIdentificacion(identificacion.trim());
+        Optional<Trabajador> trabajador = trabajadorRepository.findById(id);
 
-        return persona.isPresent();
+        if(persona.isEmpty())
+          return false;
+
+        return !persona.get().getId().equals(trabajador.get().getPersona().getId());
     }
 }

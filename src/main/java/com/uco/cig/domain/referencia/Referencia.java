@@ -57,4 +57,17 @@ public class Referencia {
     public Parentesco getParentesco() {
         return parentesco;
     }
+
+    public void setNombre(String nombre) {
+        this.nombre = Objects.requireNonNull(nombre, NOMBRE_REQUERIDO);
+    }
+
+    public void setTelefono(String telefono) throws BusinessException {
+        PersonaValidator.validarLongitudTelefono(telefono, TELEFONO_INCORRECTO);
+        this.telefono = Objects.requireNonNull(telefono, TELEFONO_REQUERIDO);
+    }
+
+    public void setParentesco(Parentesco parentesco) {
+        this.parentesco = Objects.requireNonNull(parentesco, PARENTESCO_REQUERIDO);
+    }
 }

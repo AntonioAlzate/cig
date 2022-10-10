@@ -20,4 +20,6 @@ public interface TrabajadorRepository {
     List<Trabajador> findAll();
 
     Optional<Trabajador> findByCorreo(String correo);
+
+    Trabajador update(Trabajador trabajador);
 }

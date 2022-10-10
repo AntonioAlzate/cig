@@ -13,6 +13,8 @@ import com.uco.cig.generate.ClienteHelper;
 import com.uco.cig.generate.GeneralHelper;
 import com.uco.cig.generate.PersonaHelper;
 import com.uco.cig.shared.dtos.ClienteCreacionDto;
+import com.uco.cig.usecase.parentesco.ObtenerParentescoPorIdUseCase;
+import com.uco.cig.usecase.referencia.ListarReferenciasDeClienteUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,15 +32,19 @@ class ActualizarClienteUseCaseTest {
     ClienteRepository clienteRepository;
     BarrioRepository barrioRepository;
     PersonaRepository personaRepository;
+    ListarReferenciasDeClienteUseCase listarReferenciasDeClienteUseCase;
 
     ActualizarClienteUseCase actualizarClienteUseCase;
+    ObtenerParentescoPorIdUseCase obtenerParentescoPorIdUseCase;
 
     @BeforeEach
     private void setup() {
         clienteRepository = mock(ClienteRepository.class);
         barrioRepository = mock(BarrioRepository.class);
         personaRepository = mock(PersonaRepository.class);
-        actualizarClienteUseCase = new ActualizarClienteUseCase(clienteRepository, barrioRepository, personaRepository);
+        listarReferenciasDeClienteUseCase = mock(ListarReferenciasDeClienteUseCase.class);
+        obtenerParentescoPorIdUseCase = mock(ObtenerParentescoPorIdUseCase.class);
+        actualizarClienteUseCase = new ActualizarClienteUseCase(clienteRepository, barrioRepository, personaRepository, listarReferenciasDeClienteUseCase, obtenerParentescoPorIdUseCase);
     }
 
     @Test

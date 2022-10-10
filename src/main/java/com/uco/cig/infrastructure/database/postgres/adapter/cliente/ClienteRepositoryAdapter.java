@@ -6,6 +6,7 @@ import com.uco.cig.domain.cliente.ports.ClienteRepository;
 import com.uco.cig.domain.cuentacliente.CuentaCliente;
 import com.uco.cig.domain.detalle.cuentafavor.DetalleCuentaFavor;
 import com.uco.cig.domain.persona.Persona;
+import com.uco.cig.domain.referencia.Referencia;
 import com.uco.cig.infrastructure.database.postgres.entities.*;
 import com.uco.cig.infrastructure.database.postgres.repositories.*;
 import com.uco.cig.shared.mapper.MapperUtils;
@@ -31,10 +32,11 @@ public class ClienteRepositoryAdapter implements ClienteRepository {
     private final EstadoEntityRepository estadoEntityRepository;
     private final EstadoCuentaClienteEntityRepository estadoCuentaClienteEntityRepository;
     private final ZonaEntityRepository zonaEntityRepository;
+    private final ReferenciaEntityRepository referenciaEntityRepository;
     private final MapperUtils mapperUtils;
 
     public ClienteRepositoryAdapter(PersonaEntityRepository personaEntityRepository, CuentaClienteEntityRepository cuentaClienteRepository,
-                                    DetalleCuentaFavorEntityRepository detalleCuentaFavorEntityRepository, ClienteEntityRepository clienteEntityRepository, EstadoEntityRepository estadoEntityRepository, EstadoCuentaClienteEntityRepository estadoCuentaClienteEntityRepository, ZonaEntityRepository zonaEntityRepository, MapperUtils mapperUtils) {
+                                    DetalleCuentaFavorEntityRepository detalleCuentaFavorEntityRepository, ClienteEntityRepository clienteEntityRepository, EstadoEntityRepository estadoEntityRepository, EstadoCuentaClienteEntityRepository estadoCuentaClienteEntityRepository, ZonaEntityRepository zonaEntityRepository, ReferenciaEntityRepository referenciaEntityRepository, MapperUtils mapperUtils) {
         this.personaEntityRepository = personaEntityRepository;
         this.cuentaClienteRepository = cuentaClienteRepository;
         this.clienteEntityRepository = clienteEntityRepository;
@@ -42,6 +44,7 @@ public class ClienteRepositoryAdapter implements ClienteRepository {
         this.estadoEntityRepository = estadoEntityRepository;
         this.estadoCuentaClienteEntityRepository = estadoCuentaClienteEntityRepository;
         this.zonaEntityRepository = zonaEntityRepository;
+        this.referenciaEntityRepository = referenciaEntityRepository;
         this.mapperUtils = mapperUtils;
     }
 
@@ -92,17 +95,32 @@ public class ClienteRepositoryAdapter implements ClienteRepository {
     }
 
     @Override
+    public Cliente update(Cliente cliente, Referencia referencia1, Referencia referencia2) {
+        ClienteEntity clienteEntity = mapperUtils.mappertoClienteEntity().apply(cliente);
+
+        clienteEntity.setIdPersona(personaEntityRepository.save(clienteEntity.getIdPersona()));
+        clienteEntity.setIdCuentaCliente(cuentaClienteRepository.save(clienteEntity.getIdCuentaCliente()));
+
+        clienteEntity = clienteEntityRepository.save(clienteEntity);
+
+        referenciaEntityRepository.save(mapperUtils.mappertoReferenciaEntity().apply(referencia1));
+        referenciaEntityRepository.save(mapperUtils.mappertoReferenciaEntity().apply(referencia2));
+
+        return mapperUtils.mapperToCliente().apply(clienteEntity);
+    }
+
+    @Override
     public Cliente save(Cliente cliente) {
 
-        PersonaEntity personaValidar = personaEntityRepository.findByIdentificacion(cliente.getPersona().getIdentificacion());
+        Optional<PersonaEntity> personaValidar = personaEntityRepository.findByIdentificacion(cliente.getPersona().getIdentificacion());
 
         Persona persona = cliente.getPersona();
         PersonaEntity personaEntity = mapperUtils.mappertoPersonaEntity().apply(persona);
 
-        if (personaValidar == null) {
+        if (personaValidar.isEmpty()) {
             personaEntity = personaEntityRepository.save(personaEntity);
         } else {
-            personaEntity = personaValidar;
+            personaEntity = personaValidar.get();
         }
 
         DetalleCuentaFavor detalleCuentaFavor = cliente.getCuentaCliente().getDetalleCuentaFavor();
@@ -160,14 +178,14 @@ public class ClienteRepositoryAdapter implements ClienteRepository {
 
     @Override
     public Cliente findByIdentificacion(String identificacion) {
-        PersonaEntity personaEntity = personaEntityRepository.findByIdentificacion(identificacion);
+        Optional<PersonaEntity> personaEntity = personaEntityRepository.findByIdentificacion(identificacion);
         Optional<ClienteEntity> clienteEntity;
 
-        if (personaEntity == null) {
+        if (personaEntity.isEmpty()) {
             throw new NotFoundException(PERSONA_NO_ENCONTRADA);
         }
 
-        clienteEntity = clienteEntityRepository.findByIdPersonaEntity(personaEntity);
+        clienteEntity = clienteEntityRepository.findByIdPersonaEntity(personaEntity.get());
 
         if (clienteEntity.isEmpty()) {
             throw new NotFoundException(CLIENTE_CON_IDENTIFICACION_NO_EXISTE);

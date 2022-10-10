@@ -32,7 +32,7 @@ public class TrabajadorController {
         this.obtenerTrabajadorPorCorreoUseCase = obtenerTrabajadorPorCorreoUseCase;
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-admin')")
     @GetMapping()
     public ResponseEntity<List<Trabajador>> listar(){
         List<Trabajador> response = listarTrabajadoresUseCase.listar();

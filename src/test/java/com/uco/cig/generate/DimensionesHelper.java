@@ -8,7 +8,8 @@ public class DimensionesHelper {
         return Dimension.construir(
           GeneralHelper.obtenerEnteroAleatorio(),
           GeneralHelper.obtenerValorBigDecimalAleatorio(),
-          GeneralHelper.obtenerValorBigDecimalAleatorio()
+          GeneralHelper.obtenerValorBigDecimalAleatorio(),
+                CategoriaHelper.crearCategoria()
         );
     }
 }

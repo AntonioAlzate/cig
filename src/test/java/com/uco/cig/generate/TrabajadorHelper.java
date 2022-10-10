@@ -9,14 +9,16 @@ public class TrabajadorHelper {
         return Trabajador.construir(
             GeneralHelper.obtenerEnteroAleatorio(),
             PersonaHelper.crearNueva(),
-            EstadoHelper.crearEstado()
+            EstadoHelper.crearEstado(),
+                "correo123@gmail.com"
         );
     }
     public static Trabajador crearTrabajador(String IdPersona) throws BusinessException {
         return Trabajador.construir(
                 GeneralHelper.obtenerEnteroAleatorio(),
                 PersonaHelper.crearNueva(),
-                EstadoHelper.crearEstado()
+                EstadoHelper.crearEstado(),
+                "correo123@gmail.com"
         );
     }
 }

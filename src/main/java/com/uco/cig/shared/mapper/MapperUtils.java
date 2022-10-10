@@ -230,7 +230,8 @@ public class MapperUtils {
                 return Dimension.construir(
                         entity.getId(),
                         entity.getLargo(),
-                        entity.getAncho()
+                        entity.getAncho(),
+                        mapperToCategoria().apply(entity.getIdCategoriaEntity())
                 );
             } catch (BusinessException e) {
                 throw new IllegalArgumentException(e.getMessage());
@@ -627,8 +628,8 @@ public class MapperUtils {
         return dimension -> new DimensionEntity(
                 dimension.getId(),
                 dimension.getLargo(),
-                dimension.getAncho()
-        );
+                dimension.getAncho(),
+                mappertoCategoriaEntity().apply(dimension.getCategoria()));
     }
 
     public Function<Categoria, CategoriaEntity> mappertoCategoriaEntity() {

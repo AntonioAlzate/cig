@@ -17,13 +17,18 @@ public class DimensionEntity {
     @Column(name = "ancho", nullable = false, precision = 5, scale = 2)
     private BigDecimal ancho;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "idCategoria", nullable = false)
+    private CategoriaEntity idCategoriaEntity;
+
     public DimensionEntity() {
     }
 
-    public DimensionEntity(Integer id, BigDecimal largo, BigDecimal ancho) {
+    public DimensionEntity(Integer id, BigDecimal largo, BigDecimal ancho, CategoriaEntity idCategoriaEntity) {
         this.id = id;
         this.largo = largo;
         this.ancho = ancho;
+        this.idCategoriaEntity = idCategoriaEntity;
     }
 
     public BigDecimal getAncho() {
@@ -48,5 +53,13 @@ public class DimensionEntity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public CategoriaEntity getIdCategoriaEntity() {
+        return idCategoriaEntity;
+    }
+
+    public void setIdCategoriaEntity(CategoriaEntity idCategoriaEntity) {
+        this.idCategoriaEntity = idCategoriaEntity;
     }
 }

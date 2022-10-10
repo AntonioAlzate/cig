@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -54,13 +53,13 @@ public class CrearProductoUseCase {
 
     public Producto crearProducto(ProductoCreacionDto productoCreacionDto) throws BusinessException {
 
+        validarNoExistenciaProducto(productoCreacionDto.getReferencia().trim().toUpperCase());
+
         Categoria categoria = getCategoria(productoCreacionDto);
 
-        Dimension dimension = getDimension(productoCreacionDto);
+        Dimension dimension = getDimension(productoCreacionDto, categoria);
 
         Optional<Estado> estado = getEstado();
-
-        validarNoExistenciaProducto(productoCreacionDto.getReferencia().trim().toUpperCase());
 
         Producto productoCrear = Producto.nuevo(
                 productoCreacionDto.getNombre().trim().toUpperCase(),
@@ -114,19 +113,21 @@ public class CrearProductoUseCase {
         return estado;
     }
 
-    private Dimension getDimension(ProductoCreacionDto productoCreacionDto) throws BusinessException {
+    private Dimension getDimension(ProductoCreacionDto productoCreacionDto, Categoria categoria) throws BusinessException {
         Optional<Dimension> dimension = dimensionRepository.findById(productoCreacionDto.getIdDimension());
 
         if (dimension.isEmpty()) {
 
-            Dimension dimencionPorAnchoLargo = dimensionRepository.findByAnchoAndLargo(productoCreacionDto.getAncho(), productoCreacionDto.getLargo());
+            Dimension dimencionPorAnchoLargo = dimensionRepository.findByAnchoAndLargoAndCategoria(productoCreacionDto.getAncho(), productoCreacionDto.getLargo(), categoria);
 
             if(dimencionPorAnchoLargo != null)
                 throw new BusinessException(DIMENSION_YA_REGISTRADA);
 
             Dimension dimesionConstruir =
                     Dimension.nuevo(productoCreacionDto.getLargo(),
-                            productoCreacionDto.getAncho());
+                            productoCreacionDto.getAncho(),
+                            categoria
+                    );
 
             dimension = Optional.of(dimensionRepository.save(dimesionConstruir));
         }

@@ -4,6 +4,7 @@ import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.dimension.Dimension;
 import com.uco.cig.domain.dimension.ports.DimensionRepository;
 import com.uco.cig.generate.DimensionesHelper;
+import com.uco.cig.generate.GeneralHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,20 +15,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class ListarDimensionesUseCaseTest {
+class ListarDimensionesCategoriaUseCaseTest {
 
     DimensionRepository dimensionRepository;
 
-    ListarDimensionesUseCase listarDimensionesUseCase;
+    ListarDimensionesCategoriaUseCase listarDimensionesCategoriaUseCase;
 
     @BeforeEach
     public void setup(){
         dimensionRepository = mock(DimensionRepository.class);
-        listarDimensionesUseCase = new ListarDimensionesUseCase(dimensionRepository);
+        listarDimensionesCategoriaUseCase = new ListarDimensionesCategoriaUseCase(dimensionRepository);
     }
 
     @Test
     void listarDimensionesUsecaseTest() throws BusinessException {
+        Integer idCategoria = GeneralHelper.obtenerEnteroAleatorio();
+
         List<Dimension> dimensiones = Arrays.asList(
                 DimensionesHelper.crearDiemension(),
                 DimensionesHelper.crearDiemension(),
@@ -36,9 +39,9 @@ class ListarDimensionesUseCaseTest {
                 DimensionesHelper.crearDiemension()
         );
 
-        when(dimensionRepository.findAll()).thenReturn(dimensiones);
+        when(dimensionRepository.findAllByCategoria(idCategoria)).thenReturn(dimensiones);
 
-        List<Dimension> result = listarDimensionesUseCase.listar();
+        List<Dimension> result = listarDimensionesCategoriaUseCase.listar(idCategoria);
 
         assertEquals(5, result.size());
         assertEquals(dimensiones, result);

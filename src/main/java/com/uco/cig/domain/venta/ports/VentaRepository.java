@@ -12,4 +12,6 @@ public interface VentaRepository {
     List<Venta> findAllByIdTrabajadorAndFechaRealizacion(Integer idTrabajador, OffsetDateTime fechaRealizacion);
 
     List<Venta> findAllByIdCliente(Integer idCliente);
+
+    Venta findById(Integer idVenta);
 }

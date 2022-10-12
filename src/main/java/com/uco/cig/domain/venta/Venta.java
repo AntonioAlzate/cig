@@ -78,4 +78,8 @@ public class Venta {
     public EstadoVenta getEstadoVenta() {
         return estadoVenta;
     }
+
+    public void setEstadoVenta(EstadoVenta estadoVenta) {
+        this.estadoVenta = estadoVenta;
+    }
 }

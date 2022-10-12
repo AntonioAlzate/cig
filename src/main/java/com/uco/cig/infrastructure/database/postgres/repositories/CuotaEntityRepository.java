@@ -19,4 +19,5 @@ public interface CuotaEntityRepository extends JpaRepository<CuotaEntity, Intege
 
     List<CuotaEntity> findAllByIdTrabajadorEntityAndIdEstadoCuotaEntity(TrabajadorEntity idTrabajador, EstadoCuotaEntity idEstadoCuota);
 
+    List<CuotaEntity> findAllByIdVentaEntityOrderByFechaPropuesta(VentaEntity idVenta);
 }

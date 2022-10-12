@@ -7,12 +7,15 @@ import com.uco.cig.domain.cuota.Cuota;
 import com.uco.cig.domain.cuota.ports.CuotaRepository;
 import com.uco.cig.domain.estado.cuota.EstadoCuota;
 import com.uco.cig.domain.trabajador.Trabajador;
+import com.uco.cig.domain.venta.Venta;
+import com.uco.cig.domain.venta.ports.VentaRepository;
 import com.uco.cig.shared.dtos.AbonoPagoDTO;
 import com.uco.cig.usecase.cliente.ActualizarCupoDeudaAbonoCuentaClienteUseCase;
 import com.uco.cig.usecase.cliente.ObtenerClientePorIdUseCase;
 import com.uco.cig.usecase.cuota.estado.ConsultarEstadoCuotaCanceladaUseCase;
 import com.uco.cig.usecase.cuota.estado.ConsultarEstadoCuotaPendienteUseCase;
 import com.uco.cig.usecase.trabajador.ObtenerTrabajadorPorIdUseCase;
+import com.uco.cig.usecase.venta.ObtenerEstadoVentaCanceladaUseCase;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -32,14 +35,18 @@ public class RealizarAbonoCuentaUseCase {
     private final ActualizarCupoDeudaAbonoCuentaClienteUseCase actualizarCupoDeudaCliente;
     private final ConsultarEstadoCuotaCanceladaUseCase consultarEstadoCuotaCanceladaUseCase;
     private final ConsultarEstadoCuotaPendienteUseCase consultarEstadoCuotaPendienteUseCase;
+    private final ObtenerEstadoVentaCanceladaUseCase obtenerEstadoVentaCanceladaUseCase;
+    private final VentaRepository ventaRepository;
 
-    public RealizarAbonoCuentaUseCase(CuotaRepository cuotaRepository, ObtenerTrabajadorPorIdUseCase trabajadorPorIdUseCase, ObtenerClientePorIdUseCase clientePorIdUseCase, ActualizarCupoDeudaAbonoCuentaClienteUseCase actualizarCupoDeudaCliente, ConsultarEstadoCuotaCanceladaUseCase consultarEstadoCuotaCanceladaUseCase, ConsultarEstadoCuotaPendienteUseCase consultarEstadoCuotaPendienteUseCase) {
+    public RealizarAbonoCuentaUseCase(CuotaRepository cuotaRepository, ObtenerTrabajadorPorIdUseCase trabajadorPorIdUseCase, ObtenerClientePorIdUseCase clientePorIdUseCase, ActualizarCupoDeudaAbonoCuentaClienteUseCase actualizarCupoDeudaCliente, ConsultarEstadoCuotaCanceladaUseCase consultarEstadoCuotaCanceladaUseCase, ConsultarEstadoCuotaPendienteUseCase consultarEstadoCuotaPendienteUseCase, ObtenerEstadoVentaCanceladaUseCase obtenerEstadoVentaCanceladaUseCase, VentaRepository ventaRepository) {
         this.cuotaRepository = cuotaRepository;
         this.actualizarCupoDeudaCliente = actualizarCupoDeudaCliente;
         this.trabajadorPorIdUseCase = trabajadorPorIdUseCase;
         this.clientePorIdUseCase = clientePorIdUseCase;
         this.consultarEstadoCuotaCanceladaUseCase = consultarEstadoCuotaCanceladaUseCase;
         this.consultarEstadoCuotaPendienteUseCase = consultarEstadoCuotaPendienteUseCase;
+        this.obtenerEstadoVentaCanceladaUseCase = obtenerEstadoVentaCanceladaUseCase;
+        this.ventaRepository = ventaRepository;
     }
 
     public String abonar(AbonoPagoDTO abonoPagoDTO) throws BusinessException {
@@ -73,7 +80,16 @@ public class RealizarAbonoCuentaUseCase {
         }
 
         actualizarCupoDeudaCliente.actualizar(abonoPagoDTO.getValorAbono(), cliente);
-        
+
+        cuotasPendientes = cuotaRepository.findAllByIdVentaAndIdEstadoCuotaOrderByFechaPropuestaDsc(abonoPagoDTO.getIdVenta(), estadoCuotaPendiente.getId());
+
+        if(cuotasPendientes.isEmpty()){
+            Venta venta = ventaRepository.findById(abonoPagoDTO.getIdVenta());
+            venta.setEstadoVenta(obtenerEstadoVentaCanceladaUseCase.obtener());
+            ventaRepository.save(venta);
+        }
+
+
         return ABONO_EXITOSO;
     }
 
@@ -81,7 +97,9 @@ public class RealizarAbonoCuentaUseCase {
     private void guardarCuota(Cuota cuota, BigDecimal resta, OffsetDateTime fechaRealizacion, Trabajador trabajador, EstadoCuota estadoCuota) throws BusinessException {
         cuota.setResta(resta);
         cuota.setFechaRealizacion(fechaRealizacion);
-        cuota.setTrabajador(trabajador);
+        if(trabajador != null){
+            cuota.setTrabajador(trabajador);
+        }
         cuota.setEstadoCuota(estadoCuota);
         cuotaRepository.save(cuota);
     }

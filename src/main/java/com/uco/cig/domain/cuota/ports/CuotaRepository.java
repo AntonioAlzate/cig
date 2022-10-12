@@ -16,4 +16,5 @@ public interface CuotaRepository {
     List<Cuota> findAllByIdVentaAndIdEstadoCuotaOrderByFechaPropuestaDsc(Integer idVenta, Integer idEstadoCuota);
     List<Cuota> findAllByIdTrabajadorAndIdEstadoCuotaAndFechaRealizacion(Integer idTrabajador, Integer idEstadoCuota, OffsetDateTime fechaRealizacion);
 
+    List<Cuota> findAllByVenta(Integer idVenta);
 }

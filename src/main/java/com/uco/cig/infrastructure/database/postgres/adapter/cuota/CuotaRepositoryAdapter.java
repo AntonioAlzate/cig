@@ -112,6 +112,18 @@ public class CuotaRepositoryAdapter implements CuotaRepository {
         return new ArrayList<>();
     }
 
+    @Override
+    public List<Cuota> findAllByVenta(Integer idVenta) {
+        VentaEntity ventaEntity = getVentaEntity(idVenta);
+
+        List<CuotaEntity> cuotaEntities = cuotaEntityRepository.findAllByIdVentaEntityOrderByFechaPropuesta(ventaEntity);
+
+        if(cuotaEntities.isEmpty())
+            return new ArrayList<>();
+
+        return cuotaEntities.stream().map(cuotaEntity -> mapperUtils.mapperToCuota().apply(cuotaEntity)).collect(Collectors.toList());
+    }
+
     private TrabajadorEntity getTrabajadorEntity(Integer idTrabajador) {
         Optional<TrabajadorEntity> trabajadorEntity = trabajadorEntityRepository.findById(idTrabajador);
 

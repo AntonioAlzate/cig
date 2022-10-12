@@ -84,4 +84,14 @@ public class VentaRepositoryAdapter implements VentaRepository {
             return new ArrayList<>();
         return ventaEntities.stream().map(ventaEntity -> mapperUtils.mapperToVenta().apply(ventaEntity)).collect(Collectors.toList());
     }
+
+    @Override
+    public Venta findById(Integer idVenta) {
+        Optional<VentaEntity> ventaEntity = ventaEntityRepository.findById(idVenta);
+
+        if(ventaEntity.isEmpty())
+            throw new NotFoundException("No se encuentra una venta con el id especificado");
+
+        return mapperUtils.mapperToVenta().apply(ventaEntity.get());
+    }
 }

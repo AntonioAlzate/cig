@@ -10,7 +10,7 @@ import java.util.Optional;
 @Service
 public class ConsultarEstadoCuotaCanceladaUseCase {
 
-    private static final String ESTADO_CUOTA_CANCELADA = "PENDIENTE";
+    private static final String ESTADO_CUOTA_CANCELADA = "CANCELADA";
     private static final String ESTADO_CUOTA_CANCELADA_NO_EXISTE = "El estado cuota pendiente no existe en el sistema";
 
     private final EstadoCuotaRepository estadoCuotaRepository;

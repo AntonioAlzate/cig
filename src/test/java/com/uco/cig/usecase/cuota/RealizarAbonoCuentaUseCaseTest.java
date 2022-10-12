@@ -7,6 +7,7 @@ import com.uco.cig.domain.cuota.Cuota;
 import com.uco.cig.domain.cuota.ports.CuotaRepository;
 import com.uco.cig.domain.estado.cuota.EstadoCuota;
 import com.uco.cig.domain.trabajador.Trabajador;
+import com.uco.cig.domain.venta.ports.VentaRepository;
 import com.uco.cig.generate.ClienteHelper;
 import com.uco.cig.generate.CuotasHelper;
 import com.uco.cig.generate.GeneralHelper;
@@ -16,9 +17,8 @@ import com.uco.cig.usecase.cliente.ActualizarCupoDeudaAbonoCuentaClienteUseCase;
 import com.uco.cig.usecase.cliente.ObtenerClientePorIdUseCase;
 import com.uco.cig.usecase.cuota.estado.ConsultarEstadoCuotaCanceladaUseCase;
 import com.uco.cig.usecase.cuota.estado.ConsultarEstadoCuotaPendienteUseCase;
-import com.uco.cig.usecase.cuota.tipocobro.ConsultarTipoCobroNormalUseCase;
-import com.uco.cig.usecase.liquidacion.ConsultarEstadoLiquidacionCanceladaUseCase;
 import com.uco.cig.usecase.trabajador.ObtenerTrabajadorPorIdUseCase;
+import com.uco.cig.usecase.venta.ObtenerEstadoVentaCanceladaUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -47,6 +47,8 @@ class RealizarAbonoCuentaUseCaseTest {
 
     ConsultarEstadoCuotaCanceladaUseCase consultarEstadoCuotaCanceladaUseCase;
     ConsultarEstadoCuotaPendienteUseCase consultarEstadoCuotaPendienteUseCase;
+    VentaRepository ventaRepository;
+    ObtenerEstadoVentaCanceladaUseCase obtenerEstadoVentaCanceladaUseCase;
 
     @BeforeEach
     public void setup(){
@@ -56,13 +58,15 @@ class RealizarAbonoCuentaUseCaseTest {
         actualizarCupoDeudaAbonoCuentaClienteUseCase = mock(ActualizarCupoDeudaAbonoCuentaClienteUseCase.class);
         consultarEstadoCuotaPendienteUseCase = mock(ConsultarEstadoCuotaPendienteUseCase.class);
         consultarEstadoCuotaCanceladaUseCase = mock(ConsultarEstadoCuotaCanceladaUseCase.class);
+        obtenerEstadoVentaCanceladaUseCase = mock((ObtenerEstadoVentaCanceladaUseCase.class));
+        ventaRepository = mock(VentaRepository.class);
         realizarAbonoCuentaUseCase = new RealizarAbonoCuentaUseCase(
                 cuotaRepository,
                 trabajadorPorIdUseCase,
                 clientePorIdUseCase,
                 actualizarCupoDeudaAbonoCuentaClienteUseCase,
                 consultarEstadoCuotaCanceladaUseCase,
-                consultarEstadoCuotaPendienteUseCase);
+                consultarEstadoCuotaPendienteUseCase, obtenerEstadoVentaCanceladaUseCase, ventaRepository);
     }
 
     @Test

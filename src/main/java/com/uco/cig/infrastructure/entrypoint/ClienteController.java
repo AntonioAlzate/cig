@@ -80,7 +80,7 @@ public class ClienteController {
         return ResponseEntity.created(location).body(response);
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_read:cig-admin')")
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @PutMapping("/cliente/{idCliente}/cambiar-estado")
     public ResponseEntity<Cliente> cambiarEstado(@PathVariable Integer idCliente){
         Cliente response = cambiarEstadoClienteUseCase.cambiarEstado(idCliente);

@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -129,7 +130,12 @@ public class ProductoRepositoryAdapter implements ProductoRepository {
         ProductoEntity productoEntity = mapperUtils.mappertoProductoEntity().apply(producto);
         productoEntity.setIdDimension(dimensionEntityRepository.save(productoEntity.getIdDimension()));
         productoEntity.setIdCategoria(categoriaEntityRepository.save(productoEntity.getIdCategoria()));
-        colorProductoEntityRepository.save(new ColorProductoEntity(new ColorProductoId(idColor, producto.getId())));
+        ColorProductoEntity colorProductoEntity = colorProductoEntityRepository.findColorProductoEntityById_IdProducto(producto.getId());
+
+        if(!Objects.equals(colorProductoEntity.getId().getIdColor(), idColor)) {
+            colorProductoEntityRepository.delete(colorProductoEntity);
+            colorProductoEntityRepository.save(new ColorProductoEntity(new ColorProductoId(idColor, producto.getId())));
+        }
 
         productoEntity = productoEntityRepository.save(productoEntity);
         return mapperUtils.mapperToProducto().apply(productoEntity);

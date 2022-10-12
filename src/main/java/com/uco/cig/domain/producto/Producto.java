@@ -94,4 +94,37 @@ public class Producto {
     public void setColor(Color color) {
         this.color = color;
     }
+
+    public void setNombre(String nombre) throws BusinessException {
+        ComunValidator.validarCadenaNoVacia(nombre, NOMBRE_REQUERIDO);
+        this.nombre = Objects.requireNonNull(nombre, NOMBRE_REQUERIDO);
+    }
+
+    public void setReferencia(String referencia) throws BusinessException {
+        ComunValidator.validarCadenaNoVacia(referencia, REFERENCIA_REQUERIDO);
+        ComunValidator.validarUnicaPalabra(referencia, REFERENCIA_MAS_DE_UNA_PALABRA);
+        this.referencia = Objects.requireNonNull(referencia, REFERENCIA_REQUERIDO);
+    }
+
+    public void setDescripcion(String descripcion) throws BusinessException {
+        ComunValidator.validarCadenaNoVacia(descripcion, DESCRIPCION_REQUERIDO);
+        this.descripcion = Objects.requireNonNull(descripcion, DESCRIPCION_REQUERIDO);
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = Objects.requireNonNull(estado, ESTADO_REQUERIDO);
+    }
+
+    public void setDimension(Dimension dimension) {
+        this.dimension = Objects.requireNonNull(dimension, DIMENSION_REQUERIDO);
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = Objects.requireNonNull(categoria, CATEGORIA_REQUERIDO);
+    }
+
+    public void setCantidadExistente(Integer cantidadExistente) throws BusinessException {
+        ComunValidator.validarNumeroMayorIgualCero(cantidadExistente, CANTIDAD_INVALIDA);
+        this.cantidadExistente = Objects.requireNonNull(cantidadExistente, CANTIDAD_REUQERIDO);
+    }
 }

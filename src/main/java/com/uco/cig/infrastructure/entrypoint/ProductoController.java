@@ -3,9 +3,8 @@ package com.uco.cig.infrastructure.entrypoint;
 import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.producto.Producto;
 import com.uco.cig.shared.dtos.ProductoCreacionDto;
-import com.uco.cig.usecase.producto.ConsultarProductosConPaginacionUseCase;
-import com.uco.cig.usecase.producto.CrearProductoUseCase;
-import com.uco.cig.usecase.producto.ListarProductosUseCase;
+import com.uco.cig.shared.dtos.TrabajadorCreacionDto;
+import com.uco.cig.usecase.producto.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -14,17 +13,21 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
+@CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST, RequestMethod.PUT})
 @RequestMapping("/api/v1/productos")
 public class ProductoController {
 
     private final ListarProductosUseCase listarProductosUseCase;
     private final CrearProductoUseCase crearProductoUseCase;
+    private final CambiarEstadoProductoUseCase cambiarEstado;
+    private final ActualizarProductoUseCase actualizarProductoUseCase;
     private final ConsultarProductosConPaginacionUseCase consultarProductosConPaginacionUseCase;
 
-    public ProductoController(ListarProductosUseCase listarProductosUseCase, CrearProductoUseCase crearProductoUseCase, ConsultarProductosConPaginacionUseCase consultarProductosConPaginacionUseCase) {
+    public ProductoController(ListarProductosUseCase listarProductosUseCase, CrearProductoUseCase crearProductoUseCase, CambiarEstadoProductoUseCase cambiarEstado, ActualizarProductoUseCase actualizarProductoUseCase, ConsultarProductosConPaginacionUseCase consultarProductosConPaginacionUseCase) {
         this.listarProductosUseCase = listarProductosUseCase;
         this.crearProductoUseCase = crearProductoUseCase;
+        this.cambiarEstado = cambiarEstado;
+        this.actualizarProductoUseCase = actualizarProductoUseCase;
         this.consultarProductosConPaginacionUseCase = consultarProductosConPaginacionUseCase;
     }
 
@@ -56,5 +59,21 @@ public class ProductoController {
         Producto response = crearProductoUseCase.crearProducto(productoCreacionDto);
         URI location = URI.create("producto/" + response.getId());
         return ResponseEntity.created(location).body(response);
+    }
+
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-admin')")
+    @PutMapping("/producto/{idProducto}/cambiar-estado")
+        public ResponseEntity<Producto> cambiarEstado(@PathVariable Integer idProducto){
+        Producto response = cambiarEstado.cambiarEstado(idProducto);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PreAuthorize("hasAuthority('SCOPE_read:cig-admin')")
+    @PutMapping("/producto/{id}")
+    public ResponseEntity<Producto> actualizar(@RequestBody ProductoCreacionDto creacionDto,@PathVariable Integer id) throws BusinessException {
+        Producto response = actualizarProductoUseCase.actualizar(creacionDto, id);
+
+        return ResponseEntity.ok(response);
     }
 }

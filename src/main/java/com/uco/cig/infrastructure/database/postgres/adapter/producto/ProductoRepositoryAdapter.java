@@ -1,15 +1,11 @@
 package com.uco.cig.infrastructure.database.postgres.adapter.producto;
 
+import com.uco.cig.domain.businessexception.general.NotFoundException;
 import com.uco.cig.domain.color.Color;
 import com.uco.cig.domain.producto.Producto;
 import com.uco.cig.domain.producto.ports.ProductoRepository;
-import com.uco.cig.infrastructure.database.postgres.entities.ColorEntity;
-import com.uco.cig.infrastructure.database.postgres.entities.ColorProductoEntity;
-import com.uco.cig.infrastructure.database.postgres.entities.ColorProductoId;
-import com.uco.cig.infrastructure.database.postgres.entities.ProductoEntity;
-import com.uco.cig.infrastructure.database.postgres.repositories.ColorEntityRepository;
-import com.uco.cig.infrastructure.database.postgres.repositories.ColorProductoEntityRepository;
-import com.uco.cig.infrastructure.database.postgres.repositories.ProductoEntityRepository;
+import com.uco.cig.infrastructure.database.postgres.entities.*;
+import com.uco.cig.infrastructure.database.postgres.repositories.*;
 import com.uco.cig.shared.mapper.MapperUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -28,12 +24,18 @@ public class ProductoRepositoryAdapter implements ProductoRepository {
     private final ProductoEntityRepository productoEntityRepository;
     private final ColorEntityRepository colorEntityRepository;
     private final ColorProductoEntityRepository colorProductoEntityRepository;
+    private final EstadoEntityRepository estadoEntityRepository;
+    private final DimensionEntityRepository dimensionEntityRepository;
+    private final CategoriaEntityRepository categoriaEntityRepository;
     private final MapperUtils mapperUtils;
 
-    public ProductoRepositoryAdapter(ProductoEntityRepository productoEntityRepository, ColorEntityRepository colorEntityRepository, ColorProductoEntityRepository colorProductoEntityRepository, MapperUtils mapperUtils) {
+    public ProductoRepositoryAdapter(ProductoEntityRepository productoEntityRepository, ColorEntityRepository colorEntityRepository, ColorProductoEntityRepository colorProductoEntityRepository, EstadoEntityRepository estadoEntityRepository, DimensionEntityRepository dimensionEntityRepository, CategoriaEntityRepository categoriaEntityRepository, MapperUtils mapperUtils) {
         this.productoEntityRepository = productoEntityRepository;
         this.colorEntityRepository = colorEntityRepository;
         this.colorProductoEntityRepository = colorProductoEntityRepository;
+        this.estadoEntityRepository = estadoEntityRepository;
+        this.dimensionEntityRepository = dimensionEntityRepository;
+        this.categoriaEntityRepository = categoriaEntityRepository;
         this.mapperUtils = mapperUtils;
     }
 
@@ -107,5 +109,29 @@ public class ProductoRepositoryAdapter implements ProductoRepository {
             return Optional.empty();
 
         return Optional.of(mapperUtils.mapperToProducto().apply(productoEntity.get()));
+    }
+
+    @Override
+    public Producto cambiarEstado(Integer idProducto, String estadoNuevo) {
+        Optional<ProductoEntity> productoEntity = productoEntityRepository.findById(idProducto);
+
+        if(productoEntity.isEmpty())
+            throw new NotFoundException("Producto no encontrado");
+
+        EstadoEntity estadoEntity = estadoEntityRepository.findByNombre(estadoNuevo);
+        productoEntity.get().setIdEstado(estadoEntity);
+
+        return mapperUtils.mapperToProducto().apply(productoEntityRepository.save(productoEntity.get()));
+    }
+
+    @Override
+    public Producto update(Producto producto, Integer idColor) {
+        ProductoEntity productoEntity = mapperUtils.mappertoProductoEntity().apply(producto);
+        productoEntity.setIdDimension(dimensionEntityRepository.save(productoEntity.getIdDimension()));
+        productoEntity.setIdCategoria(categoriaEntityRepository.save(productoEntity.getIdCategoria()));
+        colorProductoEntityRepository.save(new ColorProductoEntity(new ColorProductoId(idColor, producto.getId())));
+
+        productoEntity = productoEntityRepository.save(productoEntity);
+        return mapperUtils.mapperToProducto().apply(productoEntity);
     }
 }

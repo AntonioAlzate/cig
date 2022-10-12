@@ -15,6 +15,14 @@ public class ColorProductoId implements Serializable {
     @Column(name = "idProducto", nullable = false)
     private Integer idProducto;
 
+    public ColorProductoId() {
+    }
+
+    public ColorProductoId(Integer idColor, Integer idProducto) {
+        this.idColor = idColor;
+        this.idProducto = idProducto;
+    }
+
     public Integer getIdProducto() {
         return idProducto;
     }

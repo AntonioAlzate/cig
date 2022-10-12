@@ -10,6 +10,13 @@ public class ColorProductoEntity {
     @EmbeddedId
     private ColorProductoId id;
 
+    public ColorProductoEntity() {
+    }
+
+    public ColorProductoEntity(ColorProductoId id) {
+        this.id = id;
+    }
+
     public ColorProductoId getId() {
         return id;
     }

@@ -13,4 +13,8 @@ public interface ProductoRepository {
     List<Producto> findAll(int page, int size, String order, boolean asc);
     Optional<Producto> findByReferencia(String referencia);
     Optional<Producto> findById(Integer id);
+
+    Producto cambiarEstado(Integer idProducto, String estadoNuevo);
+
+    Producto update(Producto producto, Integer idColor);
 }

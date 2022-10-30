@@ -8,6 +8,7 @@ import com.uco.cig.shared.dtos.ClienteCreacionDto;
 import com.uco.cig.shared.dtos.ReferenciaCreacionDTO;
 import com.uco.cig.usecase.cliente.*;
 import com.uco.cig.usecase.referencia.CrearReferenciaUseCase;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST, RequestMethod.PUT})
 @RequestMapping("/api/v1/clientes")
+@Slf4j
 public class ClienteController {
 
     private final CrearClienteUseCase crearClienteUseCase;
@@ -75,6 +77,7 @@ public class ClienteController {
     @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @PostMapping("/cliente")
     public ResponseEntity<Cliente> creacionCliente(@RequestBody ClienteCreacionDto creacionDto) throws BusinessException {
+        log.info("Creación cliente body: {}", creacionDto);
         Cliente response = crearClienteUseCase.crear(creacionDto);
         URI location = URI.create("cliente/" + response.getId());
         return ResponseEntity.created(location).body(response);
@@ -91,6 +94,7 @@ public class ClienteController {
     @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor') OR hasAuthority('SCOPE_read:cig-cobrador')")
     @PutMapping("/cliente/{id}")
     public ResponseEntity<Cliente> actualizarCliente(@RequestBody ClienteCreacionDto creacionDto, @PathVariable Integer id) throws BusinessException {
+        log.info("Creación cliente con id: {}", id);
         Cliente response = actualizarClienteUseCase.actualizar(creacionDto, id);
 
         return ResponseEntity.ok(response);

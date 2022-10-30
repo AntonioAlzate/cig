@@ -5,6 +5,7 @@ import com.uco.cig.domain.producto.Producto;
 import com.uco.cig.shared.dtos.ProductoCreacionDto;
 import com.uco.cig.shared.dtos.TrabajadorCreacionDto;
 import com.uco.cig.usecase.producto.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST, RequestMethod.PUT})
 @RequestMapping("/api/v1/productos")
+@Slf4j
 public class ProductoController {
 
     private final ListarProductosUseCase listarProductosUseCase;
@@ -56,6 +58,7 @@ public class ProductoController {
     @PreAuthorize("hasAuthority('SCOPE_read:cig-admin')")
     @PostMapping("/producto")
     public ResponseEntity<Producto> creacionProducto(@RequestBody ProductoCreacionDto productoCreacionDto) throws BusinessException {
+        log.info("Creación de producto: {}", productoCreacionDto);
         Producto response = crearProductoUseCase.crearProducto(productoCreacionDto);
         URI location = URI.create("producto/" + response.getId());
         return ResponseEntity.created(location).body(response);
@@ -71,7 +74,8 @@ public class ProductoController {
 
     @PreAuthorize("hasAuthority('SCOPE_read:cig-admin')")
     @PutMapping("/producto/{id}")
-    public ResponseEntity<Producto> actualizar(@RequestBody ProductoCreacionDto creacionDto,@PathVariable Integer id) throws BusinessException {
+    public ResponseEntity<Producto> actualizar(@RequestBody ProductoCreacionDto creacionDto, @PathVariable Integer id) throws BusinessException {
+        log.info("Actualización de producto: {}", id);
         Producto response = actualizarProductoUseCase.actualizar(creacionDto, id);
 
         return ResponseEntity.ok(response);

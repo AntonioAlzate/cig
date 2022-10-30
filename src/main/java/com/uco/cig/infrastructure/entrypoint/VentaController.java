@@ -6,6 +6,7 @@ import com.uco.cig.shared.dtos.CreacionVentaDTO;
 import com.uco.cig.usecase.venta.ListarVentasClienteUseCase;
 import com.uco.cig.usecase.venta.ListarVentasUseCase;
 import com.uco.cig.usecase.venta.RegistarVentaUseCase;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
 @RequestMapping("/api/v1/ventas")
+@Slf4j
 public class VentaController {
 
     public final ListarVentasUseCase listarVentasUseCase;
@@ -46,6 +48,7 @@ public class VentaController {
     @PreAuthorize("hasAuthority('SCOPE_read:cig-vendedor')")
     @PostMapping("/crear")
     public ResponseEntity<Venta> realizarVenta(@RequestBody CreacionVentaDTO creacionVentaDTO) throws BusinessException {
+        log.info("Realización de venta: {}", creacionVentaDTO);
         Venta venta = registarVentaUseCase.realizarVenta(creacionVentaDTO);
         URI uri = URI.create("");
         return ResponseEntity.created(uri).body(venta);

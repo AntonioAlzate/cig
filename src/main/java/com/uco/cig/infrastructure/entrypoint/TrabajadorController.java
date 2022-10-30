@@ -4,6 +4,7 @@ import com.uco.cig.domain.businessexception.BusinessException;
 import com.uco.cig.domain.trabajador.Trabajador;
 import com.uco.cig.shared.dtos.TrabajadorCreacionDto;
 import com.uco.cig.usecase.trabajador.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST, RequestMethod.PUT})
 @RequestMapping("/api/v1/trabajadores")
+@Slf4j
 public class TrabajadorController {
 
     private final CrearTrabajadorUseCase crearTrabajadorUseCase;
@@ -35,6 +37,7 @@ public class TrabajadorController {
     @PreAuthorize("hasAuthority('SCOPE_read:cig-admin')")
     @GetMapping()
     public ResponseEntity<List<Trabajador>> listar(){
+        log.info("Listando empleados");
         List<Trabajador> response = listarTrabajadoresUseCase.listar();
 
         return ResponseEntity.ok(response);

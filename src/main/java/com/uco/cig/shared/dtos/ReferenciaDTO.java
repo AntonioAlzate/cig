@@ -9,5 +9,5 @@ public class ReferenciaDTO {
 
     private String nombre;
     private String telefono;
-    private Integer parentesco;
+    private String parentesco;
 }

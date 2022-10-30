@@ -29,7 +29,7 @@ public class ListarClientesConReferenciaUseCase {
         for (Cliente cliente : clientes) {
             List<Referencia> referencias = listarReferenciasDeClienteUseCase.listar(cliente.getId());
             List<ReferenciaDTO> referenciaDTOS = referencias.stream().map(referencia ->
-                    new ReferenciaDTO(referencia.getNombre(), referencia.getTelefono(), referencia.getParentesco().getNombre())).collect(Collectors.toList());
+                    new ReferenciaDTO(referencia.getNombre(), referencia.getTelefono(), referencia.getParentesco().getId(), referencia.getParentesco().getNombre())).collect(Collectors.toList());
             clienteConReferencias.add(new ClienteConReferenciasDTO(cliente, referenciaDTOS));
         }
 

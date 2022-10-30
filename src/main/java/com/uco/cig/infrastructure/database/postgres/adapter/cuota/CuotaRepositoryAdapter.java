@@ -101,6 +101,7 @@ public class CuotaRepositoryAdapter implements CuotaRepository {
         if(!cuotaEntities.isEmpty()){
 
             cuotaEntities = cuotaEntities.stream().filter(cuota -> {
+                cuota.setFechaRealizacion(cuota.getFechaRealizacion().plusHours(5));
                 int diaCuota = cuota.getFechaRealizacion().getDayOfYear();
                 int anioCuota = cuota.getFechaRealizacion().getYear();
                 return (diaCuota == diaCalcular) && (anioCuota == anioCalcular);

@@ -37,7 +37,6 @@ public class TrabajadorController {
     @PreAuthorize("hasAuthority('SCOPE_read:cig-admin')")
     @GetMapping()
     public ResponseEntity<List<Trabajador>> listar(){
-        log.info("Listando empleados");
         List<Trabajador> response = listarTrabajadoresUseCase.listar();
 
         return ResponseEntity.ok(response);

@@ -60,6 +60,7 @@ public class VentaRepositoryAdapter implements VentaRepository {
 
         if (!ventaEntities.isEmpty()){
             ventaEntities = ventaEntities.stream().filter(venta -> {
+                venta.setFecha(venta.getFecha().plusHours(5));
                 int diaCuota = venta.getFecha().getDayOfYear();
                 int anioCuota = venta.getFecha().getYear();
                 return (diaCuota == diaCalcular) && (anioCuota == anioCalcular);
